@@ -1,6 +1,6 @@
 import * as React from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Outlet } from 'react-router-dom';
 import {ReactComponent as AppIcon} from './icons/app-icon.svg';
