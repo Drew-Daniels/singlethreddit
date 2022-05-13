@@ -1,5 +1,5 @@
 import { collection, doc, getDoc } from 'firebase/firestore';
-import { db } from '../../../firebase-setup';
+import { db } from '../../firebase-setup';
 
 const commentRef = collection(db, 'comments');
 
