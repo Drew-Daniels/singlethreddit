@@ -18,6 +18,7 @@ if (window.location.hostname === 'localhost') {
 }
 
 export {
+    auth,
     db,
     storage,
 }

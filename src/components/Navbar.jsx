@@ -10,10 +10,11 @@ import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import Avatar from '@mui/material/Avatar';
 import AddIcon from '@mui/icons-material/Add';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import SvgIcon from '@mui/material/SvgIcon';
+import AvatarExample from '../images/avatar-example.jpg';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -59,23 +60,12 @@ export default function PrimarySearchAppBar(props) {
 
   const { AppIcon, appName } = props;
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
-  const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -113,7 +103,7 @@ export default function PrimarySearchAppBar(props) {
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem>
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -121,7 +111,7 @@ export default function PrimarySearchAppBar(props) {
           aria-haspopup="true"
           color="inherit"
         >
-          <AccountCircle />
+          <Avatar src={AvatarExample} alt='user avatar'/>
         </IconButton>
         <p>Profile</p>
       </MenuItem>
@@ -172,10 +162,9 @@ export default function PrimarySearchAppBar(props) {
               aria-label="account of current user"
               aria-controls={menuId}
               aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              <Avatar src={AvatarExample} alt='user avatar'/>
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
