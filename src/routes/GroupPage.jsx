@@ -1,6 +1,11 @@
+import { useParams } from 'react-router-dom';
+
 export default function GroupPage(props) {
     
+    const params = useParams();
+    const { groupName } = params;
+
     return (
-        <main>GroupPage here</main>
+        <main>{groupName} page here</main>
     )
 }

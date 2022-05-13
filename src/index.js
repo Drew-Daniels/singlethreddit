@@ -3,8 +3,11 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
 import HomePage from './routes/HomePage';
+import GroupsPage from './routes/GroupsPage';
 import GroupPage from './routes/GroupPage';
-import GroupPostPage from './routes/GroupPostPage';
+import ViewPostPage from './routes/ViewPostPage';
+import SubmitPostPage from './routes/SubmitPostPage';
+import UsersPage from './routes/UsersPage';
 import UserPage from './routes/UserPage';
 import NotFoundPage from './routes/NotFoundPage';
 
@@ -15,11 +18,18 @@ root.render(
       <Routes>
         <Route path='/' element={<App />}>
           <Route index element={<HomePage />} />
-          <Route path='g/:groupName'>
-            <Route index element={<GroupPage />} />
-            <Route path='submit' element={<GroupPostPage />} />
+          <Route path='users'>
+            <Route index element={<UsersPage />} />
+            <Route path=':userId' element={<UserPage />} />
           </Route>
-          <Route path='/user/:userName' element={<UserPage />} />
+          <Route path='groups'>
+            <Route index element={<GroupsPage />} />
+            <Route path=':groupName'>
+              <Route index element={<GroupPage />} />
+              <Route path=':commentId' element={<ViewPostPage />} />
+            </Route>
+          </Route>
+          <Route path='submit' element={<SubmitPostPage />} />
           <Route path='*' element={<NotFoundPage />} />
         </Route>
       </Routes>
