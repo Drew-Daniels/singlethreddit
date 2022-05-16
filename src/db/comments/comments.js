@@ -17,16 +17,47 @@ const commentRef = collection(db, 'comments');
  * @param {string} imageUrl 
  * @returns [Comment object]
  */
-const Comment = (parentId, email, groupName, timeCreated, timeEdited, numUpvotes, numDownvotes, title, body, imageUrl) => {
+const Comment = ({
+    email, 
+    groupName, 
+    body,
+    parentId=undefined,
+    timeCreated=Date.now(), 
+    timeEdited=Date.now(), 
+    numUpvotes=0, 
+    numDownvotes=0, 
+    title=undefined, 
+    imageUrl=undefined
+    } = {}) => {
     // CHECKS
     // parentId
     // undefined, 0, false, null => null
+    if (typeof parentId === 'number' || typeof parentId === 'boolean') {
+        throw new Error('parentId must be one of the following: undefined, null, "", or a string');
+    }
     if (!parentId) {
-        parentId = null;
+        // coerce falsy values to null for consistency
+        parentId = undefined;
     }
-    if (!(typeof parentId === 'string')) {
-        throw new Error('parentId must be a string')
-    }
+
+    // email
+
+    // groupName
+
+    // timeCreated
+
+    // timeEdited
+
+    // numUpvotes
+
+    // numDownvotes
+
+    // title
+
+    // body
+
+    // imageUrl
+
 
     // CHECKS FINISHED
     return (
