@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { Comment } from './comments';
 
 var defaultConfig = {
@@ -16,13 +17,14 @@ var defaultConfig = {
 };
 
 var tProperty;
+var tPattern;
+var tRegex;
 var config;
 
 function getTestConfig(tProperty, tValue) {
     var tConfig = {...defaultConfig}
     // override
     tConfig[tProperty] = tValue;
-    console.log(tConfig);
     return tConfig;
 }
 
@@ -83,8 +85,8 @@ describe('email', () => {
     beforeAll(() => {
         tProperty = 'email';
     });
-    test('@gmail.com => SUCCESS', () => {
-        var tValue = 'tester@gmail.com';
+    test('valid google email => SUCCESS', () => {
+        var tValue = process.env.VALID_GMAIL_ADDRESS;
         var config = getTestConfig(tProperty, tValue);
         expect(Comment(config))
             .toMatchObject({ email: tValue });

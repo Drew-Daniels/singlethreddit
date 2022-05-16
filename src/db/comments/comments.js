@@ -1,4 +1,5 @@
 import { collection, doc, getDoc, addDoc } from 'firebase/firestore';
+import EmailValidation from 'emailvalid';
 import { db } from '../../firebase-setup';
 
 const commentRef = collection(db, 'comments');
@@ -39,10 +40,30 @@ const Comment = ({
         // coerce falsy values to null for consistency
         parentId = undefined;
     }
-
     // email
+    if (!email) {
+        throw new Error('"email" is required');
+    } else {
+        if (!validEmail(email)) {
+            throw new Error('"email" must belong to gmail.com');
+        }
+        function validEmail(email) {
+            var config = {
+                whiteList: ['gmail.com'],
+            }
+            var ev = new EmailValidation(config);
+            var res = ev.check(email);
+            console.log(res);
+            var isValid = res.valid;
+            console.log(isValid);
+            return isValid;
+        }
+    }
 
     // groupName
+    if (!groupName) {
+        throw new Error('"groupName" is required');
+    }
 
     // timeCreated
 
