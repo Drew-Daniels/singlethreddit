@@ -11,7 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import Avatar from '@mui/material/Avatar';
-import AvatarExample from '../images/avatar-example.jpg';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AddIcon from '@mui/icons-material/Add';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import SvgIcon from '@mui/material/SvgIcon';
@@ -112,7 +112,7 @@ export default function PrimarySearchAppBar(props) {
           color="inherit"
           onClick={signIn}
         >
-          {user ? <Avatar src={user.photoURL} alt='user avatar'/> : <Avatar src={AvatarExample} alt='user avatar'/> }
+          {user ? <Avatar src={user.photoURL} alt='user avatar'/> : <Avatar src={AccountCircleIcon} alt='user avatar'/> }
         </IconButton>
         <p>Profile</p>
       </MenuItem>
@@ -179,7 +179,7 @@ export default function PrimarySearchAppBar(props) {
               color="inherit"
               onClick={signIn}
             >
-              {user ? <Avatar src={user.photoURL} alt='user avatar'/> : <Avatar src={AvatarExample} alt='user avatar'/> }
+              {user ? <Avatar src={user.photoURL} alt='user avatar'/> : <Avatar src={AccountCircleIcon} alt='user avatar'/> }
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>

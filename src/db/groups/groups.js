@@ -3,7 +3,7 @@ import { db } from '../../firebase-setup';
 
 const groupRef = collection(db, 'groups');
 
-async function remGroup() {
+async function delGroup() {
 
 }
 
