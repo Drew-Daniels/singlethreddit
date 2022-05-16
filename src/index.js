@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
 import HomePage from './routes/HomePage';
-import LoginPage from './routes/LoginPage';
 import GroupsPage from './routes/GroupsPage';
 import GroupPage from './routes/GroupPage';
 import ViewPostPage from './routes/ViewPostPage';
@@ -19,7 +18,6 @@ root.render(
       <Routes>
         <Route path='/' element={<App />}>
           <Route index element={<HomePage />} />
-          <Route path='login' element={<LoginPage />} />
           <Route path='users'>
             <Route index element={<UsersPage />} />
             <Route path=':userId' element={<UserPage />} />

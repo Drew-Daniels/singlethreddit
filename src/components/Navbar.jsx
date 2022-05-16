@@ -11,6 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import Avatar from '@mui/material/Avatar';
+import AvatarExample from '../images/avatar-example.jpg';
 import AddIcon from '@mui/icons-material/Add';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import SvgIcon from '@mui/material/SvgIcon';
@@ -57,7 +58,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function PrimarySearchAppBar(props) {
 
-  const { AppIcon, appName, user } = props;
+  const { AppIcon, appName, signIn, user } = props;
 
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -109,8 +110,22 @@ export default function PrimarySearchAppBar(props) {
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
           color="inherit"
+          onClick={signIn}
         >
-          <Avatar src={user.photoURL} alt='user avatar'/>
+          {user ? <Avatar src={user.photoURL} alt='user avatar'/> : <Avatar src={AvatarExample} alt='user avatar'/> }
+        </IconButton>
+        <p>Profile</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+          onClick={signIn}
+        >
+          <MoreIcon />
         </IconButton>
         <p>Profile</p>
       </MenuItem>
@@ -162,8 +177,9 @@ export default function PrimarySearchAppBar(props) {
               aria-controls={menuId}
               aria-haspopup="true"
               color="inherit"
+              onClick={signIn}
             >
-              <Avatar src={user.photoURL} alt='user avatar'/>
+              {user ? <Avatar src={user.photoURL} alt='user avatar'/> : <Avatar src={AvatarExample} alt='user avatar'/> }
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
@@ -173,6 +189,18 @@ export default function PrimarySearchAppBar(props) {
               aria-controls={mobileMenuId}
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <MoreIcon />
+            </IconButton>
+          </Box>
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={signIn}
               color="inherit"
             >
               <MoreIcon />

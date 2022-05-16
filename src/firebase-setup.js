@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import firebase from 'firebase/compat/app';
 import * as firebaseui from 'firebaseui';
+import { signInWithPopup } from 'firebase/auth';
 import { getAnalytics } from "firebase/analytics";
 import { connectAuthEmulator, getAuth } from 'firebase/auth';
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
@@ -10,22 +11,11 @@ import { fbConfig } from './firebase-config';
 const app = initializeApp(fbConfig);
 // const analytics = getAnalytics(app);
 const auth = getAuth(app);
-const ui = new firebaseui.auth.AuthUI(auth);
-const uiConfig = {
-    signInFlow: 'popup',
-    signInSuccessUrl: '/',
-    signInOptions: [
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    ],
-    callbacks: {
-        signInSuccessWithAuthResult: function (authResult, redirectUrl) {
-            console.log(authResult);
-            return false;
-        }
-    }
-}
-ui.start('#firebaseui-auth-container', uiConfig);
-
+const provider = new firebase.auth.GoogleAuthProvider();
+provider.setCustomParameters({ prompt: 'select_account' });
+function signIn() {
+    signInWithPopup(auth, provider);
+};
 const db = getFirestore(app);
 const storage = getStorage(app);
 
@@ -37,6 +27,7 @@ if (window.location.hostname === 'localhost') {
 
 export {
     auth,
+    signIn,
     db,
     storage,
 }

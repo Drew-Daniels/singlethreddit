@@ -1,5 +1,6 @@
-import { auth, db, storage } from './firebase-setup';
-import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { auth, signIn, db, storage } from './firebase-setup';
+
+import 'firebaseui/dist/firebaseui.css'
 import { useState, useEffect, useMemo } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -9,16 +10,16 @@ import { Outlet } from 'react-router-dom';
 import {ReactComponent as AppIcon} from './icons/app-icon.svg';
 import Navbar from './components/Navbar';
 
-
-
 function App() {
   const appName = 'Singlethreddit'
-  const user = useState(auth.currentUser);
-
+  const [user, setUser] = useState(null);
   useEffect(() => {
-    console.log(user);
-    console.log(user.photoURL);
-  }, [user])
+    auth.onAuthStateChanged(user => {
+      setUser(user);
+    })
+  }, [])
+
+  console.log(user);
 
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const theme = useMemo(
@@ -35,7 +36,7 @@ function App() {
       <Container maxWidth={'xl'} disableGutters className="App" sx={{ minHeight: '100vh' }}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Navbar AppIcon={AppIcon} appName={appName} user={user} />
+          <Navbar AppIcon={AppIcon} appName={appName} signIn={signIn} user={user} />
           <Outlet user={user} />
         </ThemeProvider>
       </Container>
