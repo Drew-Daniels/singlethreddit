@@ -8,6 +8,7 @@ export default function HomePage(props) {
         <Grid container spacing={2} sx={{ marginTop: '1rem'}}>
             <Grid item md={2}/>
             <Grid item xs={12} sm={9} md={5}>
+                <div id='firebaseui-auth-container'></div>
                 <Feed />
             </Grid>
             <Grid item sm={0} md={3}>

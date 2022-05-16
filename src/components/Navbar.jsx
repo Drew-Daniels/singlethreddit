@@ -14,7 +14,6 @@ import Avatar from '@mui/material/Avatar';
 import AddIcon from '@mui/icons-material/Add';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import SvgIcon from '@mui/material/SvgIcon';
-import AvatarExample from '../images/avatar-example.jpg';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -58,7 +57,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function PrimarySearchAppBar(props) {
 
-  const { AppIcon, appName } = props;
+  const { AppIcon, appName, user } = props;
 
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -111,7 +110,7 @@ export default function PrimarySearchAppBar(props) {
           aria-haspopup="true"
           color="inherit"
         >
-          <Avatar src={AvatarExample} alt='user avatar'/>
+          <Avatar src={user.photoURL} alt='user avatar'/>
         </IconButton>
         <p>Profile</p>
       </MenuItem>
@@ -164,7 +163,7 @@ export default function PrimarySearchAppBar(props) {
               aria-haspopup="true"
               color="inherit"
             >
-              <Avatar src={AvatarExample} alt='user avatar'/>
+              <Avatar src={user.photoURL} alt='user avatar'/>
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
