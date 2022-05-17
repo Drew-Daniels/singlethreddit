@@ -66,8 +66,11 @@ const Comment = ({
     if (!groupName) {
         throw new Error('"groupName" is required');
     }
-
+    if (!groupName === 'string') {
+        throw new Error('"groupName" must be a non-blank string');
+    }
     // timeCreated
+
 
     // timeEdited
 
