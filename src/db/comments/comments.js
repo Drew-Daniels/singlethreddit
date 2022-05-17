@@ -33,44 +33,21 @@ const Comment = ({
     // CHECKS
     // REQUIRED parameters
     // email
-    const emailErrMsg = '"email" is required and must be a valid email belonging to gmail.com domain'
-    if (!email) {
-        throw new Error(emailErrMsg);
-    } else {
-        if (!validEmail(email)) {
-            throw new Error(emailErrMsg);
-        }
-        function validEmail(email) {
-            var config = {
-                whitelist: ['gmail.com'],
-            }
-            var ev = new EmailValidation(config);
-            var res = ev.check(email);
-            var isValid = res.valid;
-            return isValid;
-        }
+    if (!validEmail(email)) {
+        throw new Error('"email" is required and must be a valid email belonging to gmail.com domain');
     }
     // groupName
-    if (!groupName || !typeof groupName === 'string') {
+    if (!validGroupName(groupName)) {
         throw new Error('"groupName" is required and must be a non-blank string');
     }
     // body
-    if (!body || !typeof body === 'string') {
-        throw new Error ('"body" is required and must be a non-blank string');
+    if (!validBody(body)) {
+        throw new Error('"body" is required and must be a non-blank string');
     }
     // OPTIONAL parameters
     // parentId
-    const parentIdErrMsg = '"parentId" must be a non-blank string or undefined';
-    switch (true) {
-        case (parentId === null):
-            throw new Error(parentIdErrMsg);
-        case (parentId === ''):
-            throw new Error(parentIdErrMsg);
-        case (typeof parentId === 'number' || typeof parentId === 'bigint' || typeof parentId === 'boolean'):
-            throw new Error(parentIdErrMsg);
-        default:
-            // has to be either undefined or a non-blank string
-            break;
+    if (!validParentId(parentId)) {
+        throw new Error('"parentId" must be a non-blank string or undefined')
     }
     // timeCreated
 
@@ -102,6 +79,41 @@ const Comment = ({
             imageUrl,
         }
     )
+
+    // validation function definitions
+    function validEmail(email) {
+        if (!email) { return false }
+        var config = {
+            whitelist: ['gmail.com'],
+        }
+        var ev = new EmailValidation(config);
+        var res = ev.check(email);
+        var isValid = res.valid;
+        return isValid;
+    }
+    function validGroupName(group) {
+        return (groupName && typeof groupName === 'string');
+    }
+    function validBody(body) {
+        return (body && typeof body === 'string')
+    }
+    function validParentId(parentId) {
+        var res = true;
+        switch (true) {
+            case (
+                    parentId === null || 
+                    parentId === '' ||
+                    typeof parentId === 'number' ||
+                    typeof parentId === 'bigint' ||
+                    typeof parentId === 'boolean'
+                ):
+                res = false;
+                break;
+            default:
+                break;
+        }
+        return res;
+    }
 }
 
 async function delComment() {
