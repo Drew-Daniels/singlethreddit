@@ -15,20 +15,18 @@ const commentRef = collection(db, 'comments');
  * @param {integer} numDownvotes 
  * @param {string} title 
  * @param {string} body 
- * @param {string} imageUrl 
  * @returns [Comment object]
  */
 const Comment = ({
     email, 
     groupName, 
     body,
-    parentId=undefined,
+    parentId='',
     timeCreated=Date.now(), 
     timeEdited=Date.now(), 
     numUpvotes=0, 
     numDownvotes=0, 
-    title=undefined, 
-    imageUrl=undefined
+    title='', 
     } = {}) => {
     // CHECKS
     // REQUIRED parameters
@@ -51,27 +49,23 @@ const Comment = ({
     }
     // timeCreated
     if (!validTimeCreated(timeCreated)) {
-
+        throw new Error('"timeCreated" must be an integer greater than 0');
     }
     // timeEdited
     if (!validTimeEdited(timeEdited)) {
-
+        throw new Error('"timeEdited" must be an integer greater than 0');
     }
     // numUpvotes
     if (!validNumUpvotes(numUpvotes)) {
-
+        throw new Error('"numUpvotes" must be an integer greater than or equal to 0');
     }
     // numDownvotes
     if (!validNumDownvotes(numDownvotes)) {
-
+        throw new Error('"numDownvotes" must be an integer less than or equal to 0');
     }
     // title
     if (!validTitle(title)) {
-
-    }
-    // imageUrl
-    if (!validImageUrl(imageUrl)) {
-
+        throw new Error('"title" must be a string');
     }
     // CHECKS FINISHED
     return (
@@ -85,7 +79,6 @@ const Comment = ({
             numDownvotes,
             title,
             body,
-            imageUrl,
         }
     )
 
@@ -107,39 +100,22 @@ const Comment = ({
         return (body && typeof body === 'string')
     }
     function validParentId(parentId) {
-        var res = true;
-        switch (true) {
-            case (
-                    parentId === null || 
-                    parentId === '' ||
-                    typeof parentId === 'number' ||
-                    typeof parentId === 'bigint' ||
-                    typeof parentId === 'boolean'
-                ):
-                res = false;
-                break;
-            default:
-                break;
-        }
-        return res;
+        return (typeof parentId === 'string');
     }
-    function validTimeCreated() {
-
+    function validTimeCreated(timeCreated) {
+        return (typeof timeCreated === 'number' && timeCreated > 0);
     }
-    function validTimeEdited() {
-
+    function validTimeEdited(timeEdited) {
+        return (typeof timeEdited === 'number' && timeEdited > 0);
     }
-    function validNumUpvotes() {
-
+    function validNumUpvotes(numUpvotes) {
+        return (typeof numUpvotes === 'number' && numUpvotes >= 0);
     }
-    function validNumDownvotes() {
-
+    function validNumDownvotes(numDownvotes) {
+        return (typeof numDownvotes === 'number' && numDownvotes >=0);
     }
-    function validTitle() {
-
-    }
-    function validImageUrl() {
-
+    function validTitle(title) {
+        return (typeof title === 'string');
     }
 }
 
@@ -147,7 +123,7 @@ async function delComment() {
 
 }
 
-async function addComment(parentId, email, groupName, timeCreated, timeEdited, numUpvotes, numDownvotes, title, body, imageUrl) {
+async function addComment(parentId, email, groupName, timeCreated, timeEdited, numUpvotes, numDownvotes, title, body) {
     const comment = Comment(...arguments)
     await addDoc(commentRef, comment);
 }
