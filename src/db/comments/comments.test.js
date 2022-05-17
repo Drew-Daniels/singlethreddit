@@ -431,9 +431,4 @@ describe('OPTIONAL parameters', () => {
                 .toThrow();
         });
     });
-    describe('imageUrl', () => {
-        test.todo('blank string => ERROR');
-        test.todo('null => ERROR');
-        test.todo('undefined => SUCCESS');
-    });
 });
