@@ -31,25 +31,14 @@ const Comment = ({
     imageUrl=undefined
     } = {}) => {
     // CHECKS
-    // parentId
-    const parentIdErrMsg = 'parentId must be a non-blank string or undefined';
-    switch (true) {
-        case (parentId === null):
-            throw new Error(parentIdErrMsg);
-        case (parentId === ''):
-            throw new Error(parentIdErrMsg);
-        case (typeof parentId === 'number' || typeof parentId === 'bigint' || typeof parentId === 'boolean'):
-            throw new Error(parentIdErrMsg);
-        default:
-            // has to be either undefined or a non-blank string
-            break;
-    }
+    // REQUIRED parameters
     // email
+    const emailErrMsg = '"email" is required and must be a valid email belonging to gmail.com domain'
     if (!email) {
-        throw new Error('"email" is required');
+        throw new Error(emailErrMsg);
     } else {
         if (!validEmail(email)) {
-            throw new Error('"email" must belong to gmail.com');
+            throw new Error(emailErrMsg);
         }
         function validEmail(email) {
             var config = {
@@ -61,13 +50,27 @@ const Comment = ({
             return isValid;
         }
     }
-
     // groupName
-    if (!groupName) {
-        throw new Error('"groupName" is required');
+    if (!groupName || !typeof groupName === 'string') {
+        throw new Error('"groupName" is required and must be a non-blank string');
     }
-    if (!groupName === 'string') {
-        throw new Error('"groupName" must be a non-blank string');
+    // body
+    if (!body || !typeof body === 'string') {
+        throw new Error ('"body" is required and must be a non-blank string');
+    }
+    // OPTIONAL parameters
+    // parentId
+    const parentIdErrMsg = '"parentId" must be a non-blank string or undefined';
+    switch (true) {
+        case (parentId === null):
+            throw new Error(parentIdErrMsg);
+        case (parentId === ''):
+            throw new Error(parentIdErrMsg);
+        case (typeof parentId === 'number' || typeof parentId === 'bigint' || typeof parentId === 'boolean'):
+            throw new Error(parentIdErrMsg);
+        default:
+            // has to be either undefined or a non-blank string
+            break;
     }
     // timeCreated
 
@@ -80,7 +83,6 @@ const Comment = ({
 
     // title
 
-    // body
 
     // imageUrl
 

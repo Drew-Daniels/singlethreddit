@@ -5,7 +5,7 @@ var defaultConfig = {
     // REQUIRED - no defualt arguments provided
     email: process.env.VALID_GMAIL_ADDRESS,
     groupName: 'fakegroup',
-    body: '',
+    body: 'This will be a comment body',
     // default arguments from Comment factory will be used for all other arguments
 };
 
@@ -60,6 +60,12 @@ describe('REQUIRED parameters', () => {
             expect(() => Comment(config))
                 .toThrow();
         });
+    });
+    describe('body', () => {
+        test.todo('non-blank string => SUCCESS');
+        test.todo('"" => ERROR');
+        test.todo('undefined => ERROR');
+        test.todo('null => ERROR');
     });
 });
 
