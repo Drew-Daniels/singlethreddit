@@ -1,11 +1,14 @@
-const Group = (baseName, displayName, description, members ) => ({
-    baseName,
-    displayName,
-    description,
-    members,
-    dateTimeCreated: Date.now(),
-    getNamePath: () => 'g/' + baseName,
+const Group = ({
+    
+} = {}) => {
+// run checks here
 
-});
+// return object after validation
+return (
+    {
+
+    }
+)
+}
 
 export default Group;
