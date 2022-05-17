@@ -350,14 +350,48 @@ describe('OPTIONAL parameters', () => {
         });
     });
     describe('numDownvotes', () => {
-        test.todo('0 as integer => SUCCESS');
-        test.todo('int > 0 => SUCCESS');
-        test.todo('negative integer => ERROR');
-        test.todo('negative decimal => ERROR');
-        test.todo('0 as decimal => ERROR');
-        test.todo('string => ERROR');
-        test.todo('null => ERROR');
-        test.todo('undefined => ERROR');
+        var tProperty;
+        var getConfig;
+        beforeAll(() => {
+            tProperty = 'numDownvotes';
+            getConfig = getTestConfig.bind(null, tProperty);
+        });
+        test('0 => SUCCESS', () => {
+            var tValue = 0;
+            var config = getConfig(tValue);
+            expect(Comment(config))
+                .toMatchObject({ numDownvotes: tValue });
+        });
+        test('int > 0 => SUCCESS', () => {
+            var tValue = 1;
+            var config = getConfig(tValue);
+            expect(Comment(config))
+                .toMatchObject({ numDownvotes: tValue });
+        });
+        test('int < 0 => ERROR', () => {
+            var tValue = -1;
+            var config = getConfig(tValue);
+            expect(() => Comment(config))
+                .toThrow();
+        });
+        test('string => ERROR', () => {
+            var tValue = 'spam';
+            var config = getConfig(tValue);
+            expect(() => Comment(config))
+                .toThrow();
+        });
+        test('null => ERROR', () => {
+            var tValue = null;
+            var config = getConfig(tValue);
+            expect(() => Comment(config))
+                .toThrow();
+        });
+        test('undefined => SUCCESS', () => {
+            var tValue = undefined;
+            var config = getConfig(tValue);
+            expect(Comment(config))
+                .toMatchObject({ numDownvotes: 0 });
+        });
     });
     describe('title', () => {
         test.todo('blank string => ERROR');
