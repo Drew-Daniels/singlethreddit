@@ -394,9 +394,42 @@ describe('OPTIONAL parameters', () => {
         });
     });
     describe('title', () => {
-        test.todo('blank string => ERROR');
-        test.todo('null => ERROR');
-        test.todo('undefined => SUCCESS');
+        var tProperty;
+        var getConfig;
+        beforeAll(() => {
+            tProperty = 'title';
+            getConfig = getTestConfig.bind(null, tProperty);
+        });
+        test('non-blank string => SUCCESS', () => {
+            var tValue = 'spam';
+            var config = getConfig(tValue);
+            expect(Comment(config))
+                .toMatchObject({ title: tValue });
+        })
+        test('blank string => SUCCESS', () => {
+            var tValue = '';
+            var config = getConfig(tValue);
+            expect(Comment(config))
+                .toMatchObject({ title: tValue });
+        });
+        test('explicit (passed) undefined => SUCCESS', () => {
+            var tValue = undefined;
+            var config = getConfig(tValue);
+            expect(Comment(config))
+                .toMatchObject({ title: '' });
+        });
+        test('implicit (not passed) undefined => SUCCESS', () => {
+            var config = getConfig();
+            delete config[tProperty];
+            expect(Comment(config))
+                .toMatchObject({ title: '' });
+        });
+        test('null => ERROR', () => {
+            var tValue = null;
+            var config = getConfig(tValue);
+            expect(() => Comment(config))
+                .toThrow();
+        });
     });
     describe('imageUrl', () => {
         test.todo('blank string => ERROR');
