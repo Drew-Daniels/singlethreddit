@@ -32,13 +32,17 @@ const Comment = ({
     } = {}) => {
     // CHECKS
     // parentId
-    // undefined, 0, false, null => null
-    if (typeof parentId === 'number' || typeof parentId === 'boolean') {
-        throw new Error('parentId must be one of the following: undefined, null, "", or a string');
-    }
-    if (!parentId) {
-        // coerce falsy values to null for consistency
-        parentId = undefined;
+    const parentIdErrMsg = 'parentId must be a non-blank string or undefined';
+    switch (true) {
+        case (parentId === null):
+            throw new Error(parentIdErrMsg);
+        case (parentId === ''):
+            throw new Error(parentIdErrMsg);
+        case (typeof parentId === 'number' || typeof parentId === 'bigint' || typeof parentId === 'boolean'):
+            throw new Error(parentIdErrMsg);
+        default:
+            // has to be either undefined or a non-blank string
+            break;
     }
     // email
     if (!email) {
@@ -49,13 +53,11 @@ const Comment = ({
         }
         function validEmail(email) {
             var config = {
-                whiteList: ['gmail.com'],
+                whitelist: ['gmail.com'],
             }
             var ev = new EmailValidation(config);
             var res = ev.check(email);
-            console.log(res);
             var isValid = res.valid;
-            console.log(isValid);
             return isValid;
         }
     }

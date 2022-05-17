@@ -2,18 +2,11 @@ import 'dotenv/config';
 import { Comment } from './comments';
 
 var defaultConfig = {
-    // REQUIRED
-    email: 'fake@email.com',
+    // REQUIRED - no defualt arguments provided
+    email: process.env.VALID_GMAIL_ADDRESS,
     groupName: 'fakegroup',
     body: '',
-    // OPTIONAL
-    parentId: undefined,
-    timeCreated: 'something',
-    timeEdited: 'somethingelse',
-    numUpvotes: 0,
-    numDownvotes: 0,
-    title: undefined,
-    imageUrl: undefined,
+    // default arguments will be used for all other arguments
 };
 
 var tProperty;
@@ -32,18 +25,6 @@ describe('parentId', () => {
     beforeAll(() => {
         tProperty = 'parentId';
     });
-    test('null => SUCCESS', () => {
-        var tValue = null;
-        var config = getTestConfig(tProperty, tValue);
-        expect(Comment(config))
-            .toMatchObject({parentId: undefined})
-    });
-    test('blank string => SUCCESS', () => {
-        var tValue = '';
-        var config = getTestConfig(tProperty, tValue);
-        expect(Comment(config))
-            .toMatchObject({parentId: undefined})
-    });
     test('explicit (passed) undefined => SUCCESS', () => {
         var tValue = undefined;
         var config = getTestConfig(tProperty, tValue);
@@ -55,11 +36,27 @@ describe('parentId', () => {
         expect(Comment(config))
             .toMatchObject({parentId: undefined})
     });
+    test('non-blank string => SUCCESS', () => {
+        var tValue = 'iamauniqueparentid';
+        var config = getTestConfig(tProperty, tValue);
+        expect(Comment(config))
+            .toMatchObject({ parentId: tValue });
+    });
     test('number 0 => ERROR', () => {
         var tValue = 0;
         var config = getTestConfig(tProperty, tValue);
         expect(() => Comment(config))
             .toThrow();
+    });
+    test('null => ERROR', () => {
+        var tValue = null;
+        var config = getTestConfig(tProperty, tValue);
+        expect(() => Comment(config)).toThrow();
+    });
+    test('blank string => ERROR', () => {
+        var tValue = '';
+        var config = getTestConfig(tProperty, tValue);
+        expect(() => Comment(config)).toThrow();
     });
     test('number 1 => ERROR', () => {
         var tValue = 1;
