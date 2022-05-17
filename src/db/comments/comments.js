@@ -50,20 +50,29 @@ const Comment = ({
         throw new Error('"parentId" must be a non-blank string or undefined')
     }
     // timeCreated
+    if (!validTimeCreated(timeCreated)) {
 
-
+    }
     // timeEdited
+    if (!validTimeEdited(timeEdited)) {
 
+    }
     // numUpvotes
+    if (!validNumUpvotes(numUpvotes)) {
 
+    }
     // numDownvotes
+    if (!validNumDownvotes(numDownvotes)) {
 
+    }
     // title
+    if (!validTitle(title)) {
 
-
+    }
     // imageUrl
+    if (!validImageUrl(imageUrl)) {
 
-
+    }
     // CHECKS FINISHED
     return (
         {
@@ -113,6 +122,24 @@ const Comment = ({
                 break;
         }
         return res;
+    }
+    function validTimeCreated() {
+
+    }
+    function validTimeEdited() {
+
+    }
+    function validNumUpvotes() {
+
+    }
+    function validNumDownvotes() {
+
+    }
+    function validTitle() {
+
+    }
+    function validImageUrl() {
+
     }
 }
 
