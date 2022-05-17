@@ -18,6 +18,6 @@ async function addComment(email, groupName, body, parentId, timeCreated, timeEdi
 
 export {
     delComment,
-    addComment,
     getComment,
+    addComment,
 }

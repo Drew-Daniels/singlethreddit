@@ -1,7 +1,15 @@
 import Group from './group';
 
 describe('REQUIRED parameters', () => {
-    describe('name', () => {
+    describe('baseName', () => {
+        test.todo('non-blank string => SUCCESS');
+        test.todo('blank string => ERROR');
+        test.todo('number => ERROR');
+        test.todo('boolean => ERROR');
+        test.todo('explicit (passed) undefined => ERROR');
+        test.todo('implicit (not passed) undefined => ERROR');
+    });
+    describe('displayName', () => {
         test.todo('non-blank string => SUCCESS');
         test.todo('blank string => ERROR');
         test.todo('number => ERROR');

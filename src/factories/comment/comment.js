@@ -1,6 +1,6 @@
 import EmailValidation from 'emailvalid';
 /**
- * Factory function that runs checks on passed in values that are to be used to create a Comment document in Firebase.
+ * Factory function that runs checks on passed in values that are to be used to create a Comment document in the database.
  * @param {string} parentId 
  * @param {string} email 
  * @param {string} groupName 
@@ -10,7 +10,7 @@ import EmailValidation from 'emailvalid';
  * @param {integer} numDownvotes 
  * @param {string} title 
  * @param {string} body 
- * @returns [Comment object]
+ * @returns validated [Comment object]
  */
  const Comment = ({
     email, 
@@ -98,16 +98,16 @@ import EmailValidation from 'emailvalid';
         return (typeof parentId === 'string');
     }
     function validTimeCreated(timeCreated) {
-        return (typeof timeCreated === 'number' && timeCreated > 0);
+        return (Number.isInteger(timeCreated) && timeCreated > 0);
     }
     function validTimeEdited(timeEdited) {
-        return (typeof timeEdited === 'number' && timeEdited > 0);
+        return (Number.isInteger(timeEdited) && timeEdited > 0);
     }
     function validNumUpvotes(numUpvotes) {
-        return (typeof numUpvotes === 'number' && numUpvotes >= 0);
+        return (Number.isInteger(numUpvotes) && numUpvotes >= 0);
     }
     function validNumDownvotes(numDownvotes) {
-        return (typeof numDownvotes === 'number' && numDownvotes >=0);
+        return (Number.isInteger(numDownvotes) && numDownvotes >=0);
     }
     function validTitle(title) {
         return (typeof title === 'string');

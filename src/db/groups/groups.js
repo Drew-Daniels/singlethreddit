@@ -19,5 +19,5 @@ async function addGroup() {
 export {
     delGroup,
     getGroup,
-    getGroup,
+    addGroup,
 }
