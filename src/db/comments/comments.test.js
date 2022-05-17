@@ -133,7 +133,10 @@ describe('REQUIRED parameters', () => {
                 .toThrow();
         });
         test('null => ERROR', () => {
-
+            var tValue = null;
+            var config = getConfig(tValue);
+            expect(() => Comment(config))
+                .toThrow();
         });
     });
 });
@@ -208,9 +211,48 @@ describe('OPTIONAL parameters', () => {
             tProperty = 'timeCreated';
             getConfig = getTestConfig.bind(null, tProperty)
         });
-        test.todo('blank string => ERROR');
-        test.todo('null => ERROR');
-        test.todo('undefined => ERROR');
+        test('int > 0 => SUCCESS', () => {
+            var tValue = 1;
+            var config = getConfig(tValue);
+            expect(Comment(config))
+                .toMatchObject({ timeCreated: 1 });
+        })
+        test('implicit (not passed) undefined => SUCCESS', () => {
+            var config = getConfig();
+            delete config[tProperty];
+            expect(Comment(config))
+                .toMatchObject({ timeCreated: expect.any(Number)})
+        });
+        test('explicit (passed) undefined => SUCCESS', () => {
+            var tValue = undefined;
+            var config = getConfig(tValue);
+            expect(Comment(config))
+                .toMatchObject({ timeCreated: expect.any(Number)})
+        });
+        test('int < 0 => ERROR', () => {
+            var tValue = -1;
+            var config = getConfig(tValue);
+            expect(() => Comment(config))
+                .toThrow();
+        })
+        test('0 => ERROR', () => {
+            var tValue = 0;
+            var config = getConfig(tValue);
+            expect(() => Comment(config))
+                .toThrow();
+        });
+        test('blank string => ERROR', () => {
+            var tValue = '';
+            var config = getConfig(tValue);
+            expect(() => Comment(config))
+                .toThrow();
+        });
+        test('null => ERROR', () => {
+            var tValue = null;
+            var config = getConfig(tValue);
+            expect(() => Comment(config))
+                .toThrow();
+        });
     });
     
     describe('timeEdited', () => {
@@ -220,9 +262,48 @@ describe('OPTIONAL parameters', () => {
             tProperty = 'timeEdited';
             getConfig = getTestConfig.bind(null, tProperty);
         });
-        test.todo('blank string => ERROR');
-        test.todo('null => ERROR');
-        test.todo('undefined => ERROR');
+        test('int > 0 => SUCCESS', () => {
+            var tValue = 1;
+            var config = getConfig(tValue);
+            expect(Comment(config))
+                .toMatchObject({ timeEdited: 1 });
+        })
+        test('implicit (not passed) undefined => SUCCESS', () => {
+            var config = getConfig();
+            delete config[tProperty];
+            expect(Comment(config))
+                .toMatchObject({ timeEdited: expect.any(Number)})
+        });
+        test('explicit (passed) undefined => SUCCESS', () => {
+            var tValue = undefined;
+            var config = getConfig(tValue);
+            expect(Comment(config))
+                .toMatchObject({ timeEdited: expect.any(Number)})
+        });
+        test('int < 0 => ERROR', () => {
+            var tValue = -1;
+            var config = getConfig(tValue);
+            expect(() => Comment(config))
+                .toThrow();
+        })
+        test('0 => ERROR', () => {
+            var tValue = 0;
+            var config = getConfig(tValue);
+            expect(() => Comment(config))
+                .toThrow();
+        });
+        test('blank string => ERROR', () => {
+            var tValue = '';
+            var config = getConfig(tValue);
+            expect(() => Comment(config))
+                .toThrow();
+        });
+        test('null => ERROR', () => {
+            var tValue = null;
+            var config = getConfig(tValue);
+            expect(() => Comment(config))
+                .toThrow();
+        });
     });
     describe('numUpvotes', () => {
         test.todo('0 as integer => SUCCESS');
