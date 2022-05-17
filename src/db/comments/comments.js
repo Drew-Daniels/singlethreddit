@@ -7,13 +7,13 @@ async function delComment() {
 
 }
 
+async function getComment() {
+
+}
+
 async function addComment(email, groupName, body, parentId, timeCreated, timeEdited, numUpvotes, numDownvotes, title) {
     const comment = Comment({...arguments})
     await addDoc(commentRef, comment);
-}
-
-async function getComment() {
-
 }
 
 export {

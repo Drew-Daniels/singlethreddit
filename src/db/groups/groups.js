@@ -8,10 +8,16 @@ async function delGroup() {
     
 }
 
+async function getGroup() {
+
+}
+
 async function addGroup() {
     const group = Group(...arguments)
 }
 
-async function getGroup() {
-
+export {
+    delGroup,
+    getGroup,
+    getGroup,
 }
