@@ -143,7 +143,19 @@ describe('OPTIONAL parameters', () => {
         beforeAll(() => {
             tProperty = 'timeCreated';
             getUpdatedConfig = getPropUpdater(tProperty);
-        })
+        });
+        test('explicit (passed) undefined => SUCCESS', () => {
+            var tValue = undefined;
+            var config = getUpdatedConfig(tValue);
+            // TODO: update this test to ensure that the timeCreated is greater than MIN_TIMESTAMP
+            expect(Group(config)).toMatchObject({ timeCreated: expect.any(Number) })
+        });
+        test('implicit (not passed) undefined => SUCCESS', () => {
+            var config = {...defaultConfig};
+            delete config[tProperty];
+            // TODO: update this test to ensure that the timeCreated is greater than MIN_TIMESTAMP
+            expect(Group(config)).toMatchObject({ timeCreated: expect.any(Number) })
+        });
         test('int > MIN_TIMESTAMP => SUCCESS', () => {
             var tValue = MIN_TIMESTAMP + 1;
             var config = getUpdatedConfig(tValue);
@@ -177,11 +189,41 @@ describe('OPTIONAL parameters', () => {
         });
     });
     describe('members', () => {
-        test.todo('array => SUCCESS');
-        test.todo('explicit (passed) undefined => SUCCESS');
-        test.todo('implicit (not passed) undefined => SUCCESS');
-        test.todo('int => ERROR');
-        test.todo('string => ERROR');
-        test.todo('boolean => ERROR');
+        var tProperty;
+        var getUpdatedConfig;
+        beforeAll(() => {
+            tProperty = 'members';
+            getUpdatedConfig = getPropUpdater(tProperty);
+        });
+        test('array => SUCCESS', () => {
+            var tValue = [];
+            var config = getUpdatedConfig(tValue);
+            expect(Group(config)).toMatchObject({ members: [] });
+        });
+        test('explicit (passed) undefined => SUCCESS', () => {
+            var tValue = undefined;
+            var config = getUpdatedConfig(tValue);
+            expect(Group(config)).toMatchObject({ members: [] });
+        });
+        test('implicit (not passed) undefined => SUCCESS', () => {
+            var config = {...defaultConfig};
+            delete config[tProperty];
+            expect(Group(config)).toMatchObject({ members: [] });
+        });
+        test('int => ERROR', () => {
+            var tValue = 1;
+            var config = getUpdatedConfig(tValue);
+            expect(() => Group(config)).toThrow();
+        });
+        test('string => ERROR', () => {
+            var tValue = 'spam';
+            var config = getUpdatedConfig(tValue);
+            expect(() => Group(config)).toThrow();
+        });
+        test('boolean => ERROR', () => {
+            var tValue = true;
+            var config = getUpdatedConfig(tValue);
+            expect(() => Group(config)).toThrow();
+        });
     });
 });
