@@ -1,4 +1,4 @@
-import {getUpdatedObject as guo, getBoundObjectUpdater as gbou} from './get'
+import {getUpdatedObject as guo, getBoundPropertyUpdater as gbpu} from './get'
 import { pop } from '../delete/delete';
 
 const getArgs = () => ([
@@ -104,35 +104,44 @@ describe('getUpdatedObject', () => {
     });
 });
 
-describe('getBoundObjectUpdater', () => {
+describe('getBoundPropertyUpdater', () => {
     var testObj = { "testProperty": "oldValue" };
     var testProperty = "testProperty";
     describe('argument length', () => {
         test('2 arguments => SUCCESS', () => {
-            expect(() => gbou(testObj, testProperty)).not.toThrow();
+            expect(() => gbpu(testObj, testProperty)).not.toThrow();
         });
         test('1 argument => ERROR', () => {
-            expect(() => gbou(testObj)).toThrow();
+            expect(() => gbpu(testObj)).toThrow();
         });
         test('0 arguments => ERROR', () => {
-            expect(() => gbou()).toThrow();
+            expect(() => gbpu()).toThrow();
         });
     });
     describe('"tObj" type-checking', () => {
+        var args = [{}, 'testProperty'];
+        afterEach(() => {
+            // reset to default
+            args[0] = {};
+        })
         test('obj => SUCCESS', () => {
-
+            expect(() => gbpu(...args)).not.toThrow();
         });
         test('arr => ERROR', () => {
-
+            args[0] = [];
+            expect(() => gbpu(...args)).toThrow();
         });
         test('number => ERROR', () => {
-
+            args[0] = 1;
+            expect(() => gbpu(...args)).toThrow();
         });
         test('boolean => ERROR', () => {
-
+            args[0] = true;
+            expect(() => gbpu(...args)).toThrow();
         });
         test('string => ERROR', () => {
-
+            args[0] = 'spam';
+            expect(() => gbpu(...args)).toThrow();
         });
     });
     describe('"tProp" 2 type-checking', () => {

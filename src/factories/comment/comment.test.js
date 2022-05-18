@@ -427,7 +427,6 @@ describe('OPTIONAL parameters', () => {
         test('null => ERROR', () => {
             var tValue = null;
             var config = getUpdatedConfig(tValue);
-            console.log(config);
             expect(() => Comment(config))
                 .toThrow();
         });
