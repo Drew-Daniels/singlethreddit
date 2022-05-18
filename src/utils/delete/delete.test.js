@@ -54,7 +54,6 @@ describe('pop', () => {
             var expected = [];
             test('array w/ 1 element => array w/ 0 elements', () => {
                 var thisTestArray = [...testArray];
-                console.log(thisTestArray)
                 expect(pop(thisTestArray)).toEqual(expect.arrayContaining(expected));
             });
             test('array w/ 0 elements => array w/ 0 elements', () => {

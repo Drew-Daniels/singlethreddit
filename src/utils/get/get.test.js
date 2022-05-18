@@ -110,10 +110,25 @@ describe('getUpdatedObject', () => {
         });
     });
     describe('functionality', () => {
-        test.todo('1 valid arg => copy of obj');
-        test.todo('2 valid args => copy of obj');
-        test.todo('3 valid args => copy of obj w/ updated property value');
-    })
+        var defaultArgs = getArgs();
+        var args;
+        var insufficientArgsExpected = { "testProperty": "testValue" };
+        var sufficientArgsExpected = { "testProperty" : "newValue" }
+        beforeEach(() => {
+            args = [...defaultArgs];
+        })
+        test('1 valid arg => copy of obj', () => {
+            args.splice(1);
+            expect(guo(...args)).toMatchObject(insufficientArgsExpected);
+        });
+        test('2 valid args => copy of obj', () => {
+            args.splice(2);
+            expect(guo(...args)).toMatchObject(insufficientArgsExpected);
+        });
+        test('3 valid args => copy of obj w/ updated property value', () => {
+            expect(guo(...args)).toMatchObject(sufficientArgsExpected);
+        });
+    });
 });
 
 describe('getBoundObjectUpdater', () => {
