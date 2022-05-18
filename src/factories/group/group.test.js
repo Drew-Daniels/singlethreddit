@@ -96,12 +96,42 @@ describe('REQUIRED parameters', () => {
         });
     });
     describe('description', () => {
-        test.todo('non-blank string => SUCCESS');
-        test.todo('blank string => ERROR');
-        test.todo('number => ERROR');
-        test.todo('boolean => ERROR');
-        test.todo('explicit (passed) undefined => ERROR');
-        test.todo('implicit (not passed) undefined => ERROR');
+        var tProperty;
+        var getUpdatedConfig;
+        beforeAll(() => {
+            tProperty = 'description';
+            getUpdatedConfig = getPropUpdater(tProperty);
+        });
+        test('non-blank string => SUCCESS', () => {
+            var tValue = 'spam';
+            var config = getUpdatedConfig(tValue);
+            expect(Group(config)).toMatchObject({ description: tValue });
+        });
+        test('blank string => ERROR', () => {
+            var tValue = '';
+            var config = getUpdatedConfig(tValue);
+            expect(() => Group(config)).toThrow();
+        });
+        test('number => ERROR', () => {
+            var tValue = 1;
+            var config = getUpdatedConfig(tValue);
+            expect(() => Group(config)).toThrow();
+        });
+        test('boolean => ERROR', () => {
+            var tValue = true;
+            var config = getUpdatedConfig(tValue);
+            expect(() => Group(config)).toThrow();
+        });
+        test('explicit (passed) undefined => ERROR', () => {
+            var tValue = undefined;
+            var config = getUpdatedConfig(tValue);
+            expect(() => Group(config)).toThrow();
+        });
+        test('implicit (not passed) undefined => ERROR', () => {
+            var config = {...defaultConfig};
+            delete config[tProperty];
+            expect(() => Group(config)).toThrow();
+        });
     });
 });
 
