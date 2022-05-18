@@ -29,38 +29,32 @@ describe('REQUIRED parameters', () => {
         test('valid google email => SUCCESS', () => {
             var tValue = process.env.VALID_GMAIL_ADDRESS;
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config))
-                .toMatchObject({ email : tValue });
+            expect(Comment(config)).toMatchObject({ email : tValue });
         });
         test('@yahoo.com => ERROR', () => {
             var tValue = 'tester@yahoo.com';
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('blank string => ERROR', () => {
             var tValue = '';
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('null => ERROR', () => {
             var tValue = null;
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('explicit (passed) undefined => ERROR', () => {
             var tValue = undefined;
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('implicit (not passed) undefined => ERROR', () => {
             var config = {...defaultConfig};
             delete config[tProperty];
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
     });
     describe('groupName', () => {
@@ -73,32 +67,27 @@ describe('REQUIRED parameters', () => {
         test('non-blank string => SUCCESS', () => {
             var tValue= 'spam';
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config))
-                .toMatchObject({ groupName : tValue });
+            expect(Comment(config)).toMatchObject({ groupName : tValue });
         })
         test('blank string => ERROR', () => {
             var tValue = '';
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('null => ERROR', () => {
             var tValue = null;
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('explicit (passed) undefined => ERROR', () => {
             var tValue = undefined;
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('implicit (not passed) undefined => ERROR', () => {
             var config = {...defaultConfig};
             delete config[tProperty];
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
     });
     describe('body', () => {
@@ -111,32 +100,27 @@ describe('REQUIRED parameters', () => {
         test('non-blank string => SUCCESS', () => {
             var tValue = 'spam';
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config))
-                .toMatchObject({ body: tValue });
+            expect(Comment(config)).toMatchObject({ body: tValue });
         });
         test('blank string => ERROR', () => {
             var tValue = '';
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('explicit (passed) undefined => ERROR', () => {
             var tValue = undefined;
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('implicit (not passed) undefined => ERROR', () => {
             var config = getUpdatedConfig();
             delete config[tProperty];
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('null => ERROR', () => {
             var tValue = null;
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
     });
 });
@@ -152,56 +136,47 @@ describe('OPTIONAL parameters', () => {
         test('blank string => SUCCESS', () => {
             var tValue = '';
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config))
-                .toMatchObject(config);
+            expect(Comment(config)).toMatchObject(config);
         });
         test('non-blank string => SUCCESS', () => {
             var tValue = 'iamauniqueparentid';
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config))
-                .toMatchObject({ parentId: tValue });
+            expect(Comment(config)).toMatchObject({ parentId: tValue });
         });
         test('implicit (not passed) undefined => SUCCESS', () => {
             var config = {...defaultConfig};
             delete config[tProperty];
-            expect(Comment(config))
-                .toMatchObject({ parentId: '' });
+            expect(Comment(config)).toMatchObject({ parentId: '' });
         });
         test('explicit (passed) undefined => SUCCESS', () => {
             var tValue = undefined;
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config))
-                .toMatchObject({ parentId: '' });
+            expect(Comment(config)).toMatchObject({ parentId: '' });
         });
         test('number 0 => ERROR', () => {
             var tValue = 0;
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('number 1 => ERROR', () => {
             var tValue = 1;
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('null => ERROR', () => {
             var tValue = null;
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('boolean true => ERROR', () => {
             var tValue = true;
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();        
+            expect(() => Comment(config)).toThrow();        
         })
         test('boolean false => ERROR', () => {
             var tValue = false;
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         })
     });
     describe('timeCreated', () => {
@@ -214,44 +189,37 @@ describe('OPTIONAL parameters', () => {
         test('int > 0 => SUCCESS', () => {
             var tValue = 1;
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config))
-                .toMatchObject({ timeCreated: 1 });
+            expect(Comment(config)).toMatchObject({ timeCreated: 1 });
         })
         test('implicit (not passed) undefined => SUCCESS', () => {
             var config = getUpdatedConfig();
             delete config[tProperty];
-            expect(Comment(config))
-                .toMatchObject({ timeCreated: expect.any(Number)})
+            expect(Comment(config)).toMatchObject({ timeCreated: expect.any(Number)})
         });
         test('explicit (passed) undefined => SUCCESS', () => {
             var tValue = undefined;
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config))
-                .toMatchObject({ timeCreated: expect.any(Number)})
+            expect(Comment(config)).toMatchObject({ timeCreated: expect.any(Number)})
         });
         test('int < 0 => ERROR', () => {
             var tValue = -1;
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         })
         test('0 => ERROR', () => {
             var tValue = 0;
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('blank string => ERROR', () => {
             var tValue = '';
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('null => ERROR', () => {
             var tValue = null;
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
     });
     
@@ -265,44 +233,37 @@ describe('OPTIONAL parameters', () => {
         test('int > 0 => SUCCESS', () => {
             var tValue = 1;
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config))
-                .toMatchObject({ timeEdited: 1 });
+            expect(Comment(config)).toMatchObject({ timeEdited: 1 });
         })
         test('implicit (not passed) undefined => SUCCESS', () => {
             var config = getUpdatedConfig();
             delete config[tProperty];
-            expect(Comment(config))
-                .toMatchObject({ timeEdited: expect.any(Number)})
+            expect(Comment(config)).toMatchObject({ timeEdited: expect.any(Number)})
         });
         test('explicit (passed) undefined => SUCCESS', () => {
             var tValue = undefined;
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config))
-                .toMatchObject({ timeEdited: expect.any(Number)})
+            expect(Comment(config)).toMatchObject({ timeEdited: expect.any(Number)})
         });
         test('int < 0 => ERROR', () => {
             var tValue = -1;
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         })
         test('0 => ERROR', () => {
             var tValue = 0;
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('blank string => ERROR', () => {
             var tValue = '';
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('null => ERROR', () => {
             var tValue = null;
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
     });
     describe('numUpvotes', () => {
@@ -315,38 +276,32 @@ describe('OPTIONAL parameters', () => {
         test('0 => SUCCESS', () => {
             var tValue = 0;
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config))
-                .toMatchObject({ numUpvotes: tValue });
+            expect(Comment(config)).toMatchObject({ numUpvotes: tValue });
         });
         test('int > 0 => SUCCESS', () => {
             var tValue = 1;
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config))
-                .toMatchObject({ numUpvotes: tValue });
+            expect(Comment(config)).toMatchObject({ numUpvotes: tValue });
         });
         test('int < 0 => ERROR', () => {
             var tValue = -1;
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('string => ERROR', () => {
             var tValue = 'spam';
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('null => ERROR', () => {
             var tValue = null;
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('undefined => SUCCESS', () => {
             var tValue = undefined;
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config))
-                .toMatchObject({ numUpvotes: 0 });
+            expect(Comment(config)).toMatchObject({ numUpvotes: 0 });
         });
     });
     describe('numDownvotes', () => {
@@ -359,38 +314,32 @@ describe('OPTIONAL parameters', () => {
         test('0 => SUCCESS', () => {
             var tValue = 0;
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config))
-                .toMatchObject({ numDownvotes: tValue });
+            expect(Comment(config)).toMatchObject({ numDownvotes: tValue });
         });
         test('int > 0 => SUCCESS', () => {
             var tValue = 1;
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config))
-                .toMatchObject({ numDownvotes: tValue });
+            expect(Comment(config)).toMatchObject({ numDownvotes: tValue });
         });
         test('int < 0 => ERROR', () => {
             var tValue = -1;
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('string => ERROR', () => {
             var tValue = 'spam';
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('null => ERROR', () => {
             var tValue = null;
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
         test('undefined => SUCCESS', () => {
             var tValue = undefined;
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config))
-                .toMatchObject({ numDownvotes: 0 });
+            expect(Comment(config)).toMatchObject({ numDownvotes: 0 });
         });
     });
     describe('title', () => {
@@ -403,32 +352,27 @@ describe('OPTIONAL parameters', () => {
         test('non-blank string => SUCCESS', () => {
             var tValue = 'spam';
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config))
-                .toMatchObject({ title: tValue });
+            expect(Comment(config)).toMatchObject({ title: tValue });
         })
         test('blank string => SUCCESS', () => {
             var tValue = '';
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config))
-                .toMatchObject({ title: tValue });
+            expect(Comment(config)).toMatchObject({ title: tValue });
         });
         test('explicit (passed) undefined => SUCCESS', () => {
             var tValue = undefined;
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config))
-                .toMatchObject({ title: '' });
+            expect(Comment(config)).toMatchObject({ title: '' });
         });
         test('implicit (not passed) undefined => SUCCESS', () => {
             var config = getUpdatedConfig();
             delete config[tProperty];
-            expect(Comment(config))
-                .toMatchObject({ title: '' });
+            expect(Comment(config)).toMatchObject({ title: '' });
         });
         test('null => ERROR', () => {
             var tValue = null;
             var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config))
-                .toThrow();
+            expect(() => Comment(config)).toThrow();
         });
     });
 });

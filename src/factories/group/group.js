@@ -16,7 +16,7 @@ const Group = ({
     } = {}) => {
     // run checks here
     // REQUIRED
-    if (!baseNameValid(baseName)) { throw new Error('"name" is required and must be a non-blank string') };
+    if (!baseNameValid(baseName)) { throw new Error('"baseName" is required and must be a non-blank string') };
     if (!displayNameValid(displayName)) { throw new Error('"displayName" is required and must be a non-blank string') };
     if (!descriptionValid(description)) { throw new Error('"description" is required and must be a non-blank string')};
     // OPTIONAL
