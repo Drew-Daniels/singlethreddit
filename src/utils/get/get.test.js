@@ -12,39 +12,49 @@ describe('getUpdatedObject', () => {
         var args = getArgs();
         beforeEach(() => {
             if (args.length < 3) {
-                pop(args);
+                args.pop();
             }
-        });
+        })
         test('arguments.length === 3 => SUCCESS', () => {
-            expect(() => guo(...config)).not.toThrow();
+            expect(() => guo(...args)).not.toThrow();
         });
         test('arguments.length === 2 => SUCCESS', () => {
-            expect(() => guo(config)).not.toThrow();
+            expect(() => guo(...args)).not.toThrow();
         });
         test('arguments.length === 1 => SUCCESS', () => {
-            expect(() => guo(config)).not.toThrow();
+            expect(() => guo(...args)).not.toThrow();
         });
         test('arguments.length === 0 => SUCCESS', () => {
-            expect(() => guo(config)).not.toThrow();
+            expect(() => guo(...args)).not.toThrow();
         });
     });
     
     describe('"tObj" type-checking', () => {
-        var config = getConfig();
+        var defaultArgs = getArgs();
         test('obj => SUCCESS', () => {
-            expect(() => guo({})).not.toThrow();
+            var args = [...defaultArgs]
+            args[0] = {};
+            expect(() => guo(...args)).not.toThrow();
         });
-        test('arr => ERROR', () => {
-            expect(() => guo([])).toThrow();
+        test('arr => SUCCESS', () => {
+            var args = [...defaultArgs]
+            args[0] = [];
+            expect(() => guo(...args)).not.toThrow();
         });
         test('number => ERROR', () => {
-            expect(() => guo(1)).toThrow();
+            var args = [...defaultArgs]
+            args[0] = 1;
+            expect(() => guo(...args)).toThrow();
         });
         test('boolean => ERROR', () => {
-            expect(() => guo(true)).toThrow();
+            var args = [...defaultArgs]
+            args[0] = true;
+            expect(() => guo(...args)).toThrow();
         });
         test('string => ERROR', () => {
-            expect(() => guo('spam')).toThrow();
+            var args = [...defaultArgs]
+            args[0] = 'spam';
+            expect(() => guo(...args)).toThrow();
         });
     });
     
