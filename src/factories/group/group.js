@@ -1,3 +1,4 @@
+import { MIN_TIMESTAMP } from "../../constants";
 /**
  * Factory function that runs checks on passed in values that are to be used to create a Group document in the database.
  * @param {string} baseName
@@ -20,7 +21,7 @@ const Group = ({
     if (!displayNameValid(displayName)) { throw new Error('"displayName" is required and must be a non-blank string') };
     if (!descriptionValid(description)) { throw new Error('"description" is required and must be a non-blank string')};
     // OPTIONAL
-    if (!timeCreatedValid(timeCreated)) { throw new Error('"timeCreated" must be an integer greater than 0') };
+    if (!timeCreatedValid(timeCreated)) { throw new Error(`"timeCreated" must be an integer greater than ${MIN_TIMESTAMP}`) };
     if (!membersValid(members)) { throw new Error('"members" must be an array') };
     // return object after validation
     return (
@@ -44,7 +45,7 @@ const Group = ({
         return (description && typeof description === 'string');
     };
     function timeCreatedValid(timeCreated) {
-        return (Number.isInteger(timeCreated) && timeCreated > 0);
+        return (Number.isInteger(timeCreated) && timeCreated > MIN_TIMESTAMP);
     };
     function membersValid(members) {
         return (Array.isArray(members));

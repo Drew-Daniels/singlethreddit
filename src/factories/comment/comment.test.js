@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import Comment from './comment';
 import {getBoundPropertyUpdater} from '../../utils/get/get';
+import { MIN_TIMESTAMP, MIN_UPVOTES, MIN_DOWNVOTES } from '../../constants';
 
 var defaultConfig = {
     // REQUIRED - no default arguments provided
@@ -186,26 +187,29 @@ describe('OPTIONAL parameters', () => {
             tProperty = 'timeCreated';
             getUpdatedConfig = getPropUpdater(tProperty);
         });
-        test('int > 0 => SUCCESS', () => {
-            var tValue = 1;
+        test('int > MIN_TIMESTAMP => SUCCESS', () => {
+            var tValue = MIN_TIMESTAMP + 1;
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config)).toMatchObject({ timeCreated: 1 });
+            expect(Comment(config)).toMatchObject({ timeCreated: tValue });
         })
         test('implicit (not passed) undefined => SUCCESS', () => {
             var config = getUpdatedConfig();
             delete config[tProperty];
+            // TODO: update this test to ensure that the timeCreated is greater than MIN_TIMESTAMP
             expect(Comment(config)).toMatchObject({ timeCreated: expect.any(Number)})
         });
         test('explicit (passed) undefined => SUCCESS', () => {
             var tValue = undefined;
             var config = getUpdatedConfig(tValue);
+            // TODO: update this test to ensure that the timeCreated is greater than MIN_TIMESTAMP
             expect(Comment(config)).toMatchObject({ timeCreated: expect.any(Number)})
         });
-        test('int < 0 => ERROR', () => {
-            var tValue = -1;
+        test('int < MIN_TIMESTAMP => ERROR', () => {
+            var tValue = MIN_TIMESTAMP - 1;
             var config = getUpdatedConfig(tValue);
             expect(() => Comment(config)).toThrow();
         })
+        // TODO: Remove this test? Unnecessary if we are checking against MIN_TIMESTAMP
         test('0 => ERROR', () => {
             var tValue = 0;
             var config = getUpdatedConfig(tValue);
@@ -230,23 +234,25 @@ describe('OPTIONAL parameters', () => {
             tProperty = 'timeEdited';
             getUpdatedConfig = getPropUpdater(tProperty);
         });
-        test('int > 0 => SUCCESS', () => {
-            var tValue = 1;
+        test('int > MIN_TIMESTAMP => SUCCESS', () => {
+            var tValue = MIN_TIMESTAMP + 1;
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config)).toMatchObject({ timeEdited: 1 });
+            expect(Comment(config)).toMatchObject({ timeEdited: tValue });
         })
         test('implicit (not passed) undefined => SUCCESS', () => {
             var config = getUpdatedConfig();
             delete config[tProperty];
+            // TODO: update this test to ensure that the timeEdited is greater than MIN_TIMESTAMP
             expect(Comment(config)).toMatchObject({ timeEdited: expect.any(Number)})
         });
         test('explicit (passed) undefined => SUCCESS', () => {
             var tValue = undefined;
             var config = getUpdatedConfig(tValue);
+            // TODO: update this test to ensure that the timeEdited is greater than MIN_TIMESTAMP
             expect(Comment(config)).toMatchObject({ timeEdited: expect.any(Number)})
         });
-        test('int < 0 => ERROR', () => {
-            var tValue = -1;
+        test('int < MIN_TIMESTAMP => ERROR', () => {
+            var tValue = MIN_TIMESTAMP - 1;
             var config = getUpdatedConfig(tValue);
             expect(() => Comment(config)).toThrow();
         })
@@ -273,18 +279,18 @@ describe('OPTIONAL parameters', () => {
             tProperty = 'numUpvotes';
             getUpdatedConfig = getPropUpdater(tProperty);
         });
-        test('0 => SUCCESS', () => {
-            var tValue = 0;
+        test('int > MIN_UPVOTES => SUCCESS', () => {
+            var tValue = MIN_UPVOTES + 1;
             var config = getUpdatedConfig(tValue);
             expect(Comment(config)).toMatchObject({ numUpvotes: tValue });
         });
-        test('int > 0 => SUCCESS', () => {
-            var tValue = 1;
+        test('int === MIN_UPVOTES => SUCCESS', () => {
+            var tValue = MIN_UPVOTES;
             var config = getUpdatedConfig(tValue);
             expect(Comment(config)).toMatchObject({ numUpvotes: tValue });
         });
-        test('int < 0 => ERROR', () => {
-            var tValue = -1;
+        test('int < MIN_UPVOTES => ERROR', () => {
+            var tValue = MIN_UPVOTES - 1;
             var config = getUpdatedConfig(tValue);
             expect(() => Comment(config)).toThrow();
         });
@@ -311,18 +317,18 @@ describe('OPTIONAL parameters', () => {
             tProperty = 'numDownvotes';
             getUpdatedConfig = getPropUpdater(tProperty);
         });
-        test('0 => SUCCESS', () => {
-            var tValue = 0;
+        test('int > MIN_DOWNVOTES => SUCCESS', () => {
+            var tValue = MIN_DOWNVOTES + 1;
             var config = getUpdatedConfig(tValue);
             expect(Comment(config)).toMatchObject({ numDownvotes: tValue });
         });
-        test('int > 0 => SUCCESS', () => {
-            var tValue = 1;
+        test('int === MIN_DOWNVOTES => SUCCESS', () => {
+            var tValue = MIN_DOWNVOTES;
             var config = getUpdatedConfig(tValue);
             expect(Comment(config)).toMatchObject({ numDownvotes: tValue });
         });
-        test('int < 0 => ERROR', () => {
-            var tValue = -1;
+        test('int < MIN_DOWNVOTES => ERROR', () => {
+            var tValue = MIN_DOWNVOTES - 1;
             var config = getUpdatedConfig(tValue);
             expect(() => Comment(config)).toThrow();
         });

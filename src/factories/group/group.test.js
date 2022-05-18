@@ -1,5 +1,6 @@
 import Group from './group';
 import {getBoundPropertyUpdater} from '../../utils/get/get';
+import { MIN_TIMESTAMP } from '../../constants';
 
 var defaultConfig = {
     // REQUIRED - no default arguments provided
@@ -137,12 +138,43 @@ describe('REQUIRED parameters', () => {
 
 describe('OPTIONAL parameters', () => {
     describe('timeCreated', () => {
-        test.todo('int > 0 => SUCCESS');
-        test.todo('0 => ERROR');
-        test.todo('int < 0 => ERROR');
-        test.todo('string => ERROR');
-        test.todo('boolean => ERROR');
-        test.todo('object => ERROR');
+        var tProperty;
+        var getUpdatedConfig;
+        beforeAll(() => {
+            tProperty = 'timeCreated';
+            getUpdatedConfig = getPropUpdater(tProperty);
+        })
+        test('int > MIN_TIMESTAMP => SUCCESS', () => {
+            var tValue = MIN_TIMESTAMP + 1;
+            var config = getUpdatedConfig(tValue);
+            // TODO: update this test to ensure that the timeCreated is greater than MIN_TIMESTAMP
+            expect(Group(config)).toMatchObject({ timeCreated: expect.any(Number) });
+        });
+        test('int === MIN_TIMESTAMP => ERROR', () => {
+            var tValue = MIN_TIMESTAMP;
+            var config = getUpdatedConfig(tValue);
+            expect(() => Group(config)).toThrow();
+        });
+        test('int < MIN_TIMESTAMP => ERROR', () => {
+            var tValue = MIN_TIMESTAMP - 1;
+            var config = getUpdatedConfig(tValue);
+            expect(() => Group(config)).toThrow();
+        });
+        test('string => ERROR', () => {
+            var tValue = 'spam';
+            var config = getUpdatedConfig(tValue);
+            expect(() => Group(config)).toThrow();
+        });
+        test('boolean => ERROR', () => {
+            var tValue = true;
+            var config = getUpdatedConfig(tValue);
+            expect(() => Group(config)).toThrow();
+        });
+        test('object => ERROR', () => {
+            var tValue = {};
+            var config = getUpdatedConfig(tValue);
+            expect(() => Group(config)).toThrow();
+        });
     });
     describe('members', () => {
         test.todo('array => SUCCESS');

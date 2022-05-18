@@ -1,3 +1,4 @@
+import { MIN_TIMESTAMP, MIN_UPVOTES, MIN_DOWNVOTES } from '../../constants';
 import EmailValidation from 'emailvalid';
 /**
  * Factory function that runs checks on passed in values that are to be used to create a Comment document in the database.
@@ -98,16 +99,17 @@ import EmailValidation from 'emailvalid';
         return (typeof parentId === 'string');
     }
     function validTimeCreated(timeCreated) {
-        return (Number.isInteger(timeCreated) && timeCreated > 0);
+        // 	1652763600 is 2022-05-17 00:00:00 in YYYY-MM-DD format
+        return (Number.isInteger(timeCreated) && timeCreated > MIN_TIMESTAMP);
     }
     function validTimeEdited(timeEdited) {
-        return (Number.isInteger(timeEdited) && timeEdited > 0);
+        return (Number.isInteger(timeEdited) && timeEdited > MIN_TIMESTAMP);
     }
     function validNumUpvotes(numUpvotes) {
-        return (Number.isInteger(numUpvotes) && numUpvotes >= 0);
+        return (Number.isInteger(numUpvotes) && numUpvotes >= MIN_UPVOTES);
     }
     function validNumDownvotes(numDownvotes) {
-        return (Number.isInteger(numDownvotes) && numDownvotes >=0);
+        return (Number.isInteger(numDownvotes) && numDownvotes >= MIN_DOWNVOTES);
     }
     function validTitle(title) {
         return (typeof title === 'string');
