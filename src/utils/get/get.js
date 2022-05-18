@@ -11,7 +11,6 @@
     if (arguments.length === 3) {
         if (!isObj(tObj)) { throw new Error('"tObj" must be an object')};
         if (!isString(tProp)) { throw new Error('"tProp" must be type string') }
-        if (!isString(tVal)) { throw new Error('"tVal" must be type string') }
         tConfig[tProp] = tVal;
     }
     return tConfig;
@@ -24,8 +23,9 @@
  * with a passed in value.
  * @param {object} obj 
  * @param {string} prop 
- * @returns [object]
+ * @returns [function]
  */
-export const getBoundObjectUpdater = (obj, prop) => {
-    return getUpdatedObject.bind(obj, prop);
+export function getBoundPropertyUpdater(obj, prop) {
+    if (arguments.length < 2) { throw new Error('All arguments are required')}
+    return getUpdatedObject.bind(null, obj, prop);
 }

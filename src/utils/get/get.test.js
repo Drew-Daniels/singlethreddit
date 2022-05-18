@@ -82,33 +82,6 @@ describe('getUpdatedObject', () => {
             expect(() => guo(...args)).toThrow();
         });
     });
-    describe('"tVal" 3 type-checking', () => {
-        var defaultArgs = getArgs();
-        var args;
-        beforeEach(() => {
-            args = [...defaultArgs];
-        })
-        test('string => SUCCESS', () => {
-            args[1] = 'spam';
-            expect(() => guo(...args)).not.toThrow();
-        });
-        test('obj => ERROR', () => {
-            args[2] = {};
-            expect(() => guo(...args)).toThrow();
-        });
-        test('arr => ERROR', () => {
-            args[2] = [];
-            expect(() => guo(...args)).toThrow();
-        });
-        test('number => ERROR', () => {
-            args[2] = 1;
-            expect(() => guo(...args)).toThrow();
-        });
-        test('boolean => ERROR', () => {
-            args[2] = true;
-            expect(() => guo(...args)).toThrow();
-        });
-    });
     describe('functionality', () => {
         var defaultArgs = getArgs();
         var args;
@@ -132,15 +105,35 @@ describe('getUpdatedObject', () => {
 });
 
 describe('getBoundObjectUpdater', () => {
+    var testObj = { "testProperty": "oldValue" };
+    var testProperty = "testProperty";
     describe('argument length', () => {
-
+        test('2 arguments => SUCCESS', () => {
+            expect(() => gbou(testObj, testProperty)).not.toThrow();
+        });
+        test('1 argument => ERROR', () => {
+            expect(() => gbou(testObj)).toThrow();
+        });
+        test('0 arguments => ERROR', () => {
+            expect(() => gbou()).toThrow();
+        });
     });
     describe('"tObj" type-checking', () => {
-        test.todo('obj => SUCCESS');
-        test.todo('arr => ERROR');
-        test.todo('number => ERROR');
-        test.todo('boolean => ERROR');
-        test.todo('string => ERROR');
+        test('obj => SUCCESS', () => {
+
+        });
+        test('arr => ERROR', () => {
+
+        });
+        test('number => ERROR', () => {
+
+        });
+        test('boolean => ERROR', () => {
+
+        });
+        test('string => ERROR', () => {
+
+        });
     });
     describe('"tProp" 2 type-checking', () => {
         test.todo('string => SUCCESS');
