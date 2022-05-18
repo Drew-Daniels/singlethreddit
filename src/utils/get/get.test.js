@@ -1,4 +1,4 @@
-import {getUpdatedObject as guo, getBoundPropertyUpdater as gbpu} from './get'
+import {getUpdatedObject, getBoundPropertyUpdater} from './get'
 import { pop } from '../delete/delete';
 
 const getArgs = () => ([
@@ -8,6 +8,7 @@ const getArgs = () => ([
 ])
 
 describe('getUpdatedObject', () => {
+    var f = getUpdatedObject;
     describe('argument length', () => {
         var args = getArgs();
         beforeEach(() => {
@@ -16,16 +17,16 @@ describe('getUpdatedObject', () => {
             }
         })
         test('arguments.length === 3 => SUCCESS', () => {
-            expect(() => guo(...args)).not.toThrow();
+            expect(() => f(...args)).not.toThrow();
         });
         test('arguments.length === 2 => SUCCESS', () => {
-            expect(() => guo(...args)).not.toThrow();
+            expect(() => f(...args)).not.toThrow();
         });
         test('arguments.length === 1 => SUCCESS', () => {
-            expect(() => guo(...args)).not.toThrow();
+            expect(() => f(...args)).not.toThrow();
         });
         test('arguments.length === 0 => SUCCESS', () => {
-            expect(() => guo(...args)).not.toThrow();
+            expect(() => f(...args)).not.toThrow();
         });
     });
     describe('"tObj" type-checking', () => {
@@ -36,23 +37,23 @@ describe('getUpdatedObject', () => {
         })
         test('obj => SUCCESS', () => {
             args[0] = {};
-            expect(() => guo(...args)).not.toThrow();
+            expect(() => f(...args)).not.toThrow();
         });
         test('arr => SUCCESS', () => {
             args[0] = [];
-            expect(() => guo(...args)).not.toThrow();
+            expect(() => f(...args)).not.toThrow();
         });
         test('number => ERROR', () => {
             args[0] = 1;
-            expect(() => guo(...args)).toThrow();
+            expect(() => f(...args)).toThrow();
         });
         test('boolean => ERROR', () => {
             args[0] = true;
-            expect(() => guo(...args)).toThrow();
+            expect(() => f(...args)).toThrow();
         });
         test('string => ERROR', () => {
             args[0] = 'spam';
-            expect(() => guo(...args)).toThrow();
+            expect(() => f(...args)).toThrow();
         });
     });
     describe('"tProp" 2 type-checking', () => {
@@ -63,23 +64,23 @@ describe('getUpdatedObject', () => {
         })
         test('string => SUCCESS', () => {
             args[1] = 'spam';
-            expect(() => guo(...args)).not.toThrow();
+            expect(() => f(...args)).not.toThrow();
         });
         test('obj => ERROR', () => {
             args[1] = {};
-            expect(() => guo(...args)).toThrow();
+            expect(() => f(...args)).toThrow();
         });
         test('arr => ERROR', () => {
             args[1] = [];
-            expect(() => guo(...args)).toThrow();
+            expect(() => f(...args)).toThrow();
         });
         test('number => ERROR', () => {
             args[1] = 1;
-            expect(() => guo(...args)).toThrow();
+            expect(() => f(...args)).toThrow();
         });
         test('boolean => ERROR', () => {
             args[1] = true;
-            expect(() => guo(...args)).toThrow();
+            expect(() => f(...args)).toThrow();
         });
     });
     describe('functionality', () => {
@@ -92,73 +93,89 @@ describe('getUpdatedObject', () => {
         })
         test('1 valid arg => copy of obj', () => {
             args.splice(1);
-            expect(guo(...args)).toMatchObject(insufficientArgsExpected);
+            expect(f(...args)).toMatchObject(insufficientArgsExpected);
         });
         test('2 valid args => copy of obj', () => {
             args.splice(2);
-            expect(guo(...args)).toMatchObject(insufficientArgsExpected);
+            expect(f(...args)).toMatchObject(insufficientArgsExpected);
         });
         test('3 valid args => copy of obj w/ updated property value', () => {
-            expect(guo(...args)).toMatchObject(sufficientArgsExpected);
+            expect(f(...args)).toMatchObject(sufficientArgsExpected);
         });
     });
 });
 
 describe('getBoundPropertyUpdater', () => {
+    var f = getBoundPropertyUpdater;
     var testObj = { "testProperty": "oldValue" };
     var testProperty = "testProperty";
     describe('argument length', () => {
         test('2 arguments => SUCCESS', () => {
-            expect(() => gbpu(testObj, testProperty)).not.toThrow();
+            expect(() => f(testObj, testProperty)).not.toThrow();
         });
         test('1 argument => ERROR', () => {
-            expect(() => gbpu(testObj)).toThrow();
+            expect(() => f(testObj)).toThrow();
         });
         test('0 arguments => ERROR', () => {
-            expect(() => gbpu()).toThrow();
+            expect(() => f()).toThrow();
         });
     });
-    describe('"tObj" type-checking', () => {
+    describe('"obj" type-checking', () => {
         var args = [{}, 'testProperty'];
         afterEach(() => {
             // reset to default
             args[0] = {};
         })
         test('obj => SUCCESS', () => {
-            expect(() => gbpu(...args)).not.toThrow();
+            expect(() => f(...args)).not.toThrow();
         });
         test('arr => ERROR', () => {
             args[0] = [];
-            expect(() => gbpu(...args)).toThrow();
+            expect(() => f(...args)).toThrow();
         });
         test('number => ERROR', () => {
             args[0] = 1;
-            expect(() => gbpu(...args)).toThrow();
+            expect(() => f(...args)).toThrow();
         });
         test('boolean => ERROR', () => {
             args[0] = true;
-            expect(() => gbpu(...args)).toThrow();
+            expect(() => f(...args)).toThrow();
         });
         test('string => ERROR', () => {
             args[0] = 'spam';
-            expect(() => gbpu(...args)).toThrow();
+            expect(() => f(...args)).toThrow();
         });
     });
-    describe('"tProp" 2 type-checking', () => {
-        test.todo('string => SUCCESS');
-        test.todo('obj => ERROR');
-        test.todo('arr => ERROR');
-        test.todo('number => ERROR');
-        test.todo('boolean => ERROR');
+    describe('"prop" type-checking', () => {
+        var testProperty = 'testProperty';
+        var args = [{}, testProperty];
+        afterEach(() => {
+            // reset to default
+            args[1] = testProperty;
+        })
+        test('string => SUCCESS', () => {
+            expect(() => f(...args)).not.toThrow();
+        });
+        test('obj => ERROR', () => {
+            args[1] = {};
+            expect(() => f(...args)).toThrow();
+        });
+        test('arr => ERROR', () => {
+            args[1] = [];
+            expect(() => f(...args)).toThrow();
+        });
+        test('number => ERROR', () => {
+            args[1] = 1;
+            expect(() => f(...args)).toThrow();
+        });
+        test('boolean => ERROR', () => {
+            args[1] = true;
+            expect(() => f(...args)).toThrow();
+        });
     });
-    describe('"tVal" 3 type-checking', () => {
-        test.todo('string => SUCCESS');
-        test.todo('obj => ERROR');
-        test.todo('arr => ERROR');
-        test.todo('number => ERROR');
-        test.todo('boolean => ERROR');
-    });    
-    describe('functionality', () => {
-
+    describe('return value', () => {
+        test('returns a function', () => {
+            expect(typeof f(testObj, testProperty)).toMatch('function')
+        });
     });
 });

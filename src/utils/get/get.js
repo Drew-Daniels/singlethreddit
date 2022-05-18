@@ -28,5 +28,6 @@
 export function getBoundPropertyUpdater(obj, prop) {
     if (arguments.length < 2) { throw new Error('All arguments are required')};
     if (!(typeof obj === 'object') || Array.isArray(obj)) { throw new Error('"obj" must be an object')};
+    if (!(typeof prop === 'string')) { throw new Error('"prop" must be type string')};
     return getUpdatedObject.bind(null, obj, prop);
 }
