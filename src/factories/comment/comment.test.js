@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import Comment from './comment';
-import {getUpdatedObj as guo} from '../../utils/get/get';
+import {getUpdatedObject} from '../../utils/get/get';
 
 var defaultConfig = {
     // REQUIRED - no default arguments provided
@@ -17,13 +17,7 @@ var defaultConfig = {
  * @param {any} tValue 
  * @returns [Config object]
  */
-function getTestConfig(tProperty, tValue) {
-    var tConfig = {...defaultConfig}
-    if (arguments) {
-        tConfig[tProperty] = tValue;
-    }
-    return tConfig;
-}
+var getTestConfig = getUpdatedObject.bind(null, defaultConfig);
 
 describe('REQUIRED parameters', () => {
     describe('email', () => {
@@ -31,11 +25,12 @@ describe('REQUIRED parameters', () => {
         var getConfig;
         beforeAll(() => {
             tProperty = 'email';
-            getConfig = getTestConfig.bind(null, tProperty);
+            getConfig = getTestConfig.bind(tProperty);
         });
         test('valid google email => SUCCESS', () => {
             var tValue = process.env.VALID_GMAIL_ADDRESS;
             var config = getConfig(tValue);
+            console.log(config);
             expect(Comment(config))
                 .toMatchObject({ email : tValue });
         });
@@ -69,7 +64,7 @@ describe('REQUIRED parameters', () => {
         var getConfig;
         beforeAll(() => {
             tProperty = 'groupName';
-            getConfig = getTestConfig.bind(null, tProperty);
+            getConfig = getTestConfig.bind(tProperty);
         });
         test('non-blank string => SUCCESS', () => {
             var tValue= 'spam';
@@ -107,7 +102,7 @@ describe('REQUIRED parameters', () => {
         var getConfig;
         beforeAll(() => {
             tProperty = 'body';
-            getConfig = getTestConfig.bind(null, tProperty);
+            getConfig = getTestConfig.bind(tProperty);
         });
         test('non-blank string => SUCCESS', () => {
             var tValue = 'spam';
@@ -261,7 +256,7 @@ describe('OPTIONAL parameters', () => {
         var getConfig;
         beforeAll(() => {
             tProperty = 'timeEdited';
-            getConfig = getTestConfig.bind(null, tProperty);
+            getConfig = getTestConfig.bind(tProperty);
         });
         test('int > 0 => SUCCESS', () => {
             var tValue = 1;
@@ -311,7 +306,7 @@ describe('OPTIONAL parameters', () => {
         var getConfig;
         beforeAll(() => {
             tProperty = 'numUpvotes';
-            getConfig = getTestConfig.bind(null, tProperty);
+            getConfig = getTestConfig.bind(tProperty);
         });
         test('0 => SUCCESS', () => {
             var tValue = 0;
@@ -355,7 +350,7 @@ describe('OPTIONAL parameters', () => {
         var getConfig;
         beforeAll(() => {
             tProperty = 'numDownvotes';
-            getConfig = getTestConfig.bind(null, tProperty);
+            getConfig = getTestConfig.bind(tProperty);
         });
         test('0 => SUCCESS', () => {
             var tValue = 0;
@@ -399,7 +394,7 @@ describe('OPTIONAL parameters', () => {
         var getConfig;
         beforeAll(() => {
             tProperty = 'title';
-            getConfig = getTestConfig.bind(null, tProperty);
+            getConfig = getTestConfig.bind(tProperty);
         });
         test('non-blank string => SUCCESS', () => {
             var tValue = 'spam';

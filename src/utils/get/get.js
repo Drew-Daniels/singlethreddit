@@ -4,10 +4,9 @@
  * @param {object} tObj - target object you want to update the property-value pair of
  * @param {string} tProp - target property you want to override
  * @param {any} tVal - target value to set the target property to
- * NOTE: If 3 arguments are not provided, a copy of target object is returned unchanged.
  * @returns [object]
  */
- export function getUpdatedObj(tObj, tProp, tVal) {
+ export function getUpdatedObject(tObj, tProp, tVal) {
     var tConfig = {...tObj}
     if (arguments.length === 3) {
         if (!isObj(tObj)) { throw new Error('"tObj" must be an object')};
@@ -19,4 +18,12 @@
     
     function isObj(obj) {return typeof obj === 'object'};
     function isString(target) { return typeof target === 'string'};
+}
+/**
+ * @param {object} obj 
+ * @param {string} prop 
+ * @returns [object]
+ */
+export const getBoundObjectUpdater = (obj, prop) => {
+    return getUpdatedObject.bind(obj, prop);
 }

@@ -39,11 +39,11 @@ describe('delLastObjItem', () => {
     describe('"obj" contents', () => {
         test('object w/ 1 property => SUCCESS', () => {
             var thisTestObject = {...testObject};
-            expect(d(thisTestObject)).toMatch({});
+            expect(d(thisTestObject)).toMatchObject({});
         });
         test('object w/ 0 properties => SUCCESS', () => {
             var thisTestObject = {...emptyObject};
-            expect(d(thisTestObject)).toMatch({});
+            expect(d(thisTestObject)).toMatchObject({});
         });
     })
 });

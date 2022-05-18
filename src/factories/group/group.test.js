@@ -1,5 +1,5 @@
 import Group from './group';
-import {getUpdatedObj as guo} from '../../utils/get/get';
+import {getUpdatedObject} from '../../utils/get/get';
 
 var defaultConfig = {
     // REQUIRED - no default arguments provided
@@ -8,7 +8,14 @@ var defaultConfig = {
     // default args...
 }
 
-var getDefaultConfig = guo.bind(null, defaultConfig);
+/**
+ * Returns a copy of the default configuration object with updated key-value pair if provided as args.
+ * If no arguments are provided, a copy of the default configuration is returned.
+ * @param {string} tProperty 
+ * @param {any} tValue 
+ * @returns [Config object]
+ */
+ var getTestConfig = getUpdatedObject.bind(null, defaultConfig);
 
 describe('REQUIRED parameters', () => {
     
