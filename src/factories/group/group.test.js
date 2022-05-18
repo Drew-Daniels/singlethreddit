@@ -1,6 +1,17 @@
 import Group from './group';
+import {getUpdatedObj as guo} from '../../utils/get/get';
+
+var defaultConfig = {
+    // REQUIRED - no default arguments provided
+    name: 'fakegroup',
+    description: 'We are a fake group',
+    // default args...
+}
+
+var getDefaultConfig = guo.bind(null, defaultConfig);
 
 describe('REQUIRED parameters', () => {
+    
     describe('baseName', () => {
         test.todo('non-blank string => SUCCESS');
         test.todo('blank string => ERROR');

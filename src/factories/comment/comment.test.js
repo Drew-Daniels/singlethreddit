@@ -1,12 +1,13 @@
 import 'dotenv/config';
 import Comment from './comment';
+import {getUpdatedObj as guo} from '../../utils/get/get';
 
 var defaultConfig = {
-    // REQUIRED - no defualt arguments provided
+    // REQUIRED - no default arguments provided
     email: process.env.VALID_GMAIL_ADDRESS,
     groupName: 'fakegroup',
     body: 'This will be a comment body',
-    // default arguments from Comment factory will be used for all other arguments
+    // default args...
 };
 
 /**
