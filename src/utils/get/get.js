@@ -20,6 +20,8 @@
     function isString(target) { return typeof target === 'string'};
 }
 /**
+ * Returns a bound function that updates a specific property on a given object
+ * with a passed in value.
  * @param {object} obj 
  * @param {string} prop 
  * @returns [object]

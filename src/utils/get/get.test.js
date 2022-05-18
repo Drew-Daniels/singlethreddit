@@ -28,59 +28,98 @@ describe('getUpdatedObject', () => {
             expect(() => guo(...args)).not.toThrow();
         });
     });
-    
     describe('"tObj" type-checking', () => {
         var defaultArgs = getArgs();
+        var args;
+        beforeEach(() => {
+            args = [...defaultArgs];
+        })
         test('obj => SUCCESS', () => {
-            var args = [...defaultArgs]
             args[0] = {};
             expect(() => guo(...args)).not.toThrow();
         });
         test('arr => SUCCESS', () => {
-            var args = [...defaultArgs]
             args[0] = [];
             expect(() => guo(...args)).not.toThrow();
         });
         test('number => ERROR', () => {
-            var args = [...defaultArgs]
             args[0] = 1;
             expect(() => guo(...args)).toThrow();
         });
         test('boolean => ERROR', () => {
-            var args = [...defaultArgs]
             args[0] = true;
             expect(() => guo(...args)).toThrow();
         });
         test('string => ERROR', () => {
-            var args = [...defaultArgs]
             args[0] = 'spam';
             expect(() => guo(...args)).toThrow();
         });
     });
-    
     describe('"tProp" 2 type-checking', () => {
-        test.todo('string => SUCCESS');
-        test.todo('obj => ERROR');
-        test.todo('arr => ERROR');
-        test.todo('number => ERROR');
-        test.todo('boolean => ERROR');
+        var defaultArgs = getArgs();
+        var args;
+        beforeEach(() => {
+            args = [...defaultArgs];
+        })
+        test('string => SUCCESS', () => {
+            args[1] = 'spam';
+            expect(() => guo(...args)).not.toThrow();
+        });
+        test('obj => ERROR', () => {
+            args[1] = {};
+            expect(() => guo(...args)).toThrow();
+        });
+        test('arr => ERROR', () => {
+            args[1] = [];
+            expect(() => guo(...args)).toThrow();
+        });
+        test('number => ERROR', () => {
+            args[1] = 1;
+            expect(() => guo(...args)).toThrow();
+        });
+        test('boolean => ERROR', () => {
+            args[1] = true;
+            expect(() => guo(...args)).toThrow();
+        });
     });
-    
     describe('"tVal" 3 type-checking', () => {
-        test.todo('string => SUCCESS');
-        test.todo('obj => ERROR');
-        test.todo('arr => ERROR');
-        test.todo('number => ERROR');
-        test.todo('boolean => ERROR');
-    });    
+        var defaultArgs = getArgs();
+        var args;
+        beforeEach(() => {
+            args = [...defaultArgs];
+        })
+        test('string => SUCCESS', () => {
+            args[1] = 'spam';
+            expect(() => guo(...args)).not.toThrow();
+        });
+        test('obj => ERROR', () => {
+            args[2] = {};
+            expect(() => guo(...args)).toThrow();
+        });
+        test('arr => ERROR', () => {
+            args[2] = [];
+            expect(() => guo(...args)).toThrow();
+        });
+        test('number => ERROR', () => {
+            args[2] = 1;
+            expect(() => guo(...args)).toThrow();
+        });
+        test('boolean => ERROR', () => {
+            args[2] = true;
+            expect(() => guo(...args)).toThrow();
+        });
+    });
+    describe('functionality', () => {
+        test.todo('1 valid arg => copy of obj');
+        test.todo('2 valid args => copy of obj');
+        test.todo('3 valid args => copy of obj w/ updated property value');
+    })
 });
 
 describe('getBoundObjectUpdater', () => {
-
     describe('argument length', () => {
 
     });
-    
     describe('"tObj" type-checking', () => {
         test.todo('obj => SUCCESS');
         test.todo('arr => ERROR');
@@ -88,7 +127,6 @@ describe('getBoundObjectUpdater', () => {
         test.todo('boolean => ERROR');
         test.todo('string => ERROR');
     });
-    
     describe('"tProp" 2 type-checking', () => {
         test.todo('string => SUCCESS');
         test.todo('obj => ERROR');
@@ -96,7 +134,6 @@ describe('getBoundObjectUpdater', () => {
         test.todo('number => ERROR');
         test.todo('boolean => ERROR');
     });
-    
     describe('"tVal" 3 type-checking', () => {
         test.todo('string => SUCCESS');
         test.todo('obj => ERROR');
@@ -104,5 +141,7 @@ describe('getBoundObjectUpdater', () => {
         test.todo('number => ERROR');
         test.todo('boolean => ERROR');
     });    
+    describe('functionality', () => {
 
+    });
 });
