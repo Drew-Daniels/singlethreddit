@@ -1,49 +1,66 @@
-import { deleteLastObjectProperty as d } from "./delete";
+import { pop } from "./delete";
 
+var testObject = { prop: 'val' };
 var emptyObject = {};
-var testObject = { prop: 'val' }
+var testArray = ['onlyitem'];
+var emptyArray = [];
 
-describe('delLastObjItem', () => {
+describe('pop', () => {
     describe('arg length', () => {
         var thisTestObject;
         beforeEach(() => {
             thisTestObject = {...testObject}
         })
         test('2 args => ERROR', () => {
-            expect(() => d(thisTestObject, 'spam')).not.toThrow();
+            expect(() => pop(thisTestObject, 'spam')).not.toThrow();
         })
-        test('1 arg => ERROR', () => {
-            expect(() => d(thisTestObject)).not.toThrow();
+        test('1 arg => SUCCESS', () => {
+            expect(() => pop(thisTestObject)).not.toThrow();
         });
         test('0 args => ERROR', () => {
-            expect(() => d()).toThrow();
+            expect(() => pop()).toThrow();
         });
     })
     describe('"obj" argument type checking', () => {
         test('obj => SUCCESS', () => {
-            expect(() => d({})).not.toThrow();
+            expect(() => pop({})).not.toThrow();
         });
-        test('arr => ERROR', () => {
-            expect(() => d([])).toThrow();
+        test('arr => SUCCESS', () => {
+            expect(() => pop([])).not.toThrow();
         });
         test('number => ERROR', () => {
-            expect(() => d(1)).toThrow();
+            expect(() => pop(1)).toThrow();
         });
         test('boolean => ERROR', () => {
-            expect(() => d(true)).toThrow();
+            expect(() => pop(true)).toThrow();
         });
         test('string => ERROR', () => {
-            expect(() => d('spam')).toThrow();
+            expect(() => pop('spam')).toThrow();
         });
     });
-    describe('"obj" contents', () => {
-        test('object w/ 1 property => SUCCESS', () => {
-            var thisTestObject = {...testObject};
-            expect(d(thisTestObject)).toMatchObject({});
+    describe('functionality', () => {
+        describe('objects', () => {
+            var expected = {};
+            test('object w/ 1 property => object w/ 0 properties', () => {
+                var thisTestObject = {...testObject};
+                expect(pop(thisTestObject)).toMatchObject(expected);
+            });
+            test('object w/ 0 properties => object w/ 0 properties', () => {
+                var thisTestObject = {...emptyObject};
+                expect(pop(thisTestObject)).toMatchObject(expected);
+            });
         });
-        test('object w/ 0 properties => SUCCESS', () => {
-            var thisTestObject = {...emptyObject};
-            expect(d(thisTestObject)).toMatchObject({});
+        describe('arrays', () => {
+            var expected = [];
+            test('array w/ 1 element => array w/ 0 elements', () => {
+                var thisTestArray = [...testArray];
+                console.log(thisTestArray)
+                expect(pop(thisTestArray)).toEqual(expect.arrayContaining(expected));
+            });
+            test('array w/ 0 elements => array w/ 0 elements', () => {
+                var thisTestArray = [...emptyArray];
+                expect(pop(thisTestArray)).toEqual(expect.arrayContaining(expected));
+            });
         });
-    })
+    });
 });

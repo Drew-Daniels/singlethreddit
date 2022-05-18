@@ -1,24 +1,22 @@
 import {getUpdatedObject as guo, getBoundObjectUpdater as gbou} from './get'
-import { deleteLastObjectProperty } from '../delete/delete';
+import { pop } from '../delete/delete';
 
-var defaultArgs = [
+const getArgs = () => ([
     {testProperty: 'testValue'},
     'testProperty', 
     'newValue'
-];
-
-const getConfig = () => defaultArgs;
+])
 
 describe('getUpdatedObject', () => {
     describe('argument length', () => {
-        var config = getConfig();
+        var args = getArgs();
         beforeEach(() => {
-            if (!config.length === 3) {
-                deleteLastObjectProperty(config);
+            if (args.length < 3) {
+                pop(args);
             }
         });
         test('arguments.length === 3 => SUCCESS', () => {
-            expect(() => guo(config)).not.toThrow();
+            expect(() => guo(...config)).not.toThrow();
         });
         test('arguments.length === 2 => SUCCESS', () => {
             expect(() => guo(config)).not.toThrow();
@@ -32,11 +30,22 @@ describe('getUpdatedObject', () => {
     });
     
     describe('"tObj" type-checking', () => {
-        test.todo('obj => SUCCESS');
-        test.todo('arr => ERROR');
-        test.todo('number => ERROR');
-        test.todo('boolean => ERROR');
-        test.todo('string => ERROR');
+        var config = getConfig();
+        test('obj => SUCCESS', () => {
+            expect(() => guo({})).not.toThrow();
+        });
+        test('arr => ERROR', () => {
+            expect(() => guo([])).toThrow();
+        });
+        test('number => ERROR', () => {
+            expect(() => guo(1)).toThrow();
+        });
+        test('boolean => ERROR', () => {
+            expect(() => guo(true)).toThrow();
+        });
+        test('string => ERROR', () => {
+            expect(() => guo('spam')).toThrow();
+        });
     });
     
     describe('"tProp" 2 type-checking', () => {

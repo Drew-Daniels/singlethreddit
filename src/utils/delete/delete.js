@@ -1,14 +1,10 @@
 /**
- * Deletes the last property of a given object
- * @param {object} obj 
+ * Deletes the last property of a given object or array
+ * @param {object} obj
  */
-export function deleteLastObjectProperty (obj) {
-    console.log(obj)
+export function pop(obj) {
     if (!(typeof obj === 'object')) {
-        throw new Error('"obj" must be an object');
-    }
-    if (Array.isArray(obj)) {
-        throw new Error('"obj" cannot be an array');
+        throw new Error('"obj" must be an object (includes Arrays)');
     }
     if (!(obj.length === undefined)) {
         delete obj[obj.length-1];
