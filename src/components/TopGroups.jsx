@@ -4,7 +4,7 @@ import TopGroup from './TopGroup';
 export default function TopGroups(props) {
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
             <TopGroup />
             <TopGroup />
             <TopGroup />

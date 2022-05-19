@@ -4,7 +4,7 @@ import TopGroups from './TopGroups';
 export default function Sidebar(props) {
 
     return (
-        <Container sx={{ display: 'flex', flexDirection: 'column', border: '1px solid blue' }}>
+        <Container sx={{ display: 'flex', flexDirection: 'column', border: '1px solid blue', alignItems: 'center', padding: 0 }}>
             <TopGroups />
         </Container>
     )

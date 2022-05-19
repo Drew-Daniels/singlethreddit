@@ -34,7 +34,7 @@ function App() {
   );
 
   return (
-      <Container maxWidth={'xl'} disableGutters className="App" sx={{ minHeight: '100vh' }}>
+      <Container maxWidth={false} disableGutters className="App" sx={{ minHeight: '100vh' }}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Navbar AppIcon={AppIcon} appName={appName} signIn={signIn} user={user} />
