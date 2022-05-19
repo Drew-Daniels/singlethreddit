@@ -1,22 +1,16 @@
 import Grid from '@mui/material/Grid';
 import Feed from '../components/Feed';
-import Sidebar from '../components/Sidebar';
+import Layout from '../components/Layout';
+import TopGroups from '../components/TopGroups';
 import { useOutletContext } from 'react-router-dom';
 
 export default function HomePage(props) {
 
     const { userAvatar } = useOutletContext();
 
+    console.log(Feed);
+
     return (
-        <Grid container spacing={2} sx={{ marginTop: '1rem'}}>
-            <Grid item md={2}/>
-            <Grid item xs={12} sm={9} md={5}>
-                <Feed userAvatar={userAvatar} />
-            </Grid>
-            <Grid item sm={0} md={3}>
-                <Sidebar />
-            </Grid>
-            <Grid item md={2} />
-        </Grid>
+        <Layout mainComponent={<Feed />} sidebarComponent={<TopGroups />} />
     )
 }
