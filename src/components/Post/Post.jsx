@@ -4,7 +4,7 @@ import Votes from './Votes';
 export default function Post(props) {
 
     return (
-        <Grid container>
+        <Grid container sx={{ marginBottom: '1rem'}}>
             <Grid item>
                 <Votes />
             </Grid>
