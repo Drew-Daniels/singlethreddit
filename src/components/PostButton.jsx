@@ -12,12 +12,12 @@ export default function PostButton(props) {
     }
 
     return (
-        <Grid container sx={{ border: '1px solid yellow', marginBottom: '1rem'}} onClick={ handleClick }>
-            <Grid item>
+        <Grid container sx={{ border: '1px solid yellow', marginBottom: '1rem'}} onClick={handleClick}>
+            <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Avatar src={userAvatar} alt='User Avatar'></Avatar>
             </Grid>
-            <Grid item>
-                <TextField fullWidth label="Create Post" disabled />
+            <Grid item xs={10} sx={{ display: 'flex', alignItems: 'center' }}>
+                <TextField fullWidth label="Create Post" />
             </Grid>
         </Grid>
     )
