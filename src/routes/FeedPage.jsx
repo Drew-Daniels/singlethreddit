@@ -1,6 +1,10 @@
+import { useOutletContext } from "react-router-dom"
+
 export default function FeedPage(props) {
 
+    const { user } = useOutletContext();
+
     return (
-        <main>FeedPage here</main>
+        <main>Feed Page here</main>
     )
 }

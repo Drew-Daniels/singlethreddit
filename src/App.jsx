@@ -13,13 +13,14 @@ import Navbar from './components/Navbar';
 function App() {
   const appName = 'Singlethreddit'
   const [user, setUser] = useState(null);
+  const [userAvatar, setUserAvatar] = useState('');
+
   useEffect(() => {
     auth.onAuthStateChanged(user => {
       setUser(user);
+      setUserAvatar(user.photoURL);
     })
-  }, [])
-
-  console.log(user);
+  }, []);
 
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const theme = useMemo(
@@ -37,7 +38,7 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Navbar AppIcon={AppIcon} appName={appName} signIn={signIn} user={user} />
-          <Outlet user={user} />
+          <Outlet context={{userAvatar}} />
         </ThemeProvider>
       </Container>
   );

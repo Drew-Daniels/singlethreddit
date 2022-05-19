@@ -1,4 +1,5 @@
-import * as React from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -59,9 +60,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function PrimarySearchAppBar(props) {
 
   const { AppIcon, appName, signIn, user } = props;
-
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const navigate = useNavigate();
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleMobileMenuClose = () => {
@@ -71,6 +71,14 @@ export default function PrimarySearchAppBar(props) {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  function goToHome() {
+    navigate('/');
+  }
+
+  function goToSubmit() {
+    navigate('submit');
+  }
 
   const menuId = 'primary-search-account-menu';
 
@@ -96,6 +104,7 @@ export default function PrimarySearchAppBar(props) {
           size="large"
           aria-label="show 17 new notifications"
           color="inherit"
+          onClick={goToSubmit}
         >
           <Badge badgeContent={17} color="error">
             <AddIcon />
@@ -142,6 +151,7 @@ export default function PrimarySearchAppBar(props) {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
+            onClick={goToHome}
           >
             <SvgIcon component={AppIcon} /> 
           </IconButton>
@@ -150,6 +160,7 @@ export default function PrimarySearchAppBar(props) {
             noWrap
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
+            onClick={goToHome}
           >
             {appName}
           </Typography>
@@ -167,6 +178,7 @@ export default function PrimarySearchAppBar(props) {
               size="large"
               aria-label="Create a new post"
               color="inherit"
+              onClick={goToSubmit}
             >
                 <AddIcon />
             </IconButton>
