@@ -8,9 +8,7 @@ export default function HomePage(props) {
 
     const { userAvatar } = useOutletContext();
 
-    console.log(Feed);
-
     return (
-        <Layout mainComponent={<Feed />} sidebarComponent={<TopGroups />} />
+        <Layout mainComponent={<Feed userAvatar={userAvatar} />} sidebarComponent={<TopGroups />} />
     )
 }
