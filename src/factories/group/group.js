@@ -30,8 +30,7 @@ const Group = ({
             displayName,
             description,
             timeCreated,
-            members,
-            getBaseNameAsPath: () => `g/${baseName}`,
+            members
         }
     )
 

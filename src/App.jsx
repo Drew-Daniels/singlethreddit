@@ -14,11 +14,12 @@ function App() {
   const appName = 'Singlethreddit'
   const [user, setUser] = useState(null);
   const [userAvatar, setUserAvatar] = useState('');
+  const [groups, setGroups] = useState([]);
 
   useEffect(() => {
     auth.onAuthStateChanged(user => {
-      setUser(user);
-      setUserAvatar(user.photoURL);
+      setUser(prevUser => user);
+      setUserAvatar(prevAvatar => user.photoURL);
     })
   }, []);
 
