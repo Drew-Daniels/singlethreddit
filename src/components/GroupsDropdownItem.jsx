@@ -8,9 +8,9 @@ export default function GroupDropdownItem(props) {
     const navigate = useNavigate();
 
     return (
-        <MenuItem onClick={() => navigate(`g/${group}`)} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} disableRipple>
+        <MenuItem onClick={() => navigate(`g/${group.baseName}`)} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} disableRipple>
             <Avatar />
-            {group}
+            {group.baseName}
         </MenuItem>
     )
 }

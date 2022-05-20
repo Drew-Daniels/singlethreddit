@@ -1,4 +1,5 @@
 import { auth, signIn, db, storage } from './firebase-setup';
+import { getAllGroups } from './db/groups/groups';
 
 import 'firebaseui/dist/firebaseui.css'
 import { useState, useEffect, useMemo } from 'react';
@@ -19,8 +20,14 @@ function App() {
   useEffect(() => {
     auth.onAuthStateChanged(user => {
       setUser(prevUser => user);
-      setUserAvatar(prevAvatar => user.photoURL);
-    })
+      setUserAvatar(prevAvatar => (user ? user.photoURL: ''));
+    });
+    loadGroups();
+
+    async function loadGroups() {
+      const gs = await getAllGroups();
+      setGroups(gs);
+    }
   }, []);
 
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -38,7 +45,7 @@ function App() {
       <Container maxWidth={false} disableGutters className="App" sx={{ minHeight: '100vh' }}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Navbar AppIcon={AppIcon} appName={appName} signIn={signIn} user={user} />
+          <Navbar AppIcon={AppIcon} appName={appName} signIn={signIn} user={user} groups={groups} />
           <Outlet context={{userAvatar}} />
         </ThemeProvider>
       </Container>

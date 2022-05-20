@@ -60,7 +60,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function PrimarySearchAppBar(props) {
 
-  const { AppIcon, appName, signIn, user } = props;
+  const { AppIcon, appName, signIn, user, groups } = props;
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const navigate = useNavigate();
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -165,7 +165,7 @@ export default function PrimarySearchAppBar(props) {
           >
             {appName}
           </Typography>
-          <GroupsDropdown />
+          <GroupsDropdown groups={groups} />
           <Search sx={{ flexGrow: 1}}>
             <SearchIconWrapper>
               <SearchIcon />
@@ -193,7 +193,8 @@ export default function PrimarySearchAppBar(props) {
               color="inherit"
               onClick={signIn}
             >
-              {user ? <Avatar src={user.photoURL} alt='user avatar'/> : <Avatar src={AccountCircleIcon} alt='user avatar'/> }
+              {user && <Avatar src={user.photoURL} alt='user avatar'/>}
+              {!user && <Avatar />}
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>

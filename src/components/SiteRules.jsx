@@ -1,5 +1,5 @@
-import Rules from './Rules';
-import Rule from '../factories/Rule';
+import Rules from './Rules/Rules';
+import Rule from '../factories/rule/rule';
 
 export default function SiteRules(props) {
 

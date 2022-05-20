@@ -5,12 +5,6 @@ import Menu from '@mui/material/Menu';
 import GroupsDropdownItem from './GroupsDropdownItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-const groups = [
-  'group1',
-  'group2',
-  'group3'
-]
-
 const StyledMenu = styled((props) => (
   <Menu
     elevation={0}
@@ -52,7 +46,8 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-export default function CustomizedMenus() {
+export default function GroupsDropdown(props) {
+  const { groups } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -87,7 +82,7 @@ export default function CustomizedMenus() {
       >
         {groups.map((group, i) => {
           return (
-            <GroupsDropdownItem group={group} />
+            <GroupsDropdownItem key={i} group={group} />
           )
         })}
       </StyledMenu>

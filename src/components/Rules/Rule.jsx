@@ -2,12 +2,12 @@ import Box from '@mui/material/Box';
 
 export default function Rule(props) {
 
-    const { number, text } = props;
+    const { number, description } = props;
 
     return (
-        <Box sx={{  }}>
+        <Box>
             <span>{number}</span>
-            <span>{text}</span>
+            <span>{description}</span>
         </Box>        
     )
 }
