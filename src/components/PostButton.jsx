@@ -17,7 +17,7 @@ export default function PostButton(props) {
                 <Avatar src={userAvatar} alt='User Avatar'></Avatar>
             </Grid>
             <Grid item xs={10} sx={{ display: 'flex', alignItems: 'center' }}>
-                <TextField fullWidth label="Create Post" />
+                <TextField fullWidth label="create-post-button" placeholder='Create Post'/>
             </Grid>
         </Grid>
     )

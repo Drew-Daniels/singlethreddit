@@ -16,6 +16,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AddIcon from '@mui/icons-material/Add';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import SvgIcon from '@mui/material/SvgIcon';
+import GroupsDropdown from './GroupsDropdown';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -164,6 +165,7 @@ export default function PrimarySearchAppBar(props) {
           >
             {appName}
           </Typography>
+          <GroupsDropdown />
           <Search sx={{ flexGrow: 1}}>
             <SearchIconWrapper>
               <SearchIcon />

@@ -22,7 +22,7 @@ root.render(
             <Route index element={<UsersPage />} />
             <Route path=':userId' element={<UserPage />} />
           </Route>
-          <Route path='groups'>
+          <Route path='g'>
             <Route index element={<GroupsPage />} />
             <Route path=':groupName'>
               <Route index element={<GroupPage />} />

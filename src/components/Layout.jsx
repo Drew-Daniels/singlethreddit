@@ -1,11 +1,9 @@
 import Grid from '@mui/material/Grid';
 import Main from '../components/Main';
 import Sidebar from '../components/Sidebar';
-import { useOutletContext } from 'react-router-dom';
 
 export default function Layout(props) {
 
-    const { userAvatar } = useOutletContext();
     const { mainComponent, sidebarComponent } = props;
 
     return (
