@@ -3,7 +3,7 @@ import { collection, doc, getDoc, getDocs, setDoc, deleteDoc } from 'firebase/fi
 import { db } from '../../firebase-setup';
 import { GROUPS_COLLECTION_NAME } from '../../constants';
 
-const groupsRef = collection(db, 'groups');
+const groupsRef = collection(db, GROUPS_COLLECTION_NAME);
 
 /**
  * Deletes a group with the provided baseName.
@@ -12,7 +12,7 @@ const groupsRef = collection(db, 'groups');
  */
 async function delGroup(baseName) {
     try {
-        await deleteDoc(doc(db, 'groups', baseName));
+        await deleteDoc(doc(db, GROUPS_COLLECTION_NAME, baseName));
         console.log('Document deleted w/ ID: ', baseName);
         return true;
     }
@@ -91,7 +91,7 @@ async function setGroup(baseName, displayName, description, timeCreated, members
         members
     });
     try {
-        const dRef = await setDoc(doc(db, 'groups', baseName), group);
+        const dRef = await setDoc(doc(db, GROUPS_COLLECTION_NAME, baseName), group);
         console.log('Document written w/ ID: ', dRef.id);
         return true;
     } 
