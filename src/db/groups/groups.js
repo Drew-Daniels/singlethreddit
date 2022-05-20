@@ -1,7 +1,7 @@
 import Group from '../../factories/group/group';
-import { collection, doc, getDoc, getDocs, setDoc, deleteDoc, query, where } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, setDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../firebase-setup';
-import { GROUPS_COLLECTION_NAME, COMMENTS_COLLECTION_NAME } from '../../constants';
+import { GROUPS_COLLECTION_NAME } from '../../constants';
 
 const groupsRef = collection(db, 'groups');
 
@@ -75,14 +75,14 @@ async function getAllGroups() {
 }
 
 /**
- * Adds a group to Firestore. "baseName" is used as the id field.
+ * Adds a group to Firestore if it does not already exist, otherwise it overwrites. "baseName" is used as the id field.
  * @param {string} baseName 
  * @param {string} displayName 
  * @param {string} description 
  * @param {integer} timeCreated 
  * @param {array} members 
  */
-async function addGroup(baseName, displayName, description, timeCreated, members) {
+async function setGroup(baseName, displayName, description, timeCreated, members) {
     const group = Group({
         baseName,
         displayName,
@@ -106,5 +106,5 @@ export {
     getGroup,
     getGroups,
     getAllGroups,
-    addGroup,
+    setGroup,
 }
