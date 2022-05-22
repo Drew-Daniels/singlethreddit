@@ -80,7 +80,9 @@ async function getAllComments() {
 }
 
 async function getAllPosts() {
-
+    const comments = await getAllComments();
+    comments.filter(comment => comment.parentId === '');
+    return comments;
 }
 
 /**
@@ -120,5 +122,6 @@ export {
     getComment,
     getComments,
     getAllComments,
+    getAllPosts,
     setComment,
 }

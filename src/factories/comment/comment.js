@@ -1,5 +1,5 @@
-import { MIN_TIMESTAMP, MIN_UPVOTES, MIN_DOWNVOTES } from '../../constants';
-import EmailValidation from 'emailvalid';
+import { MIN_UPVOTES, MIN_DOWNVOTES } from '../../constants';
+import { serverTimestamp, Timestamp } from 'firebase/firestore';
 /**
  * Factory function that runs checks on passed in values that are to be used to create a Comment document in the database.
  * @param {string} parentId 
@@ -19,8 +19,8 @@ import EmailValidation from 'emailvalid';
     groupName, 
     body,
     parentId='',
-    timeCreated=Date.now(), 
-    timeEdited=Date.now(), 
+    timeCreated=serverTimestamp(), 
+    timeEdited=serverTimestamp(), 
     numUpvotes=0, 
     numDownvotes=0, 
     title=''
@@ -72,10 +72,10 @@ import EmailValidation from 'emailvalid';
     }
     function validTimeCreated(timeCreated) {
         // 	1652763600 is 2022-05-17 00:00:00 in YYYY-MM-DD format
-        return (Number.isInteger(timeCreated) && timeCreated > MIN_TIMESTAMP);
+        return (timeCreated instanceof Timestamp);
     }
     function validTimeEdited(timeEdited) {
-        return (Number.isInteger(timeEdited) && timeEdited > MIN_TIMESTAMP);
+        return (timeEdited instanceof Timestamp);
     }
     function validNumUpvotes(numUpvotes) {
         return (Number.isInteger(numUpvotes) && numUpvotes >= MIN_UPVOTES);

@@ -1,9 +1,9 @@
-import { MIN_TIMESTAMP } from "../../constants";
 import { getGroupAvatarDownloadURL } from '../../db/groups/groups';
+import { serverTimestamp, Timestamp } from 'firebase/firestore';
 /**
  * Factory function that runs checks on passed in values that are to be used to create a Group document in the database.
  * @param {string} baseName
- * @param {string} display
+ * @param {string} displayName
  * @param {string} description
  * @param {integer} timeCreated
  * @param {array} members
@@ -13,7 +13,7 @@ const Group = ({
     baseName,
     displayName,
     description,
-    timeCreated=Date.now(),
+    timeCreated=serverTimestamp(),
     members=[]
     } = {}) => {
     // run checks here
@@ -22,7 +22,7 @@ const Group = ({
     if (!displayNameValid(displayName)) { throw new Error('"displayName" is required and must be a non-blank string') };
     if (!descriptionValid(description)) { throw new Error('"description" is required and must be a non-blank string')};
     // OPTIONAL
-    if (!timeCreatedValid(timeCreated)) { throw new Error(`"timeCreated" must be an integer greater than ${MIN_TIMESTAMP}`) };
+    if (!timeCreatedValid(timeCreated)) { throw new Error(`"timeCreated" must be provided and of a Firebase Firestore "Timestamp" data type`)};
     if (!membersValid(members)) { throw new Error('"members" must be an array') };
     // return object after validation
     return (
@@ -48,7 +48,7 @@ const Group = ({
         return (description && typeof description === 'string');
     };
     function timeCreatedValid(timeCreated) {
-        return (Number.isInteger(timeCreated) && timeCreated > MIN_TIMESTAMP);
+        return (timeCreated instanceof Timestamp);
     };
     function membersValid(members) {
         return (Array.isArray(members));

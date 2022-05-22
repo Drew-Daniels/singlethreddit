@@ -1,5 +1,5 @@
 import Group from '../../factories/group/group';
-import { collection, doc, getDoc, getDocs, setDoc, deleteDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, setDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage'
 import { getFileRef } from '../../utils/get/get';
 import { db, storage } from '../../firebase-setup';
@@ -31,13 +31,7 @@ async function getGroup(baseName) {
         const dSnap = await getDoc(dRef);
         if (dSnap.exists()) {
             const gd = dSnap.data();
-            var group = Group({
-                baseName: gd.base_name,
-                displayName: gd.display_name,
-                description: gd.description,
-                timeCreated: gd.time_created,
-                members: gd.members
-            })
+            var group = Group(...gd)
         }
         return group;
     }
@@ -73,15 +67,11 @@ async function getAllGroups() {
     const qSnap = await getDocs(groupsRef);
     qSnap.forEach((g) => {
         const gd = g.data();
-        const group = Group({
-            baseName: gd.base_name,
-            displayName: gd.display_name,
-            description: gd.description,
-            timeCreated: gd.time_created,
-            members: gd.members
-        })
+        console.log(gd);
+        const group = Group(gd)
         groups.push(group);
     })
+    console.log(groups);
     return groups;
 }
 
@@ -104,12 +94,12 @@ async function getGroupAvatarDownloadURL(baseName) {
  * @param {integer} timeCreated 
  * @param {array} members 
  */
-async function setGroup(baseName, displayName, description, timeCreated, members) {
+async function setGroup(baseName, displayName, description, members) {
     const group = Group({
         baseName,
         displayName,
         description,
-        timeCreated,
+        timeCreated: serverTimestamp(),
         members
     });
     try {
