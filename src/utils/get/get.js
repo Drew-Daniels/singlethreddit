@@ -1,3 +1,4 @@
+import { listAll } from 'firebase/storage';
 /**
  * Takes an object and returns a copy with an updated target value for a given target property.
  * If the property does not exist on the target object it is created.
@@ -30,4 +31,23 @@ export function getBoundPropertyUpdater(obj, prop) {
     if (!(typeof obj === 'object') || Array.isArray(obj)) { throw new Error('"obj" must be an object')};
     if (!(typeof prop === 'string')) { throw new Error('"prop" must be type string')};
     return getUpdatedObject.bind(null, obj, prop);
+}
+
+/**
+ * Seaches Firebase Storage for a file that strictly matches 'fName' - apart from any file extensions it might have.
+ * @param {StorageReference} storageRef 
+ * @param {string} fName 
+ * @returns StorageReference
+ */
+export async function getFileRef(storageRef, fName) {
+    var fileRef;
+    const pattern = RegExp(`${fName}` + '.(jpg|svg|webp|jfif)');
+    await listAll(storageRef)
+        .then((res) => {
+            const files = res.items;
+            fileRef = files.filter((itemRef, i) => pattern.test(itemRef.name))[0];
+        }).catch((err) => {
+            console.error(err);
+    });
+    return fileRef;
 }

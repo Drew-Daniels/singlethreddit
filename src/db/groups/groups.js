@@ -1,6 +1,7 @@
 import Group from '../../factories/group/group';
 import { collection, doc, getDoc, getDocs, setDoc, deleteDoc } from 'firebase/firestore';
-import { ref, listAll, getDownloadURL } from 'firebase/storage'
+import { ref, getDownloadURL } from 'firebase/storage'
+import { getFileRef } from '../../utils/get/get';
 import { db, storage } from '../../firebase-setup';
 import { GROUPS_COLLECTION_NAME, GROUP_AVATARS_STORAGE_FOLDER_NAME } from '../../constants';
 
@@ -90,22 +91,9 @@ async function getAllGroups() {
  * @returns string
  */
 async function getGroupAvatarDownloadURL(baseName) {
-    var matches;
-    listAll(groupAvatarsRef)
-        .then((res) => {
-            matches = res.items.map(async (itemRef, i) => {
-                var result;
-                var pattern = RegExp(`${baseName}.` + '.(jpg|svg|webp)');
-                if (pattern.test(itemRef.name)) {
-                    result = await getDownloadURL(res.items[i]);
-                };
-                return result;
-            })
-        }).catch((err) => {
-            console.error(err);
-        })
-    console.log(matches);
-    return matches[0];
+    const avatarRef = await getFileRef(groupAvatarsRef, baseName);
+    const match = await getDownloadURL(avatarRef);
+    return match;
 }
 
 /**

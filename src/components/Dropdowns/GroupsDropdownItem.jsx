@@ -18,7 +18,7 @@ export default function GroupDropdownItem(props) {
             const avatarURL = await group.getAvatarURL();
             return avatarURL;
         }
-    }, [group])
+    }, [])
 
     const navigate = useNavigate();
 

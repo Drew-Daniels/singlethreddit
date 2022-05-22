@@ -32,8 +32,8 @@ const Group = ({
             description,
             timeCreated,
             members,
-            getAvatarURL: async function() {
-                return (getGroupAvatarDownloadURL(baseName));
+            async getAvatarURL() {
+                return getGroupAvatarDownloadURL(baseName);
             }
         }
     )

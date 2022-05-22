@@ -1,0 +1,20 @@
+{
+  "name": "group-avatars/brewing.webp",
+  "bucket": "singlethreddit.appspot.com",
+  "contentType": "image/webp",
+  "metageneration": 1,
+  "generation": 1653243186573,
+  "storageClass": "STANDARD",
+  "contentDisposition": "inline",
+  "cacheControl": "public, max-age=3600",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "a5198d1e-cd6b-453e-9b3c-116cf93a66c5"
+  ],
+  "etag": "BmyYWLfnYnwUJ2xsVbjwcQgrDNw",
+  "timeCreated": "2022-05-22T18:13:06.572Z",
+  "updated": "2022-05-22T18:13:06.577Z",
+  "size": 96664,
+  "md5Hash": "34uDNDMzHrBkIAqmasMdeQ==",
+  "crc32c": "778785062"
+}
