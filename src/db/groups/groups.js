@@ -67,11 +67,9 @@ async function getAllGroups() {
     const qSnap = await getDocs(groupsRef);
     qSnap.forEach((g) => {
         const gd = g.data();
-        console.log(gd);
         const group = Group(gd)
         groups.push(group);
-    })
-    console.log(groups);
+    });
     return groups;
 }
 

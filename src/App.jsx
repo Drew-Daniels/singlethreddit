@@ -61,7 +61,7 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Navbar AppIcon={AppIcon} appName={appName} signIn={signIn} user={user} groups={groups} />
-          <Outlet context={{userAvatar}} groups={groups} posts={posts} />
+          <Outlet context={{userAvatar, groups}} posts={posts} />
         </ThemeProvider>
       </Container>
   );
