@@ -74,6 +74,10 @@ async function getAllComments() {
     return comments;
 }
 
+async function getAllPosts() {
+    
+}
+
 /**
  * Adds a group to Firestore if it does not already exist, otherwise it overwrites. "baseName" is used as the id field.
  * @param {string} baseName 

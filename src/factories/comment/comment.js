@@ -14,7 +14,8 @@ import EmailValidation from 'emailvalid';
  * @returns validated [Comment object]
  */
  const Comment = ({
-    email, 
+    email,
+    userName,
     groupName, 
     body,
     parentId='',
@@ -26,48 +27,24 @@ import EmailValidation from 'emailvalid';
     } = {}) => {
     // CHECKS
     // REQUIRED parameters
-    // email
-    if (!validEmail(email)) {
-        throw new Error('"email" is required and must be a valid email belonging to gmail.com domain');
-    }
-    // groupName
-    if (!validGroupName(groupName)) {
-        throw new Error('"groupName" is required and must be a non-blank string');
-    }
-    // body
-    if (!validBody(body)) {
-        throw new Error('"body" is required and must be a non-blank string');
-    }
+    // TODO - Remove email check? Seems unnecessary with Google authentication
+    if (!validEmail(email)) {throw new Error('"email" is required and must be a valid email belonging to gmail.com domain')}
+    if (!validUserName(userName)) { throw new Error('"userName" is required and must be a non-blank string')};
+    if (!validGroupName(groupName)) {throw new Error('"groupName" is required and must be a non-blank string')};
+    if (!validBody(body)) {throw new Error('"body" is required and must be a non-blank string')};
     // OPTIONAL parameters
-    // parentId
-    if (!validParentId(parentId)) {
-        throw new Error('"parentId" must be a non-blank string or undefined')
-    }
-    // timeCreated
-    if (!validTimeCreated(timeCreated)) {
-        throw new Error('"timeCreated" must be an integer greater than 0');
-    }
-    // timeEdited
-    if (!validTimeEdited(timeEdited)) {
-        throw new Error('"timeEdited" must be an integer greater than 0');
-    }
-    // numUpvotes
-    if (!validNumUpvotes(numUpvotes)) {
-        throw new Error('"numUpvotes" must be an integer greater than or equal to 0');
-    }
-    // numDownvotes
-    if (!validNumDownvotes(numDownvotes)) {
-        throw new Error('"numDownvotes" must be an integer less than or equal to 0');
-    }
-    // title
-    if (!validTitle(title)) {
-        throw new Error('"title" must be a string');
-    }
+    if (!validParentId(parentId)) {throw new Error('"parentId" must be a non-blank string or undefined')};
+    if (!validTimeCreated(timeCreated)) {throw new Error('"timeCreated" must be an integer greater than 0')};
+    if (!validTimeEdited(timeEdited)) {throw new Error('"timeEdited" must be an integer greater than 0')};
+    if (!validNumUpvotes(numUpvotes)) {throw new Error('"numUpvotes" must be an integer greater than or equal to 0')}
+    if (!validNumDownvotes(numDownvotes)) {throw new Error('"numDownvotes" must be an integer less than or equal to 0')}
+    if (!validTitle(title)) {throw new Error('"title" must be a string')}
     // CHECKS FINISHED
     return (
         {
             parentId,
             email,
+            userName,
             groupName,
             timeCreated,
             timeEdited,
@@ -89,7 +66,10 @@ import EmailValidation from 'emailvalid';
         var isValid = res.valid;
         return isValid;
     }
-    function validGroupName(group) {
+    function validUserName(userName) {
+        return (userName && typeof userName === 'string');
+    }
+    function validGroupName(groupName) {
         return (groupName && typeof groupName === 'string');
     }
     function validBody(body) {

@@ -1,0 +1,20 @@
+{
+  "name": "group-avatars/cooking.jfif",
+  "bucket": "singlethreddit.appspot.com",
+  "contentType": "image/jpeg",
+  "metageneration": 1,
+  "generation": 1653243898322,
+  "storageClass": "STANDARD",
+  "contentDisposition": "inline",
+  "cacheControl": "public, max-age=3600",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "f0ea5bc3-a2af-4f53-9144-12846dcb20a6"
+  ],
+  "etag": "WNw3XhFCm4/OJ+1xRio6q7+feCM",
+  "timeCreated": "2022-05-22T18:24:58.321Z",
+  "updated": "2022-05-22T18:24:58.322Z",
+  "size": 2336,
+  "md5Hash": "MhltIHMmdd8ioqV6mDxuDg==",
+  "crc32c": "3607981322"
+}

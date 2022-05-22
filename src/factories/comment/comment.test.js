@@ -6,6 +6,7 @@ import { MIN_TIMESTAMP, MIN_UPVOTES, MIN_DOWNVOTES } from '../../constants';
 var defaultConfig = {
     // REQUIRED - no default arguments provided
     email: process.env.VALID_GMAIL_ADDRESS,
+    userName: 'Fake User',
     groupName: 'fakegroup',
     body: 'This will be a comment body',
     // default args...
@@ -58,6 +59,39 @@ describe('REQUIRED parameters', () => {
             expect(() => Comment(config)).toThrow();
         });
     });
+    describe('userName', () => {
+        var tProperty;
+        var getUpdatedConfig;
+        beforeAll(() => {
+            tProperty = 'userName';
+            getUpdatedConfig = getPropUpdater(tProperty);
+        });
+        test('non-blank string => SUCCESS', () => {
+            var tValue = 'Not a real person';
+            var config = getUpdatedConfig(tValue);
+            expect(Comment(config)).toMatchObject({ userName: tValue });
+        });
+        test('blank string => ERROR', () => {
+            var tValue = '';
+            var config = getUpdatedConfig(tValue);
+            expect(() => Comment(config)).toThrow();
+        });
+        test('null => ERROR', () => {
+            var tValue = null;
+            var config = getUpdatedConfig(tValue);
+            expect(() => Comment(config)).toThrow();
+        });
+        test('explicit (passed) undefined => ERROR', () => {
+            var tValue = undefined;
+            var config = getUpdatedConfig(tValue);
+            expect(() => Comment(config)).toThrow();
+        });
+        test('implicit (not passed) undefined => ERROR', () => {
+            var config = {...defaultConfig};
+            delete config[tProperty];
+            expect(() => Comment(config)).toThrow();
+        });
+    });
     describe('groupName', () => {
         var tProperty;
         var getUpdatedConfig;
@@ -69,7 +103,7 @@ describe('REQUIRED parameters', () => {
             var tValue= 'spam';
             var config = getUpdatedConfig(tValue);
             expect(Comment(config)).toMatchObject({ groupName : tValue });
-        })
+        });
         test('blank string => ERROR', () => {
             var tValue = '';
             var config = getUpdatedConfig(tValue);
