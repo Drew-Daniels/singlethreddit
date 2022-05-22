@@ -1,4 +1,5 @@
 import { MIN_TIMESTAMP } from "../../constants";
+import { getGroupAvatarDownloadURL } from '../../db/groups/groups';
 /**
  * Factory function that runs checks on passed in values that are to be used to create a Group document in the database.
  * @param {string} baseName
@@ -30,7 +31,10 @@ const Group = ({
             displayName,
             description,
             timeCreated,
-            members
+            members,
+            getAvatarURL: async function() {
+                return (getGroupAvatarDownloadURL(baseName));
+            }
         }
     )
 

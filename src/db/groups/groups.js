@@ -1,9 +1,11 @@
 import Group from '../../factories/group/group';
 import { collection, doc, getDoc, getDocs, setDoc, deleteDoc } from 'firebase/firestore';
-import { db } from '../../firebase-setup';
-import { GROUPS_COLLECTION_NAME } from '../../constants';
+import { ref, listAll, getDownloadURL } from 'firebase/storage'
+import { db, storage } from '../../firebase-setup';
+import { GROUPS_COLLECTION_NAME, GROUP_AVATARS_STORAGE_FOLDER_NAME } from '../../constants';
 
 const groupsRef = collection(db, GROUPS_COLLECTION_NAME);
+const groupAvatarsRef = ref(storage, GROUP_AVATARS_STORAGE_FOLDER_NAME);
 
 /**
  * Deletes a group with the provided baseName.
@@ -83,6 +85,30 @@ async function getAllGroups() {
 }
 
 /**
+ * Returns the download URL of the group's avatar.
+ * @param {string} baseName 
+ * @returns string
+ */
+async function getGroupAvatarDownloadURL(baseName) {
+    var matches;
+    listAll(groupAvatarsRef)
+        .then((res) => {
+            matches = res.items.map(async (itemRef, i) => {
+                var result;
+                var pattern = RegExp(`${baseName}.` + '.(jpg|svg|webp)');
+                if (pattern.test(itemRef.name)) {
+                    result = await getDownloadURL(res.items[i]);
+                };
+                return result;
+            })
+        }).catch((err) => {
+            console.error(err);
+        })
+    console.log(matches);
+    return matches[0];
+}
+
+/**
  * Adds a group to Firestore if it does not already exist, otherwise it overwrites. "baseName" is used as the id field.
  * @param {string} baseName 
  * @param {string} displayName 
@@ -114,5 +140,6 @@ export {
     getGroup,
     getGroups,
     getAllGroups,
+    getGroupAvatarDownloadURL,
     setGroup,
 }
