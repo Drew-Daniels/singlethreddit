@@ -1,5 +1,6 @@
 import Comment from '../../factories/group/group';
-import { collection, doc, getDoc, getDocs, setDoc, deleteDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, setDoc, deleteDoc, Timestamp } from 'firebase/firestore';
+import uniqid from 'uniqid';
 import { db } from '../../firebase-setup';
 import { COMMENTS_COLLECTION_NAME } from '../../constants';
 
@@ -10,10 +11,10 @@ const commentsRef = collection(db, COMMENTS_COLLECTION_NAME);
  * @param {string} baseName 
  * @returns boolean
  */
-async function delComment(baseName) {
+async function delComment(id) {
     try {
-        await deleteDoc(doc(db, COMMENTS_COLLECTION_NAME, baseName));
-        console.log('Document deleted w/ ID: ', baseName);
+        await deleteDoc(doc(db, COMMENTS_COLLECTION_NAME, id));
+        console.log('Document deleted w/ ID: ', id);
         return true;
     }
     catch (err) {
@@ -22,9 +23,9 @@ async function delComment(baseName) {
     }
 }
 
-async function getComment(baseName) {
+async function getComment(id) {
     try {
-        const dRef = doc(db, COMMENTS_COLLECTION_NAME, baseName)
+        const dRef = doc(db, COMMENTS_COLLECTION_NAME, id)
         const dSnap = await getDoc(dRef);
         if (dSnap.exists()) {
             const gd = dSnap.data();
@@ -48,17 +49,12 @@ async function getComment(baseName) {
     }
 }
 
-/**
- * 
- * @param {array} baseNames 
- */
-async function getComments(baseNames) {
-    if (!(Array.isArray(baseNames))) { throw new Error('"baseNames" must be an array') };
+async function getComments(ids) {
+    if (!(Array.isArray(ids))) { throw new Error('"ids" must be an array') };
     try {
         var comments = [];
-        baseNames.forEach(async baseName => {
-            const dRef = doc(db, COMMENTS_COLLECTION_NAME, baseName);
-            const dSnap = await getDoc(dRef);
+        ids.forEach(async (id) => {
+            const dSnap = await getComment(id);
             if (dSnap.exists()) {
                 comments.push(dSnap.data());
             }
@@ -86,16 +82,22 @@ async function getAllPosts() {
 }
 
 /**
- * Adds a group to Firestore if it does not already exist, otherwise it overwrites. "baseName" is used as the id field.
- * @param {string} baseName 
- * @param {string} displayName 
- * @param {string} description 
- * @param {integer} timeCreated 
- * @param {array} members 
+ * Adds a comment to Firestore if a Comment does not already exist in Firebase with that id. Otherwise overwrites it.
+ * @param {string} uid 
+ * @param {string} userName 
+ * @param {string} groupName 
+ * @param {string} body 
+ * @param {string} parentId 
+ * @param {Timestamp} timeCreated 
+ * @param {Timestamp} timeEdited 
+ * @param {integer} numUpvotes 
+ * @param {integer} numDownvotes 
+ * @param {string} title 
+ * @returns boolean
  */
-async function setComment(email, userName, groupName, body, parentId, timeCreated, timeEdited, numUpvotes, numDownvotes, title) {
+async function setComment(uid, userName, groupName, body, parentId, timeCreated, timeEdited, numUpvotes, numDownvotes, title) {
     const group = Comment({
-        email, 
+        uid,
         userName, 
         groupName, 
         body, 
