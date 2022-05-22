@@ -11,8 +11,8 @@ export default function FormPost(props) {
         <>
             <GroupsDropdown groups={groups} />
             <form>
-                <TextField fullWidth variant='outlined' label='title' placeholder='Title'/>
-                <TextField fullWidth variant='outlined' label='body' placeholder='Text (optional)' multiline rows={4} />
+                <TextField fullWidth variant='outlined' label='title' placeholder='Title' required />
+                <TextField fullWidth variant='outlined' label='body' placeholder='Text (optional)' multiline rows={4} required />
                 <Box sx={{ display: 'flex', justifyContent: 'end' }}>
                     <Button>Post</Button>
                 </Box>
