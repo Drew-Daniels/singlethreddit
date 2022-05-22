@@ -28,15 +28,20 @@ async function getComment(baseName) {
         const dSnap = await getDoc(dRef);
         if (dSnap.exists()) {
             const gd = dSnap.data();
-            var group = Comment({
-                baseName: gd.base_name,
-                displayName: gd.display_name,
-                description: gd.description,
-                timeCreated: gd.time_created,
-                members: gd.members
+            var comment = Comment({
+                uid: gd.uid,
+                userName: gd.userName,
+                groupName: gd.groupName,
+                body: gd.body,
+                parentId: gd.parentId,
+                timeCreated: gd.timeCreated,
+                timeEdited: gd.timeEdited,
+                numUpvotes: gd.numUpvotes,
+                numDownvotes: gd.numDownvotes,
+                title: gd.title
             })
         }
-        return group;
+        return comment;
     }
     catch (err) {
         console.error(err);
@@ -75,7 +80,7 @@ async function getAllComments() {
 }
 
 async function getAllPosts() {
-    
+
 }
 
 /**
@@ -86,16 +91,21 @@ async function getAllPosts() {
  * @param {integer} timeCreated 
  * @param {array} members 
  */
-async function setComment(baseName, displayName, description, timeCreated, members) {
+async function setComment(email, userName, groupName, body, parentId, timeCreated, timeEdited, numUpvotes, numDownvotes, title) {
     const group = Comment({
-        baseName,
-        displayName,
-        description,
-        timeCreated,
-        members
+        email, 
+        userName, 
+        groupName, 
+        body, 
+        parentId, 
+        timeCreated, 
+        timeEdited, 
+        numUpvotes, 
+        numDownvotes, 
+        title
     });
     try {
-        const dRef = await setDoc(doc(db, COMMENTS_COLLECTION_NAME, baseName), group);
+        const dRef = await setDoc(doc(db, COMMENTS_COLLECTION_NAME, groupName), group);
         console.log('Document written w/ ID: ', dRef.id);
         return true;
     } 

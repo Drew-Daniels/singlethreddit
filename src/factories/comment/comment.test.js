@@ -5,7 +5,7 @@ import { MIN_TIMESTAMP, MIN_UPVOTES, MIN_DOWNVOTES } from '../../constants';
 
 var defaultConfig = {
     // REQUIRED - no default arguments provided
-    email: process.env.VALID_GMAIL_ADDRESS,
+    uid: '123spam',
     userName: 'Fake User',
     groupName: 'fakegroup',
     body: 'This will be a comment body',
@@ -21,22 +21,17 @@ function getPropUpdater(tProperty) {
 }
 
 describe('REQUIRED parameters', () => {
-    describe('email', () => {
+    describe('uid', () => {
         var tProperty;
         var getUpdatedConfig;
         beforeAll(() => {
-            tProperty = 'email';
+            tProperty = 'uid';
             getUpdatedConfig = getPropUpdater(tProperty);
         });
-        test('valid google email => SUCCESS', () => {
-            var tValue = process.env.VALID_GMAIL_ADDRESS;
+        test('non-blank string => SUCCESS', () => {
+            var tValue = 'Not a real person';
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config)).toMatchObject({ email : tValue });
-        });
-        test('@yahoo.com => ERROR', () => {
-            var tValue = 'tester@yahoo.com';
-            var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config)).toThrow();
+            expect(Comment(config)).toMatchObject({ uid: tValue });
         });
         test('blank string => ERROR', () => {
             var tValue = '';

@@ -14,8 +14,8 @@ import EmailValidation from 'emailvalid';
  * @returns validated [Comment object]
  */
  const Comment = ({
-    email,
-    userName,
+    uid,        // User.uid
+    userName,   // User.displayName
     groupName, 
     body,
     parentId='',
@@ -27,8 +27,7 @@ import EmailValidation from 'emailvalid';
     } = {}) => {
     // CHECKS
     // REQUIRED parameters
-    // TODO - Remove email check? Seems unnecessary with Google authentication
-    if (!validEmail(email)) {throw new Error('"email" is required and must be a valid email belonging to gmail.com domain')}
+    if (!validUID(uid)) { throw new Error('"uid" is required and must be a non-blank string')};
     if (!validUserName(userName)) { throw new Error('"userName" is required and must be a non-blank string')};
     if (!validGroupName(groupName)) {throw new Error('"groupName" is required and must be a non-blank string')};
     if (!validBody(body)) {throw new Error('"body" is required and must be a non-blank string')};
@@ -42,29 +41,22 @@ import EmailValidation from 'emailvalid';
     // CHECKS FINISHED
     return (
         {
-            parentId,
-            email,
+            uid,
             userName,
             groupName,
+            body,
+            parentId,
             timeCreated,
             timeEdited,
             numUpvotes,
             numDownvotes,
-            title,
-            body
+            title
         }
     )
 
     // validation function definitions
-    function validEmail(email) {
-        if (!email) { return false }
-        var config = {
-            whitelist: ['gmail.com'],
-        }
-        var ev = new EmailValidation(config);
-        var res = ev.check(email);
-        var isValid = res.valid;
-        return isValid;
+    function validUID(uid) {
+        return (uid && typeof uid === 'string');
     }
     function validUserName(userName) {
         return (userName && typeof userName === 'string');
