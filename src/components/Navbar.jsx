@@ -16,7 +16,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AddIcon from '@mui/icons-material/Add';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import SvgIcon from '@mui/material/SvgIcon';
-import GroupsDropdown from './GroupsDropdown';
+import GroupsDropdown from './Dropdowns/GroupsDropdown';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',

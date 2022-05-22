@@ -1,13 +1,10 @@
+import Layout from '../components/Layout/Layout';
 import Feed from '../components/Feed';
-import Sidebar from '../components/Sidebar';
+import About from '../components/About';
 
 export default function GroupsPage(props) {
 
     return (
-        <main>
-            GroupsPage here
-            <Feed />
-            <Sidebar />
-        </main>
+        <Layout mainComponent={<Feed />}  sidebarComponent={<About />} />
     )
 }

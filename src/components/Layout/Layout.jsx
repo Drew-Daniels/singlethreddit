@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Grid';
-import Main from '../components/Main';
-import Sidebar from '../components/Sidebar';
+import Main from '../Layout/Main';
+import Sidebar from '../Layout/Sidebar';
 
 export default function Layout(props) {
 

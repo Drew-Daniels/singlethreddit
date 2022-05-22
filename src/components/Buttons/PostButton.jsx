@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
-import TextField from '@mui/material/TextField';
+import Input from '@mui/material/Input';
 import { useNavigate } from 'react-router-dom';
 
 export default function PostButton(props) {
@@ -12,12 +12,12 @@ export default function PostButton(props) {
     }
 
     return (
-        <Grid container sx={{ border: '1px solid yellow', marginBottom: '1rem'}} onClick={handleClick}>
+        <Grid component='a' container sx={{ border: '1px solid yellow', marginBottom: '1rem'}} onClick={handleClick}>
             <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Avatar src={userAvatar} alt='User Avatar'></Avatar>
             </Grid>
             <Grid item xs={10} sx={{ display: 'flex', alignItems: 'center' }}>
-                <TextField fullWidth label="create-post-button" placeholder='Create Post'/>
+                <Input placeholder='Create Post' />
             </Grid>
         </Grid>
     )

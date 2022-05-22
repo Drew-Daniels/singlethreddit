@@ -1,5 +1,5 @@
 import Container from '@mui/material/Container';
-import PostButton from './PostButton';
+import PostButton from './Buttons/PostButton';
 import SortMenu from './SortMenu';
 import Post from './Post/Post';
 

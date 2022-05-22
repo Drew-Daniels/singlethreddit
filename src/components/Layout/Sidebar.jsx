@@ -1,5 +1,5 @@
 import Container from '@mui/material/Container';
-import TopGroups from './TopGroups';
+import TopGroups from '../TopGroups';
 
 export default function Sidebar(props) {
 
