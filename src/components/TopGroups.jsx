@@ -39,7 +39,7 @@ export default function TopGroups(props) {
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
             {top5Groups.map((g, i) => {
                 return (
-                    <TopGroup group={g} />
+                    <TopGroup key={i} group={g} position={i} />
                 )
             })}
         </Box>
