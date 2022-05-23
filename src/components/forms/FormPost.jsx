@@ -5,11 +5,11 @@ import Button from '@mui/material/Button';
 
 export default function FormPost(props) {
 
-    const { groups } = props;
+    const { groups, selectedGroup, handleSelectGroup } = props;
 
     return (
         <>
-            <GroupsDropdown groups={groups} />
+            <GroupsDropdown groups={groups} selectedGroup={selectedGroup} handleSelectGroup={handleSelectGroup} />
             <form>
                 <TextField fullWidth variant='outlined' label='title' placeholder='Title' required />
                 <TextField fullWidth variant='outlined' label='body' placeholder='Text (optional)' multiline rows={4} required />

@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import GroupsDropdownItem from './GroupsDropdownItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import GroupDropdownItem from './GroupsDropdownItem';
+import {default as AddGroupIcon} from '@mui/icons-material/Add';
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -50,6 +53,8 @@ const StyledMenu = styled((props) => (
 export default function GroupsDropdown(props) {
   const { groups, selectedGroup, handleSelectGroup } = props;
   const [anchorEl, setAnchorEl] = useState(null);
+  const [displayedGroups, setDisplayedGroups] = useState(groups);
+  const [searchStr, setSearchStr] = useState('');
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -57,6 +62,20 @@ export default function GroupsDropdown(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  useEffect(() => {
+    if (searchStr === '') { 
+      setDisplayedGroups(groups)
+    } else {
+      const matchedGroups = groups.filter(group => group.baseName.includes(searchStr))
+      setDisplayedGroups(matchedGroups);
+    }
+  }, [groups, searchStr])
+
+  useEffect(() => {
+    console.log(displayedGroups);
+    console.log(searchStr);
+  }, [displayedGroups])
 
   return (
     <div>
@@ -86,11 +105,20 @@ export default function GroupsDropdown(props) {
         open={open}
         onClose={handleClose}
       >
-        {groups.map((group, i) => {
-          return (
-            <GroupsDropdownItem key={i} group={group} handleSelectGroup={handleSelectGroup} />
-          )
-        })}
+        <TextField label='group-search-input' variant='outlined' value={searchStr} onChange={(e) => setSearchStr(e.target.value)} />
+        <MenuItem sx={{ display: 'flex', alignItems: 'center' }}>
+          <AddGroupIcon />
+          <span>Add a Group</span>
+        </MenuItem>
+        <h1>My Groups</h1>
+        <ul>
+          {displayedGroups.map((group, i) => {
+            return (
+              <GroupsDropdownItem key={i} group={group} handleSelectGroup={handleSelectGroup} />
+            )
+          })}
+        </ul>
+        
       </StyledMenu>
     </div>
   );
