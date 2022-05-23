@@ -15,9 +15,6 @@ describe('getGroup', () => {
 });
 
 describe('setGroup', () => {
-    test('adds a group', async () => {
-        const result = await setGroup(...groupData);
-        expect(result).toMatch(true);
-    });
+    test.todo('adds a group');
     test.todo('overwrites a group');
 });

@@ -1,5 +1,5 @@
 import { MIN_UPVOTES, MIN_DOWNVOTES } from '../../constants';
-import { serverTimestamp, Timestamp } from 'firebase/firestore';
+import { Timestamp } from 'firebase/firestore';
 /**
  * Factory function that runs checks on passed in values that are to be used to create a Comment document in the database.
  * @param {string} parentId 

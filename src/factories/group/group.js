@@ -1,5 +1,5 @@
 import { getGroupAvatarDownloadURL } from '../../db/groups/groups';
-import { serverTimestamp, Timestamp } from 'firebase/firestore';
+import { Timestamp } from 'firebase/firestore';
 /**
  * Factory function that runs checks on passed in values that are to be used to create a Group document in the database.
  * @param {string} baseName
@@ -13,17 +13,17 @@ const Group = ({
     baseName,
     displayName,
     description,
-    timeCreated=serverTimestamp(),
+    timeCreated=Timestamp.now(),
     members=[]
     } = {}) => {
     // run checks here
     // REQUIRED
-    if (!baseNameValid(baseName)) { throw new Error('"baseName" is required and must be a non-blank string') };
-    if (!displayNameValid(displayName)) { throw new Error('"displayName" is required and must be a non-blank string') };
-    if (!descriptionValid(description)) { throw new Error('"description" is required and must be a non-blank string')};
+    if (!validBaseName(baseName)) { throw new Error('"baseName" is required and must be a non-blank string') };
+    if (!validDisplyName(displayName)) { throw new Error('"displayName" is required and must be a non-blank string') };
+    if (!validDescription(description)) { throw new Error('"description" is required and must be a non-blank string')};
     // OPTIONAL
-    if (!timeCreatedValid(timeCreated)) { throw new Error(`"timeCreated" must be provided and of a Firebase Firestore "Timestamp" data type`)};
-    if (!membersValid(members)) { throw new Error('"members" must be an array') };
+    if (!validTimestamp(timeCreated)) { throw new Error(`"timeCreated" must be provided and of a Firebase Firestore "Timestamp" data type`)};
+    if (!validMembers(members)) { throw new Error('"members" must be an array') };
     // return object after validation
     return (
         {
@@ -38,19 +38,19 @@ const Group = ({
         }
     )
 
-    function baseNameValid(baseName) {
+    function validBaseName(baseName) {
         return (baseName && typeof baseName === 'string');
     };
-    function displayNameValid(displayName) {
+    function validDisplyName(displayName) {
         return (displayName && typeof displayName === 'string');
     };
-    function descriptionValid(description) {
+    function validDescription(description) {
         return (description && typeof description === 'string');
     };
-    function timeCreatedValid(timeCreated) {
+    function validTimestamp(timeCreated) {
         return (timeCreated instanceof Timestamp);
     };
-    function membersValid(members) {
+    function validMembers(members) {
         return (Array.isArray(members));
     };
 }

@@ -1,6 +1,6 @@
 import Group from './group';
 import {getBoundPropertyUpdater} from '../../utils/get/get';
-import { MIN_TIMESTAMP } from '../../constants';
+import { Timestamp } from 'firebase/firestore';
 
 var defaultConfig = {
     // REQUIRED - no default arguments provided
@@ -148,27 +148,16 @@ describe('OPTIONAL parameters', () => {
             var tValue = undefined;
             var config = getUpdatedConfig(tValue);
             // TODO: update this test to ensure that the timeCreated is greater than MIN_TIMESTAMP
-            expect(Group(config)).toMatchObject({ timeCreated: expect.any(Number) })
+            expect(Group(config)[tProperty]).toBeInstanceOf(Timestamp);
         });
         test('implicit (not passed) undefined => SUCCESS', () => {
             var config = {...defaultConfig};
             delete config[tProperty];
             // TODO: update this test to ensure that the timeCreated is greater than MIN_TIMESTAMP
-            expect(Group(config)).toMatchObject({ timeCreated: expect.any(Number) })
+            expect(Group(config)[tProperty]).toBeInstanceOf(Timestamp);
         });
-        test('int > MIN_TIMESTAMP => SUCCESS', () => {
-            var tValue = MIN_TIMESTAMP + 1;
-            var config = getUpdatedConfig(tValue);
-            // TODO: update this test to ensure that the timeCreated is greater than MIN_TIMESTAMP
-            expect(Group(config)).toMatchObject({ timeCreated: expect.any(Number) });
-        });
-        test('int === MIN_TIMESTAMP => ERROR', () => {
-            var tValue = MIN_TIMESTAMP;
-            var config = getUpdatedConfig(tValue);
-            expect(() => Group(config)).toThrow();
-        });
-        test('int < MIN_TIMESTAMP => ERROR', () => {
-            var tValue = MIN_TIMESTAMP - 1;
+        test('int => ERROR', () => {
+            var tValue = 1;
             var config = getUpdatedConfig(tValue);
             expect(() => Group(config)).toThrow();
         });
