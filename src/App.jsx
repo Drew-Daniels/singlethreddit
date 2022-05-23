@@ -20,6 +20,7 @@ function App() {
   const [userAvatar, setUserAvatar] = useState('');
   const [groups, setGroups] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [selectedGroup, setSelectedGroup] = useState(null);
 
   useEffect(() => {
     auth.onAuthStateChanged(user => {
@@ -60,8 +61,8 @@ function App() {
       <Container maxWidth={false} disableGutters className="App" sx={{ minHeight: '100vh' }}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Navbar AppIcon={AppIcon} appName={appName} signIn={signIn} user={user} groups={groups} />
-          <Outlet context={{userAvatar, groups}} posts={posts} />
+          <Navbar AppIcon={AppIcon} appName={appName} signIn={signIn} user={user} groups={groups} selectedGroup={selectedGroup} handleSelectGroup={setSelectedGroup} />
+          <Outlet context={{userAvatar, groups}} posts={posts} selectedGroup={selectedGroup} handleSelectGroup={setSelectedGroup} />
         </ThemeProvider>
       </Container>
   );

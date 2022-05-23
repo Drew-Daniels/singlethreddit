@@ -5,7 +5,7 @@ import Avatar from '@mui/material/Avatar';
 
 export default function GroupDropdownItem(props) {
 
-    const { group } = props;
+    const { group, handleSelectGroup } = props;
     const [avatarURL, setAvatarURL] = useState('');
 
     useEffect(() => {
@@ -22,8 +22,13 @@ export default function GroupDropdownItem(props) {
 
     const navigate = useNavigate();
 
+    function handleClick() {
+        navigate(`g/${group.baseName}`);
+        handleSelectGroup(group);
+    }
+
     return (
-        <MenuItem onClick={() => navigate(`g/${group.baseName}`)} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} disableRipple>
+        <MenuItem onClick={handleClick} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} disableRipple>
             <Avatar src={avatarURL} />
             {group.baseName}
         </MenuItem>
