@@ -1,6 +1,5 @@
 import Comment from '../../factories/comment/comment';
-import { collection, doc, getDoc, getDocs, setDoc, deleteDoc, Timestamp } from 'firebase/firestore';
-import uniqid from 'uniqid';
+import { collection, doc, getDoc, getDocs, deleteDoc, addDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase-setup';
 import { COMMENTS_COLLECTION_NAME } from '../../constants';
 
@@ -25,8 +24,8 @@ async function delComment(id) {
 
 async function getComment(id) {
     try {
-        const dRef = doc(db, COMMENTS_COLLECTION_NAME, id)
-        const dSnap = await getDoc(dRef);
+        const docRef = doc(db, COMMENTS_COLLECTION_NAME, id)
+        const dSnap = await getDoc(docRef);
         if (dSnap.exists()) {
             const gd = dSnap.data();
             var comment = Comment({
@@ -68,8 +67,8 @@ async function getComments(ids) {
 
 async function getAllComments() {
     const comments = [];
-    const qSnap = await getDocs(commentsRef);
-    qSnap.forEach((g) => {
+    const qrySnap = await getDocs(commentsRef);
+    qrySnap.forEach((g) => {
         comments.push(g.data());
     })
     return comments;
@@ -95,7 +94,7 @@ async function getAllPosts() {
  * @param {string} title 
  * @returns boolean
  */
-async function setComment(uid, userName, baseName, body, parentId, timeCreated, timeEdited, numUpvotes, numDownvotes, title) {
+async function addComment(uid, userName, baseName, body, parentId, timeCreated, timeEdited, numUpvotes, numDownvotes, title) {
     const group = Comment({
         uid,
         userName, 
@@ -109,10 +108,22 @@ async function setComment(uid, userName, baseName, body, parentId, timeCreated, 
         title
     });
     try {
-        const dRef = await setDoc(doc(db, COMMENTS_COLLECTION_NAME, baseName), group);
-        console.log('Document written w/ ID: ', dRef.id);
+        const docRef = await addDoc(commentsRef, group);
+        console.log('Document written w/ ID: ', docRef.id);
         return true;
     } 
+    catch (err) {
+        console.error(err);
+        return false;
+    }
+}
+
+async function updateComment(docID, data) {
+    try {
+        const docRef = doc(db, COMMENTS_COLLECTION_NAME, docID);
+        await updateDoc(docRef, data)
+        return true;
+    }
     catch (err) {
         console.error(err);
         return false;
@@ -125,5 +136,6 @@ export {
     getComments,
     getAllComments,
     getAllPosts,
-    setComment,
+    addComment,
+    updateComment,
 }

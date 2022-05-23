@@ -4,7 +4,7 @@ import GroupsDropdown from '../../components/Dropdowns/GroupsDropdown';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { setComment } from '../../db/comments/comments';
+import { addComment } from '../../db/comments/comments';
 
 export default function FormPost(props) {
 
@@ -12,16 +12,13 @@ export default function FormPost(props) {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
 
-    console.log(user);
-
     const navigate = useNavigate();
 
     async function handleSubmit(e) {
         e.preventDefault();
-        console.log(selectedGroup);
         var uid = await user.uid;
         var displayName = await user.displayName;
-        var success = await setComment(
+        var success = await addComment(
             uid,
             displayName,
             selectedGroup.baseName,
