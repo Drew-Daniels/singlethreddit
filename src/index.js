@@ -11,6 +11,8 @@ import UsersPage from './routes/UsersPage';
 import UserPage from './routes/UserPage';
 import NotFoundPage from './routes/NotFoundPage';
 
+import './index.css';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

@@ -62,7 +62,7 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Navbar AppIcon={AppIcon} appName={appName} signIn={signIn} user={user} groups={groups} selectedGroup={selectedGroup} handleSelectGroup={setSelectedGroup} />
-          <Outlet context={{userAvatar, groups}} posts={posts} selectedGroup={selectedGroup} handleSelectGroup={setSelectedGroup} />
+          <Outlet context={{user, userAvatar, groups, selectedGroup, handleSelectGroup: setSelectedGroup}} posts={posts} selectedGroup={selectedGroup} />
         </ThemeProvider>
       </Container>
   );

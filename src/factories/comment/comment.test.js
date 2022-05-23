@@ -1,13 +1,14 @@
 import 'dotenv/config';
 import Comment from './comment';
 import {getBoundPropertyUpdater} from '../../utils/get/get';
-import { MIN_TIMESTAMP, MIN_UPVOTES, MIN_DOWNVOTES } from '../../constants';
+import { MIN_UPVOTES, MIN_DOWNVOTES } from '../../constants';
+import { Timestamp, serverTimestamp } from 'firebase/firestore';
 
 var defaultConfig = {
     // REQUIRED - no default arguments provided
     uid: '123spam',
     userName: 'Fake User',
-    groupName: 'fakegroup',
+    baseName: 'fakegroup',
     body: 'This will be a comment body',
     // default args...
 };
@@ -87,17 +88,17 @@ describe('REQUIRED parameters', () => {
             expect(() => Comment(config)).toThrow();
         });
     });
-    describe('groupName', () => {
+    describe('baseName', () => {
         var tProperty;
         var getUpdatedConfig;
         beforeAll(() => {
-            tProperty = 'groupName';
+            tProperty = 'baseName';
             getUpdatedConfig = getPropUpdater(tProperty);
         });
         test('non-blank string => SUCCESS', () => {
             var tValue= 'spam';
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config)).toMatchObject({ groupName : tValue });
+            expect(Comment(config)).toMatchObject({ baseName : tValue });
         });
         test('blank string => ERROR', () => {
             var tValue = '';
@@ -216,25 +217,23 @@ describe('OPTIONAL parameters', () => {
             tProperty = 'timeCreated';
             getUpdatedConfig = getPropUpdater(tProperty);
         });
-        test('int > MIN_TIMESTAMP => SUCCESS', () => {
-            var tValue = MIN_TIMESTAMP + 1;
+        test('Timestamp => SUCCESS', () => {
+            var tValue = Timestamp.now();
             var config = getUpdatedConfig(tValue);
             expect(Comment(config)).toMatchObject({ timeCreated: tValue });
         })
         test('implicit (not passed) undefined => SUCCESS', () => {
             var config = getUpdatedConfig();
             delete config[tProperty];
-            // TODO: update this test to ensure that the timeCreated is greater than MIN_TIMESTAMP
-            expect(Comment(config)).toMatchObject({ timeCreated: expect.any(Number)})
+            expect(Comment(config)[tProperty]).toBeInstanceOf(Timestamp);
         });
         test('explicit (passed) undefined => SUCCESS', () => {
             var tValue = undefined;
             var config = getUpdatedConfig(tValue);
-            // TODO: update this test to ensure that the timeCreated is greater than MIN_TIMESTAMP
-            expect(Comment(config)).toMatchObject({ timeCreated: expect.any(Number)})
+            expect(Comment(config)[tProperty]).toBeInstanceOf(Timestamp);
         });
-        test('int < MIN_TIMESTAMP => ERROR', () => {
-            var tValue = MIN_TIMESTAMP - 1;
+        test('int => ERROR', () => {
+            var tValue = 1;
             var config = getUpdatedConfig(tValue);
             expect(() => Comment(config)).toThrow();
         })
@@ -263,8 +262,8 @@ describe('OPTIONAL parameters', () => {
             tProperty = 'timeEdited';
             getUpdatedConfig = getPropUpdater(tProperty);
         });
-        test('int > MIN_TIMESTAMP => SUCCESS', () => {
-            var tValue = MIN_TIMESTAMP + 1;
+        test('Timestamp => SUCCESS', () => {
+            var tValue = Timestamp.now();
             var config = getUpdatedConfig(tValue);
             expect(Comment(config)).toMatchObject({ timeEdited: tValue });
         })
@@ -272,16 +271,16 @@ describe('OPTIONAL parameters', () => {
             var config = getUpdatedConfig();
             delete config[tProperty];
             // TODO: update this test to ensure that the timeEdited is greater than MIN_TIMESTAMP
-            expect(Comment(config)).toMatchObject({ timeEdited: expect.any(Number)})
+            expect(Comment(config)[tProperty]).toBeInstanceOf(Timestamp);
         });
         test('explicit (passed) undefined => SUCCESS', () => {
             var tValue = undefined;
             var config = getUpdatedConfig(tValue);
             // TODO: update this test to ensure that the timeEdited is greater than MIN_TIMESTAMP
-            expect(Comment(config)).toMatchObject({ timeEdited: expect.any(Number)})
+            expect(Comment(config)[tProperty]).toBeInstanceOf(Timestamp);
         });
-        test('int < MIN_TIMESTAMP => ERROR', () => {
-            var tValue = MIN_TIMESTAMP - 1;
+        test('int => ERROR', () => {
+            var tValue = 1;
             var config = getUpdatedConfig(tValue);
             expect(() => Comment(config)).toThrow();
         })

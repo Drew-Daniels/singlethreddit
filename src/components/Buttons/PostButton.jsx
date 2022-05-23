@@ -9,7 +9,7 @@ export default function PostButton(props) {
 
     return (
         <Link component={RouterLink} to='submit'>
-            <Grid component='a' container sx={{ border: '1px solid yellow', marginBottom: '1rem'}}>
+            <Grid container sx={{ border: '1px solid yellow', marginBottom: '1rem'}}>
                 <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Avatar src={userAvatar} alt='User Avatar'></Avatar>
                 </Grid>

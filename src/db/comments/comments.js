@@ -1,4 +1,4 @@
-import Comment from '../../factories/group/group';
+import Comment from '../../factories/comment/comment';
 import { collection, doc, getDoc, getDocs, setDoc, deleteDoc, Timestamp } from 'firebase/firestore';
 import uniqid from 'uniqid';
 import { db } from '../../firebase-setup';
@@ -32,7 +32,7 @@ async function getComment(id) {
             var comment = Comment({
                 uid: gd.uid,
                 userName: gd.userName,
-                groupName: gd.groupName,
+                baseName: gd.baseName,
                 body: gd.body,
                 parentId: gd.parentId,
                 timeCreated: gd.timeCreated,
@@ -85,7 +85,7 @@ async function getAllPosts() {
  * Adds a comment to Firestore if a Comment does not already exist in Firebase with that id. Otherwise overwrites it.
  * @param {string} uid 
  * @param {string} userName 
- * @param {string} groupName 
+ * @param {string} baseName 
  * @param {string} body 
  * @param {string} parentId 
  * @param {Timestamp} timeCreated 
@@ -95,11 +95,11 @@ async function getAllPosts() {
  * @param {string} title 
  * @returns boolean
  */
-async function setComment(uid, userName, groupName, body, parentId, timeCreated, timeEdited, numUpvotes, numDownvotes, title) {
+async function setComment(uid, userName, baseName, body, parentId, timeCreated, timeEdited, numUpvotes, numDownvotes, title) {
     const group = Comment({
         uid,
         userName, 
-        groupName, 
+        baseName,
         body, 
         parentId, 
         timeCreated, 
@@ -109,7 +109,7 @@ async function setComment(uid, userName, groupName, body, parentId, timeCreated,
         title
     });
     try {
-        const dRef = await setDoc(doc(db, COMMENTS_COLLECTION_NAME, groupName), group);
+        const dRef = await setDoc(doc(db, COMMENTS_COLLECTION_NAME, baseName), group);
         console.log('Document written w/ ID: ', dRef.id);
         return true;
     } 

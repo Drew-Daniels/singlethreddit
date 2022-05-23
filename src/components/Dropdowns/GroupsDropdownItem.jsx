@@ -23,15 +23,15 @@ export default function GroupDropdownItem(props) {
     const navigate = useNavigate();
 
     function handleClick() {
-        navigate(`g/${group.baseName}`);
+        // navigate(`g/${group.baseName}`);
         handleSelectGroup(group);
         handleClose();
     }
 
     return (
-        <MenuItem onClick={handleClick} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} disableRipple>
+        <MenuItem onClick={handleClick} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', textTransform: 'none' }} disableRipple>
             <Avatar src={avatarURL} />
-            {group.baseName}
+            {'g/' + group.baseName}
         </MenuItem>
     )
 }

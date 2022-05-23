@@ -1,20 +1,45 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import GroupsDropdown from '../../components/Dropdowns/GroupsDropdown';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { setComment } from '../../db/comments/comments';
 
 export default function FormPost(props) {
 
-    const { groups, selectedGroup, handleSelectGroup } = props;
+    const { user, groups, selectedGroup, handleSelectGroup } = props;
+    const [title, setTitle] = useState('');
+    const [body, setBody] = useState('');
+
+    console.log(user);
+
+    const navigate = useNavigate();
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+        console.log(selectedGroup);
+        var uid = await user.uid;
+        var displayName = await user.displayName;
+        var success = await setComment(
+            uid,
+            displayName,
+            selectedGroup.baseName,
+            body
+        );
+        // show some kind of message indicating success or failure
+        success ? console.log('Post submitted!') : console.log('There was an error');
+        navigate('/');
+    }
 
     return (
         <>
             <GroupsDropdown groups={groups} selectedGroup={selectedGroup} handleSelectGroup={handleSelectGroup} />
-            <form>
-                <TextField fullWidth variant='outlined' label='title' placeholder='Title' required />
-                <TextField fullWidth variant='outlined' label='body' placeholder='Text (optional)' multiline rows={4} required />
+            <form onSubmit={handleSubmit}>
+                <TextField fullWidth variant='outlined' label='title' placeholder='Title' required value={title} onChange={(e) => setTitle(e.target.value)} />
+                <TextField fullWidth variant='outlined' label='body' placeholder='Text (optional)' multiline rows={4} required value={body} onChange={(e) => setBody(e.target.value)} />
                 <Box sx={{ display: 'flex', justifyContent: 'end' }}>
-                    <Button>Post</Button>
+                    <Button type='submit'>Post</Button>
                 </Box>
             </form>
         </>
