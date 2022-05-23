@@ -9,19 +9,16 @@ export default function TopGroups(props) {
 
     useEffect(() => {
         if (!groups) { return }
-        groups.sort(function sortGroups(groupA, groupB) { 
-            const gANumMembers = groupA.members.length;
-            const gBNumMembers = groupB.members.length;
-            if (gANumMembers < gBNumMembers) {
-                return -1;
-            }
-            if (gANumMembers < gBNumMembers) {
-                return 1;
-            }
-            return 0;
-        });
-    
+        groups.sort(sortGroupsAsc);
         setTop5Groups(firstN(groups, 5));
+
+        function sortGroupsAsc(groupA, groupB) {
+            return sortGroups(true, groupA, groupB);
+        }
+        function sortGroups(asc, groupA, groupB) {
+            const sorted = asc ? groupB.members.length - groupA.members.length : groupA.members.length - groupB.members.length;
+            return sorted;
+        }
     }, [groups])
 
 
