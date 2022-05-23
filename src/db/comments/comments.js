@@ -64,13 +64,19 @@ async function getComments(ids) {
         console.error(err);
     }
 }
-
+/**
+ * Retrieves all Comments from Firestore and adds an id property to each that maps to the docID for that Comment.
+ * @returns [array of Comments]
+ */
 async function getAllComments() {
     const comments = [];
     const qrySnap = await getDocs(commentsRef);
-    qrySnap.forEach((g) => {
-        comments.push(g.data());
-    })
+    qrySnap.forEach((c) => {
+        const commentData = c.data();
+        commentData.id = c.id
+        const comment = Comment(commentData);
+        comments.push(comment);
+    });
     return comments;
 }
 

@@ -11,9 +11,7 @@ export default function Feed(props) {
         <Container sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, border: '1px solid red' }}>
             <PostButton userAvatar={user ? user.photoURL: ''} />
             <SortMenu />
-            <Post />
-            <Post />
-            <Post />
+            {posts.map((post, i) => <Post key={i} post={post}/> )}
         </Container>
     )
 }
