@@ -5,7 +5,7 @@ import Avatar from '@mui/material/Avatar';
 
 export default function GroupDropdownItem(props) {
 
-    const { group, handleSelectGroup } = props;
+    const { group, handleSelectGroup, handleClose } = props;
     const [avatarURL, setAvatarURL] = useState('');
 
     useEffect(() => {
@@ -25,6 +25,7 @@ export default function GroupDropdownItem(props) {
     function handleClick() {
         navigate(`g/${group.baseName}`);
         handleSelectGroup(group);
+        handleClose();
     }
 
     return (

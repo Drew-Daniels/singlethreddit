@@ -72,11 +72,6 @@ export default function GroupsDropdown(props) {
     }
   }, [groups, searchStr])
 
-  useEffect(() => {
-    console.log(displayedGroups);
-    console.log(searchStr);
-  }, [displayedGroups])
-
   return (
     <div>
       <Button
@@ -114,11 +109,10 @@ export default function GroupsDropdown(props) {
         <ul>
           {displayedGroups.map((group, i) => {
             return (
-              <GroupsDropdownItem key={i} group={group} handleSelectGroup={handleSelectGroup} />
+              <GroupsDropdownItem key={i} group={group} handleSelectGroup={handleSelectGroup} handleClose={handleClose} />
             )
           })}
         </ul>
-        
       </StyledMenu>
     </div>
   );
