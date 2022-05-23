@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -23,11 +25,11 @@ export default function TopGroup(props) {
     }, [group])
 
     return (
-        <Box sx={{ display: 'flex', flexGrow: 1, alignItems: 'center', justifyContent: 'space-around', marginBottom: '1rem', fontSize: 12 }}>
+        <Link component={RouterLink} to={'g/' + group.baseName} sx={{ display: 'flex', flexGrow: 1, alignItems: 'center', justifyContent: 'space-around', marginBottom: '1rem', fontSize: 12 }}>
             <span>{position}</span>
             <Avatar src={avatarURL} alt={group.baseName + ' avatar'} />
             <span>{group.baseName}</span>
             <Button variant='contained'>Join</Button>
-        </Box>
+        </Link>
     )
 }
