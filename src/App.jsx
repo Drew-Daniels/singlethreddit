@@ -17,7 +17,6 @@ function App() {
   const appName = 'Singlethreddit'
   const [loaded, setLoaded] = useState(false);
   const [user, setUser] = useState(null);
-  const [userAvatar, setUserAvatar] = useState('');
   const [groups, setGroups] = useState([]);
   const [posts, setPosts] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState(null);
@@ -25,7 +24,6 @@ function App() {
   useEffect(() => {
     auth.onAuthStateChanged(user => {
       setUser(prevUser => user);
-      setUserAvatar(prevAvatar => (user ? user.photoURL: ''));
     });
 
     parallel([
@@ -62,7 +60,7 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Navbar AppIcon={AppIcon} appName={appName} signIn={signIn} user={user} groups={groups} selectedGroup={selectedGroup} handleSelectGroup={setSelectedGroup} />
-          <Outlet context={{user, userAvatar, groups, selectedGroup, handleSelectGroup: setSelectedGroup}} posts={posts} selectedGroup={selectedGroup} />
+          <Outlet context={{ user, groups, selectedGroup, handleSelectGroup: setSelectedGroup, posts }} />
         </ThemeProvider>
       </Container>
   );

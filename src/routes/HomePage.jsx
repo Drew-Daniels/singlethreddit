@@ -5,9 +5,9 @@ import { useOutletContext } from 'react-router-dom';
 
 export default function HomePage(props) {
 
-    const { userAvatar, groups } = useOutletContext();
+    const { user, groups, posts } = useOutletContext();
 
     return (
-        <Layout mainComponent={<Feed userAvatar={userAvatar} />} sidebarComponent={<TopGroups groups={groups} />} />
+        <Layout mainComponent={<Feed user={user} posts={posts} />} sidebarComponent={<TopGroups groups={groups} />} />
     )
 }
