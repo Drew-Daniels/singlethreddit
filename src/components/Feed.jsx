@@ -5,7 +5,7 @@ import Posts from './Posts';
 
 export default function Feed(props) {
 
-    const { user, posts, setPosts, comments, sortHot, sortMostRecent } = props;
+    const { user, posts, setComments, comments, sortHot, sortMostRecent } = props;
 
 
 

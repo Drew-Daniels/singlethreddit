@@ -6,12 +6,12 @@ import CardContent from '@mui/material/CardContent';
 import PostHeader from './PostHeader';
 import PostMain from './PostMain';
 import PostFooter from './PostFooter';
-import Votes from './Votes';
+import PostVotes from './PostVotes';
 
 export default function Post(props) {
 
     const { id, baseName, userName, groupAvatarURL, timeCreated, title, numUpvotes, numDownvotes } = props.post;
-    const { comments } = props;
+    const { comments, setComments } = props;
     
     const [postComments, setPostComments] = useState([]);
 
@@ -29,7 +29,7 @@ export default function Post(props) {
             <CardContent id={id} >
                 <Grid container>
                     <Grid item xs={2}>
-                        <Votes numUpvotes={numUpvotes} numDownvotes={numDownvotes} />
+                        <PostVotes numUpvotes={numUpvotes} numDownvotes={numDownvotes} />
                     </Grid>
                     <Grid item>
                         <PostHeader baseName={baseName} userName={userName} groupAvatarURL={groupAvatarURL} timeCreated={timeCreated} />
