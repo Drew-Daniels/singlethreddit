@@ -94,7 +94,7 @@ async function getAllPosts(comments) {
     return comments;
 }
 
-async function getPostComments(postID, comments) {
+function getPostComments(postID, comments) {
     return comments.filter(comment => comment.parentId === postID);
 }
 
