@@ -20,6 +20,7 @@ function App() {
   const [groups, setGroups] = useState([]);
   const [posts, setPosts] = useState([]);
   const [comments, setComments] = useState([]);
+  const [sortFn, setSortFn] = useState(null);
   const [selectedGroup, setSelectedGroup] = useState(null);
 
   useEffect(() => {
@@ -73,7 +74,25 @@ function App() {
         console.error(err);
       }
     }
-  }, [comments]);
+  }, []);
+
+  function sortHot() {
+    var newOrder = [...comments].sort(compareHot);
+    setPosts(prevOrder => newOrder);
+
+    function compareHot(a, b) {
+        return (b.getKarma()) - (a.getKarma());
+    }
+  }
+
+  function sortMostRecent() {
+      var newOrder = [...comments].sort(compareMostRecent);
+      setPosts(prevOrder => newOrder);
+
+      function compareMostRecent(a, b) {
+          return b.timeCreated - a.timeCreated;
+      }
+  }
 
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const theme = useMemo(
@@ -91,7 +110,7 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Navbar AppIcon={AppIcon} appName={appName} signIn={signIn} user={user} groups={groups} selectedGroup={selectedGroup} handleSelectGroup={setSelectedGroup} />
-          <Outlet context={{ user, groups, selectedGroup, handleSelectGroup: setSelectedGroup, posts, setPosts, comments }} />
+          <Outlet context={{ user, groups, selectedGroup, handleSelectGroup: setSelectedGroup, posts, setPosts, comments, sortHot, sortMostRecent }} />
         </ThemeProvider>
       </Container>
   );

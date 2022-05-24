@@ -5,9 +5,22 @@ import { useOutletContext } from 'react-router-dom';
 
 export default function HomePage(props) {
 
-    const { user, groups, posts, setPosts, comments } = useOutletContext();
+    const { user, groups, posts, setPosts, comments, sortHot, sortMostRecent } = useOutletContext();
 
     return (
-        <Layout mainComponent={<Feed user={user} posts={posts} setPosts={setPosts} comments={comments} />} sidebarComponent={<TopGroups groups={groups} />} />
+        <Layout 
+            mainComponent={
+                <Feed 
+                    user={user}
+                    posts={posts} 
+                    setPosts={setPosts} 
+                    comments={comments} 
+                    sortHot={sortHot} 
+                    sortMostRecent={sortMostRecent} 
+                />} 
+            sidebarComponent={
+                <TopGroups groups={groups} 
+            />} 
+        />
     )
 }
