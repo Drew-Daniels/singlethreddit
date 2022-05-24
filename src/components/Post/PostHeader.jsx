@@ -4,11 +4,11 @@ import Box from '@mui/material/Box';
 
 export default function PostHeader(props) {
 
-    const { baseName, userName, timeCreated } = props;
+    const { baseName, userName, avatarURL, timeCreated } = props;
 
     return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Avatar />
+            <Avatar src={avatarURL} />
             <Typography sx={{ fontSize: 12 }}>{'g/' + baseName}</Typography>
             <Typography sx={{ fontSize: 12 }}>posted by u/{userName}</Typography>
             <Typography sx={{ fontSize: 12 }}>at {String(timeCreated.toDate())} </Typography>

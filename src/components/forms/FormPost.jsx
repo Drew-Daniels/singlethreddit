@@ -18,9 +18,11 @@ export default function FormPost(props) {
         e.preventDefault();
         var uid = await user.uid;
         var displayName = await user.displayName;
+        var avatarURL = await user.photoURL;
         var success = await addComment(
             uid,
             displayName,
+            avatarURL,
             selectedGroup.baseName,
             body
         );
