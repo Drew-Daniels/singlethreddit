@@ -59,6 +59,9 @@ import { Timestamp } from 'firebase/firestore';
             title,
             userAvatarURL,
             groupAvatarURL,
+            getKarma() {
+                return (numUpvotes - numDownvotes);
+            }
         }
     )
     // validation function definitions
