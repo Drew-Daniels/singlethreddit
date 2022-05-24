@@ -6,22 +6,21 @@ import {default as DownvoteIcon} from '@mui/icons-material/ArrowCircleDown';
 
 export default function PostVotes(props) {
 
-    const { numUpvotes, numDownvotes } = props;
-
+    const { post, handleUpvote, handleDownvote } = props;
     const [karma, setKarma] = useState(0);
 
     useEffect(() => {
-        setKarma(prevKarma => numUpvotes - numDownvotes);
+        setKarma(prevKarma => post.getKarma());
 
-    }, [numUpvotes, numDownvotes])
+    }, [post])
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: 'blue' }}>
-            <Button>
+            <Button onClick={handleUpvote}>
                 <UpvoteIcon />
             </Button>
             <span>{karma}</span>
-            <Button>
+            <Button onClick={handleDownvote} >
                 <DownvoteIcon />
             </Button>
         </Box>

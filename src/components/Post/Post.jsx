@@ -10,10 +10,40 @@ import PostVotes from './PostVotes';
 
 export default function Post(props) {
 
-    const { id, baseName, userName, groupAvatarURL, timeCreated, title, numUpvotes, numDownvotes } = props.post;
-    const { comments, setComments } = props;
+    const { post, comments, setComments } = props;
+    const { id, baseName, userName, groupAvatarURL, timeCreated, title, numUpvotes, numDownvotes } = post;
     
     const [postComments, setPostComments] = useState([]);
+    // -1 => downvote
+    // 0 => no vote
+    // 1 => upvote
+    const [vote, setVote] = useState(0);
+
+    function upvote() {
+        if (vote <= 0) {
+            // user has either not voted or downvoted - either way change vote to upvoted
+            setVote(1);
+        } else {
+            // user has already voted - change to neutral
+            setVote(0);
+        }
+    }
+
+    function downvote() {
+        // user has already downvoted - change to neutral
+        if (vote < 0) {
+            setVote(0);
+        } else {
+            // user has upvoted - change to downvoted
+            setVote(-1);
+        }
+    }
+
+    useEffect(() => {
+        // make a copy of the post
+        // make a copy of comments
+        console.log(vote);
+    }, [vote])
 
     useEffect(() => {
         loadPostComments();
@@ -29,7 +59,7 @@ export default function Post(props) {
             <CardContent id={id} >
                 <Grid container>
                     <Grid item xs={2}>
-                        <PostVotes numUpvotes={numUpvotes} numDownvotes={numDownvotes} />
+                        <PostVotes post={post} setComments={setComments} handleUpvote={upvote} handleDownvote={downvote} />
                     </Grid>
                     <Grid item>
                         <PostHeader baseName={baseName} userName={userName} groupAvatarURL={groupAvatarURL} timeCreated={timeCreated} />
