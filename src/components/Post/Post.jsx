@@ -8,7 +8,7 @@ import Votes from './Votes';
 
 export default function Post(props) {
 
-    const { id, baseName, userName, avatarURL, timeCreated, title, numUpvotes, numDownvotes } = props.post;
+    const { id, baseName, userName, groupAvatarURL, timeCreated, title, numUpvotes, numDownvotes } = props.post;
     const { comments } = props;
 
     const card = (
@@ -19,7 +19,7 @@ export default function Post(props) {
                         <Votes numUpvotes={numUpvotes} numDownvotes={numDownvotes} />
                     </Grid>
                     <Grid item>
-                        <PostHeader baseName={baseName} userName={userName} avatarURL={avatarURL} timeCreated={timeCreated} />
+                        <PostHeader baseName={baseName} userName={userName} groupAvatarURL={groupAvatarURL} timeCreated={timeCreated} />
                         <PostMain title={title} numUpvotes={numUpvotes} numDownvotes={numDownvotes} />
                         <PostFooter numComments={comments.length} />
                     </Grid>
