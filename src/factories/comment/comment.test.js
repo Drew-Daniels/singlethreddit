@@ -409,4 +409,37 @@ describe('OPTIONAL parameters', () => {
             expect(() => Comment(config)).toThrow();
         });
     });
+    describe('avatarURL', () => {
+        var tProperty;
+        var getUpdatedConfig;
+        beforeAll(() => {
+            tProperty = 'avatarURL';
+            getUpdatedConfig = getPropUpdater(tProperty);
+        });
+        test('non-blank string => SUCCESS', () => {
+            var tValue = 'spam';
+            var config = getUpdatedConfig(tValue);
+            expect(Comment(config)).toMatchObject({ avatarURL: tValue });
+        })
+        test('blank string => SUCCESS', () => {
+            var tValue = '';
+            var config = getUpdatedConfig(tValue);
+            expect(Comment(config)).toMatchObject({ avatarURL: tValue });
+        });
+        test('explicit (passed) undefined => SUCCESS', () => {
+            var tValue = undefined;
+            var config = getUpdatedConfig(tValue);
+            expect(Comment(config)).toMatchObject({ avatarURL: '' });
+        });
+        test('implicit (not passed) undefined => SUCCESS', () => {
+            var config = getUpdatedConfig();
+            delete config[tProperty];
+            expect(Comment(config)).toMatchObject({ avatarURL: '' });
+        });
+        test('null => ERROR', () => {
+            var tValue = null;
+            var config = getUpdatedConfig(tValue);
+            expect(() => Comment(config)).toThrow();
+        });
+    });
 });

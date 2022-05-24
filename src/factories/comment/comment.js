@@ -23,7 +23,8 @@ import { Timestamp } from 'firebase/firestore';
     timeEdited=Timestamp.now(), 
     numUpvotes=0, 
     numDownvotes=0, 
-    title=''
+    title='',
+    avatarURL=''
     } = {}) => {
     // CHECKS
     // REQUIRED parameters
@@ -35,9 +36,10 @@ import { Timestamp } from 'firebase/firestore';
     if (!validParentId(parentId)) {throw new Error('"parentId" must be a non-blank string or undefined')};
     if (!validTimestamp(timeCreated)) {throw new Error('"timeCreated" must be of Firebase Timestamp type')};
     if (!validTimestamp(timeEdited)) {throw new Error('"timeEdited" must be of Firebase Timestamp type')};
-    if (!validNumUpvotes(numUpvotes)) {throw new Error('"numUpvotes" must be an integer greater than or equal to 0')}
-    if (!validNumDownvotes(numDownvotes)) {throw new Error('"numDownvotes" must be an integer less than or equal to 0')}
-    if (!validTitle(title)) {throw new Error('"title" must be a string')}
+    if (!validNumUpvotes(numUpvotes)) {throw new Error('"numUpvotes" must be an integer greater than or equal to 0')};
+    if (!validNumDownvotes(numDownvotes)) {throw new Error('"numDownvotes" must be an integer less than or equal to 0')};
+    if (!validTitle(title)) {throw new Error('"title" must be a string')};
+    if (!validAvatarURL(avatarURL)) { throw new Error('"avatarURL" must be a string')};
     // CHECKS FINISHED
     return (
         {
@@ -50,10 +52,10 @@ import { Timestamp } from 'firebase/firestore';
             timeEdited,
             numUpvotes,
             numDownvotes,
-            title
+            title,
+            avatarURL
         }
     )
-
     // validation function definitions
     function validUID(uid) {
         return (uid && typeof uid === 'string');
@@ -81,6 +83,9 @@ import { Timestamp } from 'firebase/firestore';
     }
     function validTitle(title) {
         return (typeof title === 'string');
+    }
+    function validAvatarURL(avatarURL) {
+        return (typeof avatarURL === 'string');
     }
 }
 
