@@ -1,6 +1,6 @@
 import parallel from 'async/parallel';
 import { auth, signIn, db, storage } from './firebase-setup';
-import { getAllPosts } from './db/comments/comments';
+import { getAllComments, getAllPosts } from './db/comments/comments';
 import { getAllGroups } from './db/groups/groups';
 
 import 'firebaseui/dist/firebaseui.css'
@@ -19,6 +19,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [groups, setGroups] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [comments, setComments] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState(null);
 
   useEffect(() => {
@@ -26,23 +27,53 @@ function App() {
       setUser(prevUser => user);
     });
 
-    parallel([
-      async function loadGroups(cb) {
+    setup();
+
+    // DEFINITIONS
+    async function setup() {
+      await loadComments();    
+
+      parallel([
+        loadGroups,
+        loadPosts,
+      ], function(err, results) {
+          if (err) {
+            console.error(err);
+          } else {
+            setLoaded(true);
+          }
+      });
+    }
+    async function loadComments() {
+      try {
+        const cs = await getAllComments();
+        setComments(cs);
+        return true;
+      }
+      catch (err) {
+        console.error(err);
+        return false;
+      }
+    }
+    async function loadGroups(cb) {
+      try {
         const gs = await getAllGroups();
         setGroups(gs);
-      },
-      async function loadPosts(cb) {
-        const ps = await getAllPosts();
+      }
+      catch (err) {
+        console.error(err);
+      }
+    }
+    async function loadPosts(cb) {
+      try {
+        const ps = await getAllPosts(comments);
         setPosts(ps);
-      },
-    ], function(err, results) {
-        if (err) {
-          console.error(err);
-        } else {
-          setLoaded(true);
-        }
-    });
-  }, []);
+      }
+      catch (err) {
+        console.error(err);
+      }
+    }
+  }, [comments]);
 
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const theme = useMemo(
@@ -60,7 +91,7 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Navbar AppIcon={AppIcon} appName={appName} signIn={signIn} user={user} groups={groups} selectedGroup={selectedGroup} handleSelectGroup={setSelectedGroup} />
-          <Outlet context={{ user, groups, selectedGroup, handleSelectGroup: setSelectedGroup, posts }} />
+          <Outlet context={{ user, groups, selectedGroup, handleSelectGroup: setSelectedGroup, posts, comments }} />
         </ThemeProvider>
       </Container>
   );

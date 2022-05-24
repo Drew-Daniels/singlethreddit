@@ -1,6 +1,7 @@
 import Comment from '../../factories/comment/comment';
 import { collection, doc, getDoc, getDocs, deleteDoc, addDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase-setup';
+import { getAuth } from 'firebase/auth';
 import { COMMENTS_COLLECTION_NAME } from '../../constants';
 
 const commentsRef = collection(db, COMMENTS_COLLECTION_NAME);
@@ -79,11 +80,26 @@ async function getAllComments() {
     });
     return comments;
 }
-
-async function getAllPosts() {
-    const comments = await getAllComments();
+/**
+ * Filters an array of comments to only those that are posts - indicated by a blank parentId
+ * If no array of comments is provided, they are retrieved from the database.
+ * @param {array} comments 
+ * @returns array
+ */
+async function getAllPosts(comments) {
+    if (!comments) {
+        comments = await getAllComments();
+    }
     comments.filter(comment => comment.parentId === '');
     return comments;
+}
+
+async function getPostComments(postID, comments) {
+    return comments.filter(comment => comment.parentId === postID);
+}
+
+async function getUserPhotoURL(uid) {
+    getAuth().getUser(uid)
 }
 
 /**
@@ -142,6 +158,7 @@ export {
     getComments,
     getAllComments,
     getAllPosts,
+    getPostComments,
     addComment,
     updateComment,
 }

@@ -9,9 +9,7 @@ import Votes from './Votes';
 export default function Post(props) {
 
     const { id, baseName, userName, timeCreated, title, upvotes, downvotes } = props.post;
-
-    // TODO: Retrieve total number of comments under this post
-    var numComments = 0;
+    const { comments } = props;
 
     const card = (
         <>
@@ -23,7 +21,7 @@ export default function Post(props) {
                     <Grid item>
                         <PostHeader baseName={baseName} userName={userName} timeCreated={timeCreated} />
                         <PostMain title={title} upvotes={upvotes} downvotes={downvotes} />
-                        <PostFooter numComments={numComments} />
+                        <PostFooter numComments={comments.length} />
                     </Grid>
                 </Grid>
             </CardContent>
