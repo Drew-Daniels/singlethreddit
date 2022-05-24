@@ -5,14 +5,13 @@ import { useOutletContext } from 'react-router-dom';
 
 export default function HomePage(props) {
 
-    const { user, groups, posts, setComments, comments, sortHot, sortMostRecent } = useOutletContext();
+    const { user, groups, comments, setComments, sortHot, sortMostRecent } = useOutletContext();
 
     return (
         <Layout 
             mainComponent={
                 <Feed 
                     user={user}
-                    posts={posts}
                     comments={comments} 
                     setComments={setComments}
                     sortHot={sortHot} 

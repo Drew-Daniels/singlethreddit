@@ -1,6 +1,6 @@
 import parallel from 'async/parallel';
 import { auth, signIn, db, storage } from './firebase-setup';
-import { getAllComments, getAllPosts } from './db/comments/comments';
+import { getAllComments } from './db/comments/comments';
 import { getAllGroups } from './db/groups/groups';
 
 import 'firebaseui/dist/firebaseui.css'
@@ -18,7 +18,6 @@ function App() {
   const [loaded, setLoaded] = useState(false);
   const [user, setUser] = useState(null);
   const [groups, setGroups] = useState([]);
-  const [posts, setPosts] = useState([]);
   const [comments, setComments] = useState([]);
   const [sortFn, setSortFn] = useState(null);
   const [selectedGroup, setSelectedGroup] = useState(null);
@@ -32,53 +31,40 @@ function App() {
 
     // DEFINITIONS
     async function setup() {
-      await loadComments();    
-
       parallel([
-        loadGroups,
-        loadPosts,
-      ], function(err, results) {
-          if (err) {
-            console.error(err);
-          } else {
-            setLoaded(true);
+        async function loadComments(cb) {
+          try {
+            const cs = await getAllComments();
+            setComments(cs);
+            return true;
           }
-      });
-    }
-    async function loadComments() {
-      try {
-        const cs = await getAllComments();
-        setComments(cs);
-        return true;
-      }
-      catch (err) {
-        console.error(err);
-        return false;
-      }
-    }
-    async function loadGroups(cb) {
-      try {
-        const gs = await getAllGroups();
-        setGroups(gs);
-      }
-      catch (err) {
-        console.error(err);
-      }
-    }
-    async function loadPosts(cb) {
-      try {
-        const ps = await getAllPosts(comments);
-        setPosts(ps);
-      }
-      catch (err) {
-        console.error(err);
-      }
+          catch (err) {
+            console.error(err);
+            return false;
+          }
+        },
+        async function loadGroups(cb) {
+          try {
+            const gs = await getAllGroups();
+            setGroups(gs);
+          }
+          catch (err) {
+            console.error(err);
+          }
+        },
+      ], function(err) {
+        if (err) {
+          console.error(err);
+        } else {
+          setLoaded(true);
+        }
+      })
     }
   }, []);
 
   function sortHot() {
     var newOrder = [...comments].sort(compareHot);
-    setPosts(prevOrder => newOrder);
+    setComments(prevOrder => newOrder);
 
     function compareHot(a, b) {
         return (b.getKarma()) - (a.getKarma());
@@ -87,7 +73,7 @@ function App() {
 
   function sortMostRecent() {
       var newOrder = [...comments].sort(compareMostRecent);
-      setPosts(prevOrder => newOrder);
+      setComments(prevOrder => newOrder);
 
       function compareMostRecent(a, b) {
           return b.timeCreated - a.timeCreated;
@@ -110,7 +96,7 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Navbar AppIcon={AppIcon} appName={appName} signIn={signIn} user={user} groups={groups} selectedGroup={selectedGroup} handleSelectGroup={setSelectedGroup} />
-          <Outlet context={{ user, groups, selectedGroup, handleSelectGroup: setSelectedGroup, posts, setPosts, comments, sortHot, sortMostRecent }} />
+          <Outlet context={{ user, groups, selectedGroup, handleSelectGroup: setSelectedGroup, comments, sortHot, sortMostRecent }} />
         </ThemeProvider>
       </Container>
   );
