@@ -1,7 +1,6 @@
 import Comment from '../../factories/comment/comment';
 import { collection, doc, getDoc, getDocs, deleteDoc, addDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase-setup';
-import { getAuth } from 'firebase/auth';
 import { COMMENTS_COLLECTION_NAME } from '../../constants';
 
 const commentsRef = collection(db, COMMENTS_COLLECTION_NAME);
@@ -32,6 +31,8 @@ async function getComment(id) {
             var comment = Comment({
                 uid: gd.uid,
                 userName: gd.userName,
+                userAvatarURL: gd.userAvatarURL,
+                groupAvatarURL: gd.groupAvatarURL,
                 baseName: gd.baseName,
                 body: gd.body,
                 parentId: gd.parentId,
@@ -102,6 +103,8 @@ function getPostComments(postID, comments) {
  * Adds a comment to Firestore if a Comment does not already exist in Firebase with that id. Otherwise overwrites it.
  * @param {string} uid 
  * @param {string} userName 
+ * @param {string} userAvatarURL
+ * @param {string} groupAvatarURL
  * @param {string} baseName 
  * @param {string} body 
  * @param {string} parentId 
@@ -112,11 +115,12 @@ function getPostComments(postID, comments) {
  * @param {string} title 
  * @returns boolean
  */
-async function addComment(uid, userName, avatarURL, baseName, body, parentId, timeCreated, timeEdited, numUpvotes, numDownvotes, title) {
+async function addComment(uid, userName, userAvatarURL, groupAvatarURL, baseName, body, parentId, timeCreated, timeEdited, numUpvotes, numDownvotes, title) {
     const group = Comment({
         uid,
         userName, 
-        avatarURL,
+        userAvatarURL,
+        groupAvatarURL,
         baseName,
         body, 
         parentId, 
