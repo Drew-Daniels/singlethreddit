@@ -409,32 +409,65 @@ describe('OPTIONAL parameters', () => {
             expect(() => Comment(config)).toThrow();
         });
     });
-    describe('avatarURL', () => {
+    describe('userAvatarURL', () => {
         var tProperty;
         var getUpdatedConfig;
         beforeAll(() => {
-            tProperty = 'avatarURL';
+            tProperty = 'userAvatarURL';
             getUpdatedConfig = getPropUpdater(tProperty);
         });
         test('non-blank string => SUCCESS', () => {
             var tValue = 'spam';
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config)).toMatchObject({ avatarURL: tValue });
+            expect(Comment(config)).toMatchObject({ userAvatarURL: tValue });
         })
         test('blank string => SUCCESS', () => {
             var tValue = '';
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config)).toMatchObject({ avatarURL: tValue });
+            expect(Comment(config)).toMatchObject({ userAvatarURL: tValue });
         });
         test('explicit (passed) undefined => SUCCESS', () => {
             var tValue = undefined;
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config)).toMatchObject({ avatarURL: '' });
+            expect(Comment(config)).toMatchObject({ userAvatarURL: '' });
         });
         test('implicit (not passed) undefined => SUCCESS', () => {
             var config = getUpdatedConfig();
             delete config[tProperty];
-            expect(Comment(config)).toMatchObject({ avatarURL: '' });
+            expect(Comment(config)).toMatchObject({ userAvatarURL: '' });
+        });
+        test('null => ERROR', () => {
+            var tValue = null;
+            var config = getUpdatedConfig(tValue);
+            expect(() => Comment(config)).toThrow();
+        });
+    });
+    describe('groupAvatarURL', () => {
+        var tProperty;
+        var getUpdatedConfig;
+        beforeAll(() => {
+            tProperty = 'groupAvatarURL';
+            getUpdatedConfig = getPropUpdater(tProperty);
+        });
+        test('non-blank string => SUCCESS', () => {
+            var tValue = 'spam';
+            var config = getUpdatedConfig(tValue);
+            expect(Comment(config)).toMatchObject({ groupAvatarURL: tValue });
+        })
+        test('blank string => SUCCESS', () => {
+            var tValue = '';
+            var config = getUpdatedConfig(tValue);
+            expect(Comment(config)).toMatchObject({ groupAvatarURL: tValue });
+        });
+        test('explicit (passed) undefined => SUCCESS', () => {
+            var tValue = undefined;
+            var config = getUpdatedConfig(tValue);
+            expect(Comment(config)).toMatchObject({ groupAvatarURL: '' });
+        });
+        test('implicit (not passed) undefined => SUCCESS', () => {
+            var config = getUpdatedConfig();
+            delete config[tProperty];
+            expect(Comment(config)).toMatchObject({ groupAvatarURL: '' });
         });
         test('null => ERROR', () => {
             var tValue = null;

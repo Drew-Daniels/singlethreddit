@@ -4,6 +4,8 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 import GroupsDropdownItem from './GroupsDropdownItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import GroupDropdownItem from './GroupsDropdownItem';
@@ -100,19 +102,19 @@ export default function GroupsDropdown(props) {
         open={open}
         onClose={handleClose}
       >
-        <TextField label='group-search-input' variant='outlined' value={searchStr} onChange={(e) => setSearchStr(e.target.value)} />
+        <TextField label='group' variant='outlined' value={searchStr} onChange={(e) => setSearchStr(e.target.value)} />
         <MenuItem sx={{ display: 'flex', alignItems: 'center' }}>
           <AddGroupIcon />
           <span>Add a Group</span>
         </MenuItem>
         <h1>My Groups</h1>
-        <ul>
+        <List>
           {displayedGroups.map((group, i) => {
             return (
               <GroupsDropdownItem key={i} group={group} handleSelectGroup={handleSelectGroup} handleClose={handleClose} />
             )
           })}
-        </ul>
+        </List>
       </StyledMenu>
     </div>
   );

@@ -5,12 +5,14 @@ import { Timestamp } from 'firebase/firestore';
  * @param {string} parentId 
  * @param {string} email 
  * @param {string} baseName 
+ * @param {string} body 
  * @param {Timestamp} timeCreated 
  * @param {Timestamp} timeEdited 
  * @param {integer} numUpvotes 
  * @param {integer} numDownvotes 
  * @param {string} title 
- * @param {string} body 
+ * @param {string} userAvatarURL
+ * @param {string} groupAvatarURL
  * @returns validated [Comment object]
  */
  const Comment = ({
@@ -24,7 +26,8 @@ import { Timestamp } from 'firebase/firestore';
     numUpvotes=0, 
     numDownvotes=0, 
     title='',
-    avatarURL=''
+    userAvatarURL='',
+    groupAvatarURL='',
     } = {}) => {
     // CHECKS
     // REQUIRED parameters
@@ -39,7 +42,8 @@ import { Timestamp } from 'firebase/firestore';
     if (!validNumUpvotes(numUpvotes)) {throw new Error('"numUpvotes" must be an integer greater than or equal to 0')};
     if (!validNumDownvotes(numDownvotes)) {throw new Error('"numDownvotes" must be an integer less than or equal to 0')};
     if (!validTitle(title)) {throw new Error('"title" must be a string')};
-    if (!validAvatarURL(avatarURL)) { throw new Error('"avatarURL" must be a string')};
+    if (!validAvatarURL(userAvatarURL)) { throw new Error('"userAvatarURL" must be a string')};
+    if (!validAvatarURL(groupAvatarURL)) { throw new Error('"groupAvatarURL" must be a string')};
     // CHECKS FINISHED
     return (
         {
@@ -53,7 +57,8 @@ import { Timestamp } from 'firebase/firestore';
             numUpvotes,
             numDownvotes,
             title,
-            avatarURL
+            userAvatarURL,
+            groupAvatarURL,
         }
     )
     // validation function definitions
