@@ -2,41 +2,39 @@ import { getPostComments } from '../db/comments/comments';
 import Container from '@mui/material/Container';
 import PostButton from './Buttons/PostButton';
 import SortMenu from './SortMenu';
-import Post from './Post/Post';
+import Posts from './Posts';
 
 export default function Feed(props) {
 
     const { user, posts, setPosts, comments } = props;
 
     function sortHot(posts) {
-        var newOrder = posts.sort(compareHot);
-        return setPosts(newOrder);
+        console.log(posts);
+        var newOrder = [...posts].sort(compareHot);
+        console.log(newOrder);
+        return newOrder;
 
-        function compareHot(postA, postB) {
-            const postAKarma = postA.numUpvotes - postA.numDownvotes;
-            const postBKarma = postB.numUpvotes - postB.numDownvotes;
-            // if postB has more karma than postA, show it before postA
-            return postBKarma - postAKarma;
+        function compareHot(a, b) {
+            return (b.numUpvotes - b.numDownvotes) - (a.numUpvotes - a.numDownvotes);
         }
     }
 
     function sortMostRecent(posts) {
-        var newOrder = posts.sort(compareMostRecent);
-        return setPosts(newOrder);
+        console.log(posts);
+        var newOrder = [...posts].sort(compareMostRecent);
+        console.log(newOrder);
+        return newOrder;
 
-        function compareMostRecent(postA, postB) {
-            return postA.timeCreated - postB.timeCreated;
+        function compareMostRecent(a, b) {
+            return b.timeCreated - a.timeCreated;
         }
     }
 
     return (
         <Container sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, border: '1px solid red' }}>
             <PostButton userAvatar={user ? user.photoURL: ''} />
-            <SortMenu handleSortHot={() => sortHot(posts)} handleSortMostRecent={() => sortMostRecent(posts)} />
-            {posts.map((post, i) => {
-                const postComments = getPostComments(post.id, comments);
-                return <Post key={i} post={post} comments={postComments} />
-            })}
+            <SortMenu handleSortHot={() => setPosts(prevPosts => sortHot(posts))} handleSortMostRecent={() => setPosts(prevPosts => sortMostRecent(posts))} />
+            <Posts posts={posts} comments={comments} />
         </Container>
     )
 }

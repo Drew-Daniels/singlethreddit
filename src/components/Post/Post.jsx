@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import { getPostComments } from '../../db/comments/comments';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -10,6 +12,17 @@ export default function Post(props) {
 
     const { id, baseName, userName, groupAvatarURL, timeCreated, title, numUpvotes, numDownvotes } = props.post;
     const { comments } = props;
+    
+    const [postComments, setPostComments] = useState([]);
+
+    useEffect(() => {
+        loadPostComments();
+
+        function loadPostComments() {
+            const pc = getPostComments(id, comments);
+            setPostComments(pc);
+        }
+    }, [id, comments])
 
     const card = (
         <>
@@ -21,7 +34,7 @@ export default function Post(props) {
                     <Grid item>
                         <PostHeader baseName={baseName} userName={userName} groupAvatarURL={groupAvatarURL} timeCreated={timeCreated} />
                         <PostMain title={title} numUpvotes={numUpvotes} numDownvotes={numDownvotes} />
-                        <PostFooter numComments={comments.length} />
+                        <PostFooter numComments={postComments.length} />
                     </Grid>
                 </Grid>
             </CardContent>
