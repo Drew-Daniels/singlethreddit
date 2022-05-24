@@ -34,7 +34,7 @@ export default function Post(props) {
         if (vote < 0) {
             setVote(0);
         } else {
-            // user has upvoted - change to downvoted
+            // user has either not voted or downvoted - either way change vote to downvoted
             setVote(-1);
         }
     }
