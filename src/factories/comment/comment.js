@@ -23,8 +23,8 @@ import { Timestamp } from 'firebase/firestore';
     parentId='',
     timeCreated=Timestamp.now(), 
     timeEdited=Timestamp.now(), 
-    numUpvotes=0, 
-    numDownvotes=0, 
+    upvoters=[], 
+    downvoters=[], 
     title='',
     userAvatarURL='',
     groupAvatarURL='',
@@ -39,8 +39,8 @@ import { Timestamp } from 'firebase/firestore';
     if (!validParentId(parentId)) {throw new Error('"parentId" must be a non-blank string or undefined')};
     if (!validTimestamp(timeCreated)) {throw new Error('"timeCreated" must be of Firebase Timestamp type')};
     if (!validTimestamp(timeEdited)) {throw new Error('"timeEdited" must be of Firebase Timestamp type')};
-    if (!validNumUpvotes(numUpvotes)) {throw new Error('"numUpvotes" must be an integer greater than or equal to 0')};
-    if (!validNumDownvotes(numDownvotes)) {throw new Error('"numDownvotes" must be an integer less than or equal to 0')};
+    if (!validUpvoters(upvoters)) {throw new Error('"upvoters" must be an array')};
+    if (!validDownvoters(downvoters)) {throw new Error('"downvoters" must be an array')};
     if (!validTitle(title)) {throw new Error('"title" must be a string')};
     if (!validAvatarURL(userAvatarURL)) { throw new Error('"userAvatarURL" must be a string')};
     if (!validAvatarURL(groupAvatarURL)) { throw new Error('"groupAvatarURL" must be a string')};
@@ -54,13 +54,13 @@ import { Timestamp } from 'firebase/firestore';
             parentId,
             timeCreated,
             timeEdited,
-            numUpvotes,
-            numDownvotes,
+            upvoters,
+            downvoters,
             title,
             userAvatarURL,
             groupAvatarURL,
             getKarma() {
-                return (numUpvotes - numDownvotes);
+                return (upvoters.length - downvoters.length);
             }
         }
     )
@@ -83,11 +83,11 @@ import { Timestamp } from 'firebase/firestore';
     function validTimestamp(timestamp) {
         return (timestamp instanceof Timestamp);
     }
-    function validNumUpvotes(numUpvotes) {
-        return (Number.isInteger(numUpvotes) && numUpvotes >= MIN_UPVOTES);
+    function validUpvoters(upvoters) {
+        return Array.isArray(upvoters);
     }
-    function validNumDownvotes(numDownvotes) {
-        return (Number.isInteger(numDownvotes) && numDownvotes >= MIN_DOWNVOTES);
+    function validDownvoters(downvoters) {
+        return Array.isArray(downvoters);
     }
     function validTitle(title) {
         return (typeof title === 'string');

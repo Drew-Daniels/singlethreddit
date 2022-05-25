@@ -300,25 +300,27 @@ describe('OPTIONAL parameters', () => {
             expect(() => Comment(config)).toThrow();
         });
     });
-    describe('numUpvotes', () => {
+    describe('upvoters', () => {
         var tProperty;
         var getUpdatedConfig;
         beforeAll(() => {
-            tProperty = 'numUpvotes';
+            tProperty = 'upvoters';
             getUpdatedConfig = getPropUpdater(tProperty);
         });
-        test('int > MIN_UPVOTES => SUCCESS', () => {
-            var tValue = MIN_UPVOTES + 1;
+        test('[] => SUCCESS', () => {
+            var tValue = [];
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config)).toMatchObject({ numUpvotes: tValue });
+            expect(Comment(config)).toMatchObject({ upvoters: tValue });
         });
-        test('int === MIN_UPVOTES => SUCCESS', () => {
-            var tValue = MIN_UPVOTES;
+        test('non-empty array => SUCCESS', () => {
+            var tValue = ['thisisauid', 'anotheruid'];
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config)).toMatchObject({ numUpvotes: tValue });
+            expect(Comment(config)).toMatchObject( { upvoters: tValue });
         });
-        test('int < MIN_UPVOTES => ERROR', () => {
-            var tValue = MIN_UPVOTES - 1;
+        test.todo('array with only string elements => SUCCESS');
+        test.todo('array with non-string elements => ERROR');
+        test('int => ERROR', () => {
+            var tValue = 1;
             var config = getUpdatedConfig(tValue);
             expect(() => Comment(config)).toThrow();
         });
@@ -335,28 +337,30 @@ describe('OPTIONAL parameters', () => {
         test('undefined => SUCCESS', () => {
             var tValue = undefined;
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config)).toMatchObject({ numUpvotes: 0 });
+            expect(Comment(config)).toMatchObject({ upvoters: [] });
         });
     });
-    describe('numDownvotes', () => {
+    describe('downvoters', () => {
         var tProperty;
         var getUpdatedConfig;
         beforeAll(() => {
-            tProperty = 'numDownvotes';
+            tProperty = 'downvoters';
             getUpdatedConfig = getPropUpdater(tProperty);
         });
-        test('int > MIN_DOWNVOTES => SUCCESS', () => {
-            var tValue = MIN_DOWNVOTES + 1;
+        test('[] => SUCCESS', () => {
+            var tValue = [];
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config)).toMatchObject({ numDownvotes: tValue });
+            expect(Comment(config)).toMatchObject({ downvoters: tValue });
         });
-        test('int === MIN_DOWNVOTES => SUCCESS', () => {
-            var tValue = MIN_DOWNVOTES;
+        test('non-empty array => SUCCESS', () => {
+            var tValue = ['thisisauid', 'anotheruid'];
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config)).toMatchObject({ numDownvotes: tValue });
-        });
-        test('int < MIN_DOWNVOTES => ERROR', () => {
-            var tValue = MIN_DOWNVOTES - 1;
+            expect(Comment(config)).toMatchObject({ downvoters: tValue });
+        })
+        test.todo('array with only string elements => SUCCESS');
+        test.todo('array with non-string elements => ERROR');
+        test('int => ERROR', () => {
+            var tValue = 1;
             var config = getUpdatedConfig(tValue);
             expect(() => Comment(config)).toThrow();
         });
@@ -373,7 +377,7 @@ describe('OPTIONAL parameters', () => {
         test('undefined => SUCCESS', () => {
             var tValue = undefined;
             var config = getUpdatedConfig(tValue);
-            expect(Comment(config)).toMatchObject({ numDownvotes: 0 });
+            expect(Comment(config)).toMatchObject({ downvoters: [] });
         });
     });
     describe('title', () => {

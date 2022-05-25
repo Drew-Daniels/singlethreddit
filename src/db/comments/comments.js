@@ -38,8 +38,8 @@ async function getComment(id) {
                 parentId: gd.parentId,
                 timeCreated: gd.timeCreated,
                 timeEdited: gd.timeEdited,
-                numUpvotes: gd.numUpvotes,
-                numDownvotes: gd.numDownvotes,
+                upvoters: gd.upvoters,
+                downvoters: gd.downvoters,
                 title: gd.title
             })
         }
@@ -110,12 +110,12 @@ function getPostComments(postID, comments) {
  * @param {string} parentId 
  * @param {Timestamp} timeCreated 
  * @param {Timestamp} timeEdited 
- * @param {integer} numUpvotes 
- * @param {integer} numDownvotes 
+ * @param {integer} upvoters 
+ * @param {integer} downvoters 
  * @param {string} title 
  * @returns boolean
  */
-async function addComment(uid, userName, userAvatarURL, groupAvatarURL, baseName, body, parentId, timeCreated, timeEdited, numUpvotes, numDownvotes, title) {
+async function addComment(uid, userName, userAvatarURL, groupAvatarURL, baseName, body, parentId, timeCreated, timeEdited, upvoters, downvoters, title) {
     const group = Comment({
         uid,
         userName, 
@@ -126,8 +126,8 @@ async function addComment(uid, userName, userAvatarURL, groupAvatarURL, baseName
         parentId, 
         timeCreated, 
         timeEdited, 
-        numUpvotes, 
-        numDownvotes, 
+        upvoters, 
+        downvoters, 
         title
     });
     try {
