@@ -13,7 +13,6 @@ import PostVotes from './PostVotes';
 export default function Post(props) {
 
     const { user, post, comments, setComments } = props;
-    const { uid } = user;
     const { id, baseName, userName, groupAvatarURL, timeCreated, title, upvoters, downvoters } = post;
     
     const navigate = useNavigate();

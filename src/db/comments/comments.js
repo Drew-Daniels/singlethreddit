@@ -75,8 +75,8 @@ async function getAllComments() {
     const qrySnap = await getDocs(commentsRef);
     qrySnap.forEach((c) => {
         const commentData = c.data();
-        commentData.id = c.id
         const comment = Comment(commentData);
+        comment.id = c.id;
         comments.push(comment);
     });
     return comments;
@@ -116,7 +116,7 @@ function getPostComments(postID, comments) {
  * @returns boolean
  */
 async function addComment(uid, userName, userAvatarURL, groupAvatarURL, baseName, body, parentId, timeCreated, timeEdited, upvoters, downvoters, title) {
-    const group = Comment({
+    const comment = Comment({
         uid,
         userName, 
         userAvatarURL,
@@ -131,7 +131,7 @@ async function addComment(uid, userName, userAvatarURL, groupAvatarURL, baseName
         title
     });
     try {
-        const docRef = await addDoc(commentsRef, group);
+        const docRef = await addDoc(commentsRef, comment);
         console.log('Document written w/ ID: ', docRef.id);
         return true;
     } 

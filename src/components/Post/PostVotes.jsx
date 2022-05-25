@@ -10,7 +10,7 @@ export default function PostVotes(props) {
     const [karma, setKarma] = useState(0);
 
     useEffect(() => {
-        setKarma(prevKarma => post.getKarma());
+        setKarma(prevKarma => post.upvoters.length - post.downvoters.length);
 
     }, [post])
 

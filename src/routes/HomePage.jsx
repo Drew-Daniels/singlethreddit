@@ -1,4 +1,4 @@
-import Feed from '../components/Feed';
+import PostsFeed from '../components/PostsFeed';
 import Layout from '../components/Layout/Layout';
 import TopGroups from '../components/TopGroups';
 import { useOutletContext } from 'react-router-dom';
@@ -10,7 +10,7 @@ export default function HomePage(props) {
     return (
         <Layout 
             mainComponent={
-                <Feed 
+                <PostsFeed 
                     user={user}
                     comments={comments} 
                     setComments={setComments}

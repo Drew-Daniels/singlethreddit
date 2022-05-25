@@ -1,7 +1,6 @@
 import 'dotenv/config';
 import Comment from './comment';
 import {getBoundPropertyUpdater} from '../../utils/get/get';
-import { MIN_UPVOTES, MIN_DOWNVOTES } from '../../constants';
 import { Timestamp } from 'firebase/firestore';
 
 var defaultConfig = {

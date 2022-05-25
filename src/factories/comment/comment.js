@@ -1,4 +1,3 @@
-import { MIN_UPVOTES, MIN_DOWNVOTES } from '../../constants';
 import { Timestamp } from 'firebase/firestore';
 /**
  * Factory function that runs checks on passed in values that are to be used to create a Comment document in the database.
@@ -58,10 +57,7 @@ import { Timestamp } from 'firebase/firestore';
             downvoters,
             title,
             userAvatarURL,
-            groupAvatarURL,
-            getKarma() {
-                return (upvoters.length - downvoters.length);
-            }
+            groupAvatarURL
         }
     )
     // validation function definitions

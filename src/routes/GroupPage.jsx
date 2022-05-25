@@ -1,4 +1,7 @@
 import { useParams } from 'react-router-dom';
+import Layout from '../components/Layout/Layout';
+import PostsFeed from '../components/PostsFeed';
+import About from '../components/About';
 
 export default function GroupPage(props) {
     
@@ -6,6 +9,6 @@ export default function GroupPage(props) {
     const { groupName } = params;
 
     return (
-        <main>{groupName} page here</main>
+        <Layout mainComponent={<PostsFeed />} sidebarComponent={<About />} />
     )
 }
