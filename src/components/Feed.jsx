@@ -31,7 +31,7 @@ export default function Feed(props) {
                 sortHot={sortHot}
                 sortMostRecent={sortMostRecent}
             />
-            <Posts posts={posts} comments={comments} setComments={setComments} />
+            <Posts user={user} posts={posts} comments={comments} setComments={setComments} />
         </Container>
     )
 }

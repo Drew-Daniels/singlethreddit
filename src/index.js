@@ -28,7 +28,7 @@ root.render(
             <Route index element={<GroupsPage />} />
             <Route path=':groupName'>
               <Route index element={<GroupPage />} />
-              <Route path=':commentId' element={<ViewPostPage />} />
+              <Route path=':postId' element={<ViewPostPage />} />
             </Route>
           </Route>
           <Route path='submit' element={<SubmitPostPage />} />

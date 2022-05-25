@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getPostComments } from '../../db/comments/comments';
+import { findAndRemoveFromArray } from '../../utils/arrays/arrays';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -10,40 +12,52 @@ import PostVotes from './PostVotes';
 
 export default function Post(props) {
 
-    const { post, comments, setComments } = props;
-    const { id, baseName, userName, groupAvatarURL, timeCreated, title, numUpvotes, numDownvotes } = post;
+    const { user, post, comments, setComments } = props;
+    const { uid } = user;
+    const { id, baseName, userName, groupAvatarURL, timeCreated, title, upvoters, downvoters } = post;
     
+    const navigate = useNavigate();
     const [postComments, setPostComments] = useState([]);
-    // -1 => downvote
-    // 0 => no vote
-    // 1 => upvote
-    const [vote, setVote] = useState(0);
+    const [numUpvoters, setNumUpvoters] = useState(0);
+    const [numDownvoters, setNumDownvoters] = useState(0);
+
+    useEffect(() => {
+        setNumUpvoters(upvoters.length);
+    }, [upvoters]);
+
+    useEffect(() => {
+        setNumDownvoters(downvoters.length);
+    }, [downvoters]);
 
     function upvote() {
-        if (vote <= 0) {
-            // user has either not voted or downvoted - either way change vote to upvoted
-            setVote(1);
-        } else {
-            // user has already voted - change to neutral
-            setVote(0);
-        }
+        // if (upvoters.includes(uid)) {
+        //     const newUpvoters = findAndRemoveFromArray(uid, upvoters);
+        //     // update comments
+
+        // } else {
+        //     const newUpvoters = [...upvoters];
+        //     newUpvoters.push(uid);
+        // }
+        console.log('Complete later');
     }
 
     function downvote() {
-        // user has already downvoted - change to neutral
-        if (vote < 0) {
-            setVote(0);
-        } else {
-            // user has either not voted or downvoted - either way change vote to downvoted
-            setVote(-1);
-        }
+        // if (downvoters.includes(uid)) {
+        //     const newDownvoters = findAndRemoveFromArray(uid, downvoters);
+        //     // update comments
+        //     const newComments = findAndRemoveFromArray(post, comments);
+        //     const newComment = {...post};
+        //     newComment.downvoters
+        // } else {
+        //     const newDownvoters = [...downvoters];
+        //     newDownvoters.push(uid);
+        // }
+        console.log('Complete later')
     }
 
-    useEffect(() => {
-        // make a copy of the post
-        // make a copy of comments
-        console.log(vote);
-    }, [vote])
+    function goToPost() {
+        navigate(`${baseName}/${id}`)
+    }
 
     useEffect(() => {
         loadPostComments();
@@ -61,9 +75,9 @@ export default function Post(props) {
                     <Grid item xs={2}>
                         <PostVotes post={post} setComments={setComments} handleUpvote={upvote} handleDownvote={downvote} />
                     </Grid>
-                    <Grid item>
+                    <Grid item onClick={() => navigate(`g/${baseName}/${id}`)}>
                         <PostHeader baseName={baseName} userName={userName} groupAvatarURL={groupAvatarURL} timeCreated={timeCreated} />
-                        <PostMain title={title} numUpvotes={numUpvotes} numDownvotes={numDownvotes} />
+                        <PostMain title={title} numUpvotes={numUpvoters} numDownvotes={numDownvoters} />
                         <PostFooter numComments={postComments.length} />
                     </Grid>
                 </Grid>
