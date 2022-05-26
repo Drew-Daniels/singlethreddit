@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
+import List from '@mui/material/List';
 import TopGroup from './TopGroup';
 
 export default function TopGroups(props) {
 
-    const { groups } = props;
+    const { user, groups, setGroups } = props;
     const [top5Groups, setTop5Groups] = useState([]);
 
     useEffect(() => {
@@ -34,11 +35,13 @@ export default function TopGroups(props) {
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-            {top5Groups.map((g, i) => {
-                return (
-                    <TopGroup key={i} group={g} position={i} />
-                )
-            })}
+            <List>
+                {top5Groups.map((g, i) => {
+                    return (
+                        <TopGroup key={i} user={user} group={g} groups={groups} setGroups={setGroups} position={i} />
+                    )
+                })}
+            </List>
         </Box>
     )
 }

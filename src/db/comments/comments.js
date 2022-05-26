@@ -6,6 +6,31 @@ import { COMMENTS_COLLECTION_NAME } from '../../constants';
 const commentsRef = collection(db, COMMENTS_COLLECTION_NAME);
 
 /**
+ * Converter function used to parse data to send to Firestore for writes and instantiating data from Firestore as Comment object.
+ */
+ const commentConverter = {
+    toFirestore: (comment) => {
+        return {
+            uid: comment.uid,
+            username: comment.username,
+            baseName: comment.baseName,
+            body: comment.body,
+            timeCreated: comment.timeCreated,
+            timeEdited: comment.timeEdited,
+            upvoters: comment.upvoters,
+            downvoters: comment.downvoters,
+            title: comment.title,
+            userAvatarURL: comment.userAvatarURL,
+            groupAvatarURL: comment.userAvatarURL
+        }
+    },
+    fromFirestore: (snapshot, options) => {
+        const data = snapshot.data(options);
+        return Comment(data);
+    }
+}
+
+/**
  * Deletes a group with the provided baseName.
  * @param {string} baseName 
  * @returns boolean
@@ -21,27 +46,18 @@ async function delComment(id) {
         return false;
     }
 }
-
+/**
+ * Retrieves comment data for a provided Firestore document id and instantiates and returns a Comment object.
+ * @param {Firestore document id} id 
+ * @returns [Comment object]
+ */
 async function getComment(id) {
+    var comment;
     try {
-        const docRef = doc(db, COMMENTS_COLLECTION_NAME, id)
+        const docRef = doc(db, COMMENTS_COLLECTION_NAME, id).withConverter(commentConverter);
         const dSnap = await getDoc(docRef);
         if (dSnap.exists()) {
-            const gd = dSnap.data();
-            var comment = Comment({
-                uid: gd.uid,
-                userName: gd.userName,
-                userAvatarURL: gd.userAvatarURL,
-                groupAvatarURL: gd.groupAvatarURL,
-                baseName: gd.baseName,
-                body: gd.body,
-                parentId: gd.parentId,
-                timeCreated: gd.timeCreated,
-                timeEdited: gd.timeEdited,
-                upvoters: gd.upvoters,
-                downvoters: gd.downvoters,
-                title: gd.title
-            })
+            comment = dSnap.data();
         }
         return comment;
     }
@@ -55,9 +71,9 @@ async function getComments(ids) {
     try {
         var comments = [];
         ids.forEach(async (id) => {
-            const dSnap = await getComment(id);
-            if (dSnap.exists()) {
-                comments.push(dSnap.data());
+            const comment = await getComment(id);
+            if (comment) {
+                comments.push(comment);
             }
         });
         return comments;
@@ -113,27 +129,27 @@ function getPostComments(postID, comments) {
  * @param {integer} upvoters 
  * @param {integer} downvoters 
  * @param {string} title 
- * @returns boolean
+ * @returns [Comment object]
  */
 async function addComment(uid, userName, userAvatarURL, groupAvatarURL, baseName, body, parentId, timeCreated, timeEdited, upvoters, downvoters, title) {
-    const comment = Comment({
-        uid,
-        userName, 
-        userAvatarURL,
-        groupAvatarURL,
-        baseName,
-        body, 
-        parentId, 
-        timeCreated, 
-        timeEdited, 
-        upvoters, 
-        downvoters, 
-        title
-    });
     try {
-        const docRef = await addDoc(commentsRef, comment);
+        const comment = Comment({
+            uid,
+            userName, 
+            userAvatarURL,
+            groupAvatarURL,
+            baseName,
+            body, 
+            parentId, 
+            timeCreated, 
+            timeEdited, 
+            upvoters, 
+            downvoters, 
+            title
+        });
+        const docRef = await addDoc(commentsRef, comment).withConverter(commentConverter);
         console.log('Document written w/ ID: ', docRef.id);
-        return true;
+        return comment;
     } 
     catch (err) {
         console.error(err);

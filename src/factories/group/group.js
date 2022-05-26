@@ -1,7 +1,7 @@
 import { getGroupAvatarDownloadURL } from '../../db/groups/groups';
 import { Timestamp } from 'firebase/firestore';
 /**
- * Factory function that runs checks on passed in values that are to be used to create a Group document in the database.
+ * Factory function that returns a Group object
  * @param {string} baseName
  * @param {string} displayName
  * @param {string} description

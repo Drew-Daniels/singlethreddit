@@ -1,5 +1,5 @@
 import Group from '../../factories/group/group';
-import { collection, doc, getDoc, getDocs, setDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, addDoc, setDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage'
 import { getFileRef } from '../../utils/get/get';
 import { db, storage } from '../../firebase-setup';
@@ -7,6 +7,22 @@ import { GROUPS_COLLECTION_NAME, GROUP_AVATARS_STORAGE_FOLDER_NAME } from '../..
 
 const groupsRef = collection(db, GROUPS_COLLECTION_NAME);
 const groupAvatarsRef = ref(storage, GROUP_AVATARS_STORAGE_FOLDER_NAME);
+
+const groupConverter = {
+    toFirestore: (group) => {
+        return {
+            baseName: group.baseName,
+            displayName: group.displayName,
+            description: group.description,
+            timeCreated: group.timeCreated,
+            members: group.members
+        }
+    },
+    fromFirestore: (snapshot, options) => {
+        const data = snapshot.data(options);
+        return Group(data);
+    }
+}
 
 /**
  * Deletes a group with the provided baseName.
@@ -26,12 +42,12 @@ async function delGroup(baseName) {
 }
 
 async function getGroup(baseName) {
+    var group;
     try {
-        const dRef = doc(db, GROUPS_COLLECTION_NAME, baseName)
+        const dRef = doc(db, GROUPS_COLLECTION_NAME, baseName).withConverter(groupConverter);
         const dSnap = await getDoc(dRef);
         if (dSnap.exists()) {
-            const gd = dSnap.data();
-            var group = Group(...gd)
+            group = dSnap.data();
         }
         return group;
     }
@@ -49,10 +65,9 @@ async function getGroups(baseNames) {
     try {
         var groups = [];
         baseNames.forEach(async baseName => {
-            const dRef = doc(db, GROUPS_COLLECTION_NAME, baseName);
-            const dSnap = await getDoc(dRef);
-            if (dSnap.exists()) {
-                groups.push(dSnap.data());
+            const group = getGroup(baseName);
+            if (group) {
+                groups.push(group);
             }
         });
         return groups;
@@ -85,25 +100,26 @@ async function getGroupAvatarDownloadURL(baseName) {
 }
 
 /**
- * Adds a group to Firestore if it does not already exist, otherwise it overwrites. "baseName" is used as the id field.
+ * Adds a group to Firestore and returns the Group object.
  * @param {string} baseName 
  * @param {string} displayName 
  * @param {string} description 
  * @param {integer} timeCreated 
  * @param {array} members 
+ * @returns [Group object]
  */
-async function setGroup(baseName, displayName, description, members) {
-    const group = Group({
-        baseName,
-        displayName,
-        description,
-        timeCreated: serverTimestamp(),
-        members
-    });
+async function addGroup(baseName, displayName, description, members) {
     try {
-        const dRef = await setDoc(doc(db, GROUPS_COLLECTION_NAME, baseName), group);
+        const group = Group({
+            baseName,
+            displayName,
+            description,
+            timeCreated: serverTimestamp(),
+            members
+        });
+        const dRef = await addDoc(doc(db, GROUPS_COLLECTION_NAME), group).withConverter(groupConverter)
         console.log('Document written w/ ID: ', dRef.id);
-        return true;
+        return group;
     } 
     catch (err) {
         console.error(err);
@@ -117,5 +133,5 @@ export {
     getGroups,
     getAllGroups,
     getGroupAvatarDownloadURL,
-    setGroup,
+    addGroup
 }

@@ -7,8 +7,8 @@ import { Timestamp } from 'firebase/firestore';
  * @param {string} body 
  * @param {Timestamp} timeCreated 
  * @param {Timestamp} timeEdited 
- * @param {integer} numUpvotes 
- * @param {integer} numDownvotes 
+ * @param {array} upvoters 
+ * @param {array} downvoters 
  * @param {string} title 
  * @param {string} userAvatarURL
  * @param {string} groupAvatarURL
@@ -57,7 +57,8 @@ import { Timestamp } from 'firebase/firestore';
             downvoters,
             title,
             userAvatarURL,
-            groupAvatarURL
+            groupAvatarURL,
+            getKarma: () => upvoters.length - downvoters.length
         }
     )
     // validation function definitions

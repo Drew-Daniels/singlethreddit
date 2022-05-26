@@ -5,7 +5,7 @@ import { useOutletContext } from 'react-router-dom';
 
 export default function HomePage(props) {
 
-    const { user, groups, comments, setComments, sortHot, sortMostRecent } = useOutletContext();
+    const { user, groups, setGroups, comments, setComments, sortHot, sortMostRecent } = useOutletContext();
 
     return (
         <Layout 
@@ -18,8 +18,7 @@ export default function HomePage(props) {
                     sortMostRecent={sortMostRecent} 
                 />} 
             sidebarComponent={
-                <TopGroups groups={groups} 
-            />} 
+                <TopGroups user={user} groups={groups} setGroups={setGroups} />} 
         />
     )
 }

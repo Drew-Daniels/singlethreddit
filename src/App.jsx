@@ -96,7 +96,7 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Navbar AppIcon={AppIcon} appName={appName} signIn={signIn} user={user} groups={groups} selectedGroup={selectedGroup} handleSelectGroup={setSelectedGroup} />
-          <Outlet context={{ user, groups, selectedGroup, handleSelectGroup: setSelectedGroup, comments, sortHot, sortMostRecent }} />
+          <Outlet context={{ user, groups, setGroups, selectedGroup, handleSelectGroup: setSelectedGroup, comments, sortHot, sortMostRecent }} />
         </ThemeProvider>
       </Container>
   );

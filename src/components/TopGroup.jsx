@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import ListItem from '@mui/material/ListItem';
 import Link from '@mui/material/Link';
-import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 
 export default function TopGroup(props) {
 
-    const { group, position } = props;
+    const { user, group, groups, setGroups, position } = props;
+    const { baseName, members } = group;
     const [avatarURL, setAvatarURL] = useState('');
     const [loaded, setLoaded] = useState(false);
 
@@ -24,12 +25,26 @@ export default function TopGroup(props) {
         }
     }, [group])
 
+    function handleClick() {
+        const newGroups = [...groups].filter(g => g.baseName !== group.baseName);
+        const newGroup = {...group};
+        // add user to group's members array
+        newGroup.members.push(user.uid);
+        // update groups
+        newGroups.push(newGroup);
+        setGroups(prevGroups => newGroups);
+    }
+
     return (
-        <Link component={RouterLink} to={'g/' + group.baseName} sx={{ display: 'flex', flexGrow: 1, alignItems: 'center', justifyContent: 'space-around', marginBottom: '1rem', fontSize: 12 }}>
-            <span>{position}</span>
-            <Avatar src={avatarURL} alt={group.baseName + ' avatar'} />
-            <span>{group.baseName}</span>
-            <Button variant='contained'>Join</Button>
-        </Link>
+        <ListItem>
+            <Link component={RouterLink} to={'g/' + baseName} sx={{ display: 'flex', flexGrow: 1, alignItems: 'center', justifyContent: 'space-around', marginBottom: '1rem', fontSize: 12 }}>
+                <span>{position}</span>
+                <Avatar src={avatarURL} alt={baseName + ' avatar'} />
+                <span>{baseName}</span>
+            </Link>
+            {!(members.includes(user.uid)) &&
+                <Button variant='contained' onClick={handleClick}>Join</Button>
+            }
+        </ListItem>
     )
 }
