@@ -16,14 +16,9 @@ export default function FormPost(props) {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        var uid = await user.uid;
-        var displayName = await user.displayName;
-        var userAvatarURL = await user.photoURL;
         var groupAvatarURL = await selectedGroup.getAvatarURL();
         var success = await addComment(
-            uid,
-            displayName,
-            userAvatarURL,
+            user,
             groupAvatarURL,
             selectedGroup.baseName,
             body

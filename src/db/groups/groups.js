@@ -5,9 +5,6 @@ import { getFileRef } from '../../utils/get/get';
 import { db, storage } from '../../firebase-setup';
 import { GROUPS_COLLECTION_NAME, GROUP_AVATARS_STORAGE_FOLDER_NAME } from '../../constants';
 
-const groupsRef = collection(db, GROUPS_COLLECTION_NAME);
-const groupAvatarsRef = ref(storage, GROUP_AVATARS_STORAGE_FOLDER_NAME);
-
 const groupConverter = {
     toFirestore: (group) => {
         return {
@@ -23,6 +20,9 @@ const groupConverter = {
         return Group(data);
     }
 }
+
+const groupsRef = collection(db, GROUPS_COLLECTION_NAME).withConverter(groupConverter);
+const groupAvatarsRef = ref(storage, GROUP_AVATARS_STORAGE_FOLDER_NAME);
 
 /**
  * Deletes a group with the provided baseName.
@@ -44,7 +44,7 @@ async function delGroup(baseName) {
 async function getGroup(baseName) {
     var group;
     try {
-        const dRef = doc(db, GROUPS_COLLECTION_NAME, baseName).withConverter(groupConverter);
+        const dRef = doc(db, GROUPS_COLLECTION_NAME, baseName);
         const dSnap = await getDoc(dRef);
         if (dSnap.exists()) {
             group = dSnap.data();
@@ -81,8 +81,7 @@ async function getAllGroups() {
     const groups = [];
     const qSnap = await getDocs(groupsRef);
     qSnap.forEach((g) => {
-        const gd = g.data();
-        const group = Group(gd)
+        const group = g.data();
         groups.push(group);
     });
     return groups;
@@ -110,14 +109,15 @@ async function getGroupAvatarDownloadURL(baseName) {
  */
 async function addGroup(baseName, displayName, description, members) {
     try {
-        const group = Group({
+        const groupData = {
             baseName,
             displayName,
             description,
             timeCreated: serverTimestamp(),
             members
-        });
-        const dRef = await addDoc(doc(db, GROUPS_COLLECTION_NAME), group).withConverter(groupConverter)
+        }
+        const group = Group(groupData);
+        const dRef = await addDoc(doc(db, GROUPS_COLLECTION_NAME), group)
         console.log('Document written w/ ID: ', dRef.id);
         return group;
     } 

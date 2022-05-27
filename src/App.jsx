@@ -19,7 +19,6 @@ function App() {
   const [user, setUser] = useState(null);
   const [groups, setGroups] = useState([]);
   const [comments, setComments] = useState([]);
-  const [sortFn, setSortFn] = useState(null);
   const [selectedGroup, setSelectedGroup] = useState(null);
 
   useEffect(() => {

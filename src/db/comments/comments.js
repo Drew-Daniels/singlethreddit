@@ -3,25 +3,36 @@ import { collection, doc, getDoc, getDocs, deleteDoc, addDoc, updateDoc } from '
 import { db } from '../../firebase-setup';
 import { COMMENTS_COLLECTION_NAME } from '../../constants';
 
-const commentsRef = collection(db, COMMENTS_COLLECTION_NAME);
-
 /**
  * Converter function used to parse data to send to Firestore for writes and instantiating data from Firestore as Comment object.
  */
  const commentConverter = {
     toFirestore: (comment) => {
+        const { 
+            uid, 
+            userName, 
+            baseName, 
+            body, 
+            timeCreated,
+            timeEdited,
+            upvoters,
+            downvoters,
+            title,
+            userAvatarURL,
+            groupAvatarURL,
+        } = comment;
         return {
-            uid: comment.uid,
-            username: comment.username,
-            baseName: comment.baseName,
-            body: comment.body,
-            timeCreated: comment.timeCreated,
-            timeEdited: comment.timeEdited,
-            upvoters: comment.upvoters,
-            downvoters: comment.downvoters,
-            title: comment.title,
-            userAvatarURL: comment.userAvatarURL,
-            groupAvatarURL: comment.userAvatarURL
+            uid,
+            userName,
+            baseName,
+            body,
+            timeCreated,
+            timeEdited,
+            upvoters,
+            downvoters,
+            title,
+            userAvatarURL,
+            groupAvatarURL
         }
     },
     fromFirestore: (snapshot, options) => {
@@ -29,6 +40,8 @@ const commentsRef = collection(db, COMMENTS_COLLECTION_NAME);
         return Comment(data);
     }
 }
+
+const commentsRef = collection(db, COMMENTS_COLLECTION_NAME).withConverter(commentConverter);
 
 /**
  * Deletes a group with the provided baseName.
@@ -90,8 +103,7 @@ async function getAllComments() {
     const comments = [];
     const qrySnap = await getDocs(commentsRef);
     qrySnap.forEach((c) => {
-        const commentData = c.data();
-        const comment = Comment(commentData);
+        const comment = c.data();
         comment.id = c.id;
         comments.push(comment);
     });
@@ -103,10 +115,7 @@ async function getAllComments() {
  * @param {array} comments 
  * @returns array
  */
-async function getAllPosts(comments) {
-    if (!comments) {
-        comments = await getAllComments();
-    }
+function getAllPosts(comments) {
     comments.filter(comment => comment.parentId === '');
     return comments;
 }
@@ -131,12 +140,13 @@ function getPostComments(postID, comments) {
  * @param {string} title 
  * @returns [Comment object]
  */
-async function addComment(uid, userName, userAvatarURL, groupAvatarURL, baseName, body, parentId, timeCreated, timeEdited, upvoters, downvoters, title) {
+async function addComment(user, groupAvatarURL, baseName, body, parentId, timeCreated, timeEdited, upvoters, downvoters, title) {
     try {
-        const comment = Comment({
+        const { uid, displayName, photoURL } = user;
+        const commentData = {
             uid,
-            userName, 
-            userAvatarURL,
+            userName: displayName, 
+            userAvatarURL: photoURL,
             groupAvatarURL,
             baseName,
             body, 
@@ -146,8 +156,10 @@ async function addComment(uid, userName, userAvatarURL, groupAvatarURL, baseName
             upvoters, 
             downvoters, 
             title
-        });
-        const docRef = await addDoc(commentsRef, comment).withConverter(commentConverter);
+        }
+        const comment = Comment(commentData);
+        console.log(comment);
+        const docRef = await addDoc(commentsRef, comment);
         console.log('Document written w/ ID: ', docRef.id);
         return comment;
     } 
