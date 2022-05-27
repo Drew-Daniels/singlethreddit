@@ -7,6 +7,8 @@ export default function HomePage(props) {
 
     const { user, groups, setGroups, comments, setComments, sortHot, sortMostRecent } = useOutletContext();
 
+    console.log(comments);
+
     return (
         <Layout 
             mainComponent={

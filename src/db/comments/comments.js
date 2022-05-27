@@ -1,5 +1,5 @@
 import Comment from '../../factories/comment/comment';
-import { collection, doc, getDoc, getDocs, deleteDoc, addDoc, updateDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, deleteDoc, addDoc, updateDoc, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase-setup';
 import { COMMENTS_COLLECTION_NAME } from '../../constants';
 

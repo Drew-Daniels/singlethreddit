@@ -42,9 +42,9 @@ export default function TopGroup(props) {
                 <Avatar src={avatarURL} alt={baseName + ' avatar'} />
                 <span>{baseName}</span>
             </Link>
-            {!(members.includes(user.uid)) &&
+            {/* {!(members.includes(user.uid)) &&
                 <Button variant='contained' onClick={handleClick}>Join</Button>
-            }
+            } */}
         </ListItem>
     )
 }
