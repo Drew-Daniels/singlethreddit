@@ -7,7 +7,7 @@ import { ref, getDownloadURL } from 'firebase/storage'
 import Comment from './factories/comment/comment';
 import Group from './factories/group/group';
 import 'firebaseui/dist/firebaseui.css'
-import { useState, useEffect, useMemo, useReducer } from 'react';
+import { useState, useEffect, useMemo} from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Container from '@mui/material/Container';
@@ -82,6 +82,8 @@ function App() {
   const [user, setUser] = useState(null);
   const [groups, setGroups] = useState([]);
   const [comments, setComments] = useState([]);
+  const [sortField, setSortField] = useState('timeCreated');
+  const [sortDesc, setSortDesc] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState(null);
 
   useEffect(() => {
@@ -93,13 +95,15 @@ function App() {
     setGroupsListener();
 
     async function setCommentsListener() {
-      const q = query(commentsRef);
+      const q = query(commentsRef, orderBy(sortField, (sortDesc ? 'desc': 'asc')));
       const unsubscribe = setQueryListener(q, setComments);
+      return unsubscribe;
     };
 
     async function setGroupsListener() {
       const q = query(groupsRef);
       const unsubscribe = setQueryListener(q, setGroups);
+      return unsubscribe;
     }
 
     function setQueryListener(query, setter) {
@@ -112,40 +116,11 @@ function App() {
       });
       return unsubscribe;
     }
-  }, []);
-    // setup();
+  }, [sortField, sortDesc]);
 
-    // // DEFINITIONS
-    // async function setup() {
-    //   parallel([
-    //     async function loadComments(cb) {
-    //       try {
-    //         const cs = await getAllComments();
-    //         setComments(cs);
-    //         return true;
-    //       }
-    //       catch (err) {
-    //         console.error(err);
-    //         return false;
-    //       }
-    //     },
-    //     async function loadGroups(cb) {
-    //       try {
-    //         const gs = await getAllGroups();
-    //         setGroups(gs);
-    //       }
-    //       catch (err) {
-    //         console.error(err);
-    //       }
-    //     },
-    //   ], function(err) {
-    //     if (err) {
-    //       console.error(err);
-    //     } else {
-    //       setLoaded(true);
-    //     }
-    //   })
-    // }
+  useEffect(() => {
+
+  },[sortField, sortDesc] )
 
   function sortHot() {
     var newOrder = [...comments].sort(compareHot);
