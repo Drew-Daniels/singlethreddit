@@ -60,7 +60,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function PrimarySearchAppBar(props) {
 
-  const { AppIcon, appName, signIn, user, groups, selectedGroup, handleSelectGroup } = props;
+  const { 
+    AppIcon, 
+    appName, 
+    signIn, 
+    user, 
+    groups,
+    groupAvatarURLs, 
+    selectedGroup, 
+    handleSelectGroup 
+  } = props;
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const navigate = useNavigate();
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -165,7 +174,12 @@ export default function PrimarySearchAppBar(props) {
           >
             {appName}
           </Typography>
-          <GroupsDropdown groups={groups} selectedGroup={selectedGroup} handleSelectGroup={handleSelectGroup} />
+          <GroupsDropdown 
+            groups={groups} 
+            groupAvatarURLs={groupAvatarURLs}
+            selectedGroup={selectedGroup} 
+            handleSelectGroup={handleSelectGroup} 
+          />
           <Search sx={{ flexGrow: 1}}>
             <SearchIconWrapper>
               <SearchIcon />

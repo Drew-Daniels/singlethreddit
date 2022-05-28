@@ -5,9 +5,16 @@ import { useOutletContext } from 'react-router-dom';
 
 export default function HomePage(props) {
 
-    const { user, groups, setGroups, comments, setComments, sortHot, sortMostRecent } = useOutletContext();
-
-    console.log(comments);
+    const { 
+        user, 
+        groups, 
+        groupAvatarURLs,
+        comments, 
+        addComment, 
+        getPosts,
+        sortHot, 
+        sortMostRecent 
+    } = useOutletContext();
 
     return (
         <Layout 
@@ -15,12 +22,14 @@ export default function HomePage(props) {
                 <PostsFeed 
                     user={user}
                     comments={comments} 
-                    setComments={setComments}
+                    addComment={addComment}
+                    getPosts={getPosts}
                     sortHot={sortHot} 
                     sortMostRecent={sortMostRecent} 
+                    groupAvatarURLs={groupAvatarURLs}
                 />} 
             sidebarComponent={
-                <TopGroups user={user} groups={groups} setGroups={setGroups} />} 
+                <TopGroups user={user} groups={groups} groupAvatarURLs={groupAvatarURLs} />} 
         />
     )
 }

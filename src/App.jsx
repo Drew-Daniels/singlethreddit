@@ -1,11 +1,11 @@
-import parallel from 'async/parallel';
 import { auth, signIn, db, storage } from './firebase-setup';
-import { query, collection, where, orderBy, onSnapshot } from 'firebase/firestore';
-import { ref, getDownloadURL } from 'firebase/storage'
-// import { getAllComments } from './db/comments/comments';
-// import { getAllGroups } from './db/groups/groups';
-import Comment from './factories/comment/comment';
-import Group from './factories/group/group';
+import { listenToGroups } from './db/groups/groups';
+import { 
+  listenToComments, 
+  addComment, 
+  getPosts, 
+  getPostComments 
+} from './db/comments/comments';
 import 'firebaseui/dist/firebaseui.css'
 import { useState, useEffect, useMemo} from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -15,114 +15,56 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { Outlet } from 'react-router-dom';
 import {ReactComponent as AppIcon} from './icons/app-icon.svg';
 import Navbar from './components/Navbar';
-import { GROUPS_COLLECTION_NAME, GROUP_AVATARS_STORAGE_FOLDER_NAME, COMMENTS_COLLECTION_NAME } from './constants';
 
-/**
- * Converter function used to parse data to send to Firestore for writes and instantiating data from Firestore as Comment object.
- */
- const commentConverter = {
-  toFirestore: (comment) => {
-      const { 
-          uid, 
-          userName, 
-          baseName, 
-          body, 
-          timeCreated,
-          timeEdited,
-          upvoters,
-          downvoters,
-          title,
-          userAvatarURL,
-          groupAvatarURL,
-      } = comment;
-      return {
-          uid,
-          userName,
-          baseName,
-          body,
-          timeCreated,
-          timeEdited,
-          upvoters,
-          downvoters,
-          title,
-          userAvatarURL,
-          groupAvatarURL
-      }
-  },
-  fromFirestore: (snapshot, options) => {
-      const data = snapshot.data(options);
-      return Comment(data);
-  }
-}
-
-const commentsRef = collection(db, COMMENTS_COLLECTION_NAME).withConverter(commentConverter);
-
-const groupConverter = {
-  toFirestore: (group) => {
-      return {
-          baseName: group.baseName,
-          displayName: group.displayName,
-          description: group.description,
-          timeCreated: group.timeCreated,
-          members: group.members
-      }
-  },
-  fromFirestore: (snapshot, options) => {
-      const data = snapshot.data(options);
-      return Group(data);
-  }
-}
-
-const groupsRef = collection(db, GROUPS_COLLECTION_NAME).withConverter(groupConverter);
-const groupAvatarsRef = ref(storage, GROUP_AVATARS_STORAGE_FOLDER_NAME);
-
+// APP
 function App() {
   const appName = 'Singlethreddit'
   const [loaded, setLoaded] = useState(false);
   const [user, setUser] = useState(null);
   const [groups, setGroups] = useState([]);
+  const [groupAvatarURLs, setGroupAvatarURLs] = useState([]);
   const [comments, setComments] = useState([]);
-  const [sortField, setSortField] = useState('timeCreated');
-  const [sortDesc, setSortDesc] = useState(false);
+  const [posts, setPosts] = useState([]);
+  const [commentsSortField, setCommentsSortField] = useState('timeCreated');
+  const [commentsSortDesc, setCommentsSortDesc] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState(null);
 
-  useEffect(() => {
+
+  useEffect(function setAuth() {
     auth.onAuthStateChanged(user => {
       setUser(prevUser => user);
     });
+  }, []);
 
-    setCommentsListener();
-    setGroupsListener();
+  useEffect(function listen() {
+    listenToGroups(user, setGroups);
+    listenToComments(groups, setComments, commentsSortField, commentsSortDesc);
 
-    async function setCommentsListener() {
-      const q = query(commentsRef, orderBy(sortField, (sortDesc ? 'desc': 'asc')));
-      const unsubscribe = setQueryListener(q, setComments);
-      return unsubscribe;
-    };
-
-    async function setGroupsListener() {
-      const q = query(groupsRef);
-      const unsubscribe = setQueryListener(q, setGroups);
-      return unsubscribe;
-    }
-
-    function setQueryListener(query, setter) {
-      const unsubscribe = onSnapshot(query, (querySnapshot) => {
-        const docs = [];
-        querySnapshot.forEach((doc) => {
-          docs.push(doc.data());
-        });
-        setter(prev => docs);
-      });
-      return unsubscribe;
-    }
-  }, [sortField, sortDesc]);
+  }, []);
 
   useEffect(() => {
+    loadGroupAvatarURLs();
 
-  },[sortField, sortDesc] )
+    async function loadGroupAvatarURLs() {
+      const urls = {};
+      await Promise.all(groups.map(async (group) => {
+        const {baseName} = group;
+        const url = await group.getAvatarURL();
+        urls[baseName] = url;
+      }))
+      setGroupAvatarURLs(prev => urls);
+    }
+  }, [groups]);
 
   function sortHot() {
+    // TODO modify this to set the sort field to 'karma' calculated field once
+    // Cloud function is deployed to calculate this on the fly.
+    // This would enable for pagination and also ensure that we retrieve the most popular comment from
+    // all comments in db rather than the most popular from the subset we retrieved in a snapshot.
+    // new version:
+    // setCommentsSortField('karma');
+    // setCommentsSortDesc(true);
+
     var newOrder = [...comments].sort(compareHot);
     setComments(prevOrder => newOrder);
 
@@ -132,12 +74,16 @@ function App() {
   }
 
   function sortMostRecent() {
-      var newOrder = [...comments].sort(compareMostRecent);
-      setComments(prevOrder => newOrder);
+    // old version:
+    // var newOrder = [...comments].sort(compareMostRecent);
+    // setComments(prevOrder => newOrder);
 
-      function compareMostRecent(a, b) {
-          return b.timeCreated - a.timeCreated;
-      }
+    setCommentsSortField('timeCreated');
+    setCommentsSortDesc(true);
+
+    function compareMostRecent(a, b) {
+        return b.timeCreated - a.timeCreated;
+    }
   }
 
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -155,8 +101,30 @@ function App() {
       <Container maxWidth={false} disableGutters className="App" sx={{ minHeight: '100vh' }}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Navbar AppIcon={AppIcon} appName={appName} signIn={signIn} user={user} groups={groups} selectedGroup={selectedGroup} handleSelectGroup={setSelectedGroup} />
-          <Outlet context={{ user, groups, setGroups, selectedGroup, handleSelectGroup: setSelectedGroup, comments, sortHot, sortMostRecent }} />
+          <Navbar 
+            AppIcon={AppIcon} 
+            appName={appName} 
+            signIn={signIn} 
+            user={user} 
+            groups={groups} 
+            groupAvatarURLs={groupAvatarURLs}
+            selectedGroup={selectedGroup} 
+            handleSelectGroup={setSelectedGroup}
+          />
+          <Outlet context={{
+            user, 
+            groups, 
+            groupAvatarURLs,
+            setGroups, 
+            selectedGroup, 
+            handleSelectGroup: setSelectedGroup, 
+            comments, 
+            getPosts,
+            getPostComments,
+            addComment,
+            sortHot, 
+            sortMostRecent
+          }} />
         </ThemeProvider>
       </Container>
   );

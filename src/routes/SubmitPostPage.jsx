@@ -5,9 +5,20 @@ import SiteRules from '../components/SiteRules';
 
 export default function SubmitPostPage(props) {
 
-    const { user, groups, selectedGroup, handleSelectGroup } = useOutletContext();
+    const { user, groups, selectedGroup, handleSelectGroup, addComment } = useOutletContext();
 
     return (
-        <Layout mainComponent={<FormPost user={user} groups={groups} selectedGroup={selectedGroup} handleSelectGroup={handleSelectGroup} />} sidebarComponent={<SiteRules />} />
+        <Layout 
+            mainComponent={
+                <FormPost 
+                    user={user}
+                    groups={groups} 
+                    selectedGroup={selectedGroup} 
+                    handleSelectGroup={handleSelectGroup}
+                    addComment={addComment}
+                />
+            } 
+            sidebarComponent={<SiteRules />}
+        />
     )
 }

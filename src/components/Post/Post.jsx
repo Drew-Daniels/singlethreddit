@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getPostComments } from '../../db/comments/comments';
 import { findAndRemoveFromArray } from '../../utils/arrays/arrays';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
@@ -12,8 +11,8 @@ import PostVotes from './PostVotes';
 
 export default function Post(props) {
 
-    const { user, post, comments, setComments } = props;
-    const { id, baseName, userName, groupAvatarURL, timeCreated, title, upvoters, downvoters } = post;
+    const { user, post, groupAvatarURL, comments, setComments } = props;
+    const { id, baseName, userName, timeCreated, title, upvoters, downvoters } = post;
     
     const navigate = useNavigate();
     const [postComments, setPostComments] = useState([]);
@@ -58,14 +57,14 @@ export default function Post(props) {
         navigate(`${baseName}/${id}`)
     }
 
-    useEffect(() => {
-        loadPostComments();
+    // useEffect(() => {
+    //     loadPostComments();
 
-        function loadPostComments() {
-            const pc = getPostComments(id, comments);
-            setPostComments(pc);
-        }
-    }, [id, comments])
+    //     function loadPostComments() {
+    //         const pc = getPostComments(id, comments);
+    //         setPostComments(pc);
+    //     }
+    // }, [id, comments])
 
     const card = (
         <>
@@ -77,7 +76,7 @@ export default function Post(props) {
                     <Grid item onClick={() => navigate(`g/${baseName}/${id}`)}>
                         <PostHeader baseName={baseName} userName={userName} groupAvatarURL={groupAvatarURL} timeCreated={timeCreated} />
                         <PostMain title={title} numUpvotes={numUpvoters} numDownvotes={numDownvoters} />
-                        <PostFooter numComments={postComments.length} />
+                        {/* <PostFooter numComments={postComments.length} /> */}
                     </Grid>
                 </Grid>
             </CardContent>

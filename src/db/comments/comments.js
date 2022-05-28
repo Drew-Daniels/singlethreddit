@@ -1,12 +1,11 @@
 import Comment from '../../factories/comment/comment';
-import { collection, doc, getDoc, getDocs, deleteDoc, addDoc, updateDoc, onSnapshot } from 'firebase/firestore';
+import { listen } from '../../utils/db/db';
+import { collection, query, orderBy, where, doc, getDoc, getDocs, deleteDoc, addDoc, updateDoc, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase-setup';
 import { COMMENTS_COLLECTION_NAME } from '../../constants';
 
-/**
- * Converter function used to parse data to send to Firestore for writes and instantiating data from Firestore as Comment object.
- */
- const commentConverter = {
+// COMMENTS
+const commentConverter = {
     toFirestore: (comment) => {
         const { 
             uid, 
@@ -39,9 +38,8 @@ import { COMMENTS_COLLECTION_NAME } from '../../constants';
         const data = snapshot.data(options);
         return Comment(data);
     }
-}
-
-const commentsRef = collection(db, COMMENTS_COLLECTION_NAME).withConverter(commentConverter);
+  }
+  const commentsRef = collection(db, COMMENTS_COLLECTION_NAME).withConverter(commentConverter);
 
 /**
  * Deletes a group with the provided baseName.
@@ -59,11 +57,6 @@ async function delComment(id) {
         return false;
     }
 }
-/**
- * Retrieves comment data for a provided Firestore document id and instantiates and returns a Comment object.
- * @param {Firestore document id} id 
- * @returns [Comment object]
- */
 async function getComment(id) {
     var comment;
     try {
@@ -77,7 +70,7 @@ async function getComment(id) {
     catch (err) {
         console.error(err);
     }
-}
+  }
 
 async function getComments(ids) {
     if (!(Array.isArray(ids))) { throw new Error('"ids" must be an array') };
@@ -109,37 +102,25 @@ async function getAllComments() {
     });
     return comments;
 }
-/**
- * Filters an array of comments to only those that are posts - indicated by a blank parentId
- * If no array of comments is provided, they are retrieved from the database.
- * @param {array} comments 
- * @returns array
- */
-function getAllPosts(comments) {
+function getPosts(comments) {
     comments.filter(comment => comment.parentId === '');
     return comments;
 }
-
 function getPostComments(postID, comments) {
     return comments.filter(comment => comment.parentId === postID);
 }
+async function updateComment(docID, data) {
+    try {
+        const docRef = doc(db, COMMENTS_COLLECTION_NAME, docID);
+        await updateDoc(docRef, data)
+        return true;
+    }
+    catch (err) {
+        console.error(err);
+        return false;
+    }
+}
 
-/**
- * Adds a comment to Firestore if a Comment does not already exist in Firebase with that id. Otherwise overwrites it.
- * @param {string} uid 
- * @param {string} userName 
- * @param {string} userAvatarURL
- * @param {string} groupAvatarURL
- * @param {string} baseName 
- * @param {string} body 
- * @param {string} parentId 
- * @param {Timestamp} timeCreated 
- * @param {Timestamp} timeEdited 
- * @param {integer} upvoters 
- * @param {integer} downvoters 
- * @param {string} title 
- * @returns [Comment object]
- */
 async function addComment(user, groupAvatarURL, baseName, body, parentId, timeCreated, timeEdited, upvoters, downvoters, title) {
     try {
         const { uid, displayName, photoURL } = user;
@@ -158,7 +139,6 @@ async function addComment(user, groupAvatarURL, baseName, body, parentId, timeCr
             title
         }
         const comment = Comment(commentData);
-        console.log(comment);
         const docRef = await addDoc(commentsRef, comment);
         console.log('Document written w/ ID: ', docRef.id);
         return comment;
@@ -167,18 +147,19 @@ async function addComment(user, groupAvatarURL, baseName, body, parentId, timeCr
         console.error(err);
         return false;
     }
-}
+  }
+  
 
-async function updateComment(docID, data) {
-    try {
-        const docRef = doc(db, COMMENTS_COLLECTION_NAME, docID);
-        await updateDoc(docRef, data)
-        return true;
+function listenToComments(groups, setCommentsFn, sortField='timeCreated', sortDesc=true) {
+    var q;
+    if (groups.length < 1) {
+        q = query(commentsRef, orderBy(sortField, (sortDesc ? 'desc': 'asc')));
+    } else {
+        const groupNames = groups.map(group => group.baseName);
+        q = query(commentsRef, where('baseName', 'in', groupNames), orderBy(sortField, (sortDesc ? 'desc': 'asc')));
     }
-    catch (err) {
-        console.error(err);
-        return false;
-    }
+    const unsubscribe = listen(q, setCommentsFn);
+    return unsubscribe;
 }
 
 export {
@@ -186,8 +167,9 @@ export {
     getComment,
     getComments,
     getAllComments,
-    getAllPosts,
+    getPosts,
     getPostComments,
     addComment,
+    listenToComments,
     updateComment,
 }

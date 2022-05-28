@@ -5,7 +5,7 @@ import TopGroup from './TopGroup';
 
 export default function TopGroups(props) {
 
-    const { user, groups, setGroups } = props;
+    const { user, groups, groupAvatarURLs, setGroups } = props;
     const [top5Groups, setTop5Groups] = useState([]);
 
     useEffect(() => {
@@ -37,8 +37,9 @@ export default function TopGroups(props) {
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
             <List>
                 {top5Groups.map((g, i) => {
+                    const groupAvatarURL = groupAvatarURLs[g.baseName]
                     return (
-                        <TopGroup key={i} user={user} group={g} groups={groups} setGroups={setGroups} position={i} />
+                        <TopGroup key={i} user={user} group={g} groupAvatarURL={groupAvatarURL} setGroups={setGroups} position={i} />
                     )
                 })}
             </List>

@@ -7,23 +7,9 @@ import Button from '@mui/material/Button';
 
 export default function TopGroup(props) {
 
-    const { user, group, groups, setGroups, position } = props;
+    const { user, group, groups, groupAvatarURL, setGroups, position } = props;
     const { baseName, members } = group;
-    const [avatarURL, setAvatarURL] = useState('');
     const [loaded, setLoaded] = useState(false);
-
-    useEffect(() => {
-        setup();
-
-        async function setup() {
-            await loadAvatar();
-            setLoaded(true);
-        }
-        async function loadAvatar() {
-            const res = await group.getAvatarURL();
-            setAvatarURL(res);
-        }
-    }, [group])
 
     function handleClick() {
         const newGroups = [...groups].filter(g => g.baseName !== group.baseName);
@@ -39,7 +25,7 @@ export default function TopGroup(props) {
         <ListItem>
             <Link component={RouterLink} to={'g/' + baseName} sx={{ display: 'flex', flexGrow: 1, alignItems: 'center', justifyContent: 'space-around', marginBottom: '1rem', fontSize: 12 }}>
                 <span>{position}</span>
-                <Avatar src={avatarURL} alt={baseName + ' avatar'} />
+                <Avatar src={groupAvatarURL} alt={baseName + ' avatar'} />
                 <span>{baseName}</span>
             </Link>
             {/* {!(members.includes(user.uid)) &&

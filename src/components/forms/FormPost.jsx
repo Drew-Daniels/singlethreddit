@@ -4,11 +4,10 @@ import GroupsDropdown from '../../components/Dropdowns/GroupsDropdown';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { addComment } from '../../db/comments/comments';
 
 export default function FormPost(props) {
 
-    const { user, groups, selectedGroup, handleSelectGroup } = props;
+    const { user, groups, selectedGroup, handleSelectGroup, addComment } = props;
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
 

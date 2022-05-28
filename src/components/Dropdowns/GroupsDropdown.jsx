@@ -5,7 +5,6 @@ import TextField from '@mui/material/TextField';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import GroupsDropdownItem from './GroupsDropdownItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import GroupDropdownItem from './GroupsDropdownItem';
@@ -53,7 +52,7 @@ const StyledMenu = styled((props) => (
 }));
 
 export default function GroupsDropdown(props) {
-  const { groups, selectedGroup, handleSelectGroup } = props;
+  const { groups, groupAvatarURLs, selectedGroup, handleSelectGroup } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const [displayedGroups, setDisplayedGroups] = useState(groups);
   const [searchStr, setSearchStr] = useState('');
@@ -111,7 +110,7 @@ export default function GroupsDropdown(props) {
         <List>
           {displayedGroups.map((group, i) => {
             return (
-              <GroupsDropdownItem key={i} group={group} handleSelectGroup={handleSelectGroup} handleClose={handleClose} />
+              <GroupsDropdownItem key={i} group={group} groupAvatarURL={groupAvatarURLs[group.baseName]} handleSelectGroup={handleSelectGroup} handleClose={handleClose} />
             )
           })}
         </List>

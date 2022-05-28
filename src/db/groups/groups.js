@@ -1,10 +1,12 @@
 import Group from '../../factories/group/group';
-import { collection, doc, getDoc, getDocs, addDoc, setDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, where, query, doc, getDoc, getDocs, addDoc, setDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage'
 import { getFileRef } from '../../utils/get/get';
+import { listen } from '../../utils/db/db';
 import { db, storage } from '../../firebase-setup';
 import { GROUPS_COLLECTION_NAME, GROUP_AVATARS_STORAGE_FOLDER_NAME } from '../../constants';
 
+// GROUPS
 const groupConverter = {
     toFirestore: (group) => {
         return {
@@ -19,10 +21,9 @@ const groupConverter = {
         const data = snapshot.data(options);
         return Group(data);
     }
-}
-
-const groupsRef = collection(db, GROUPS_COLLECTION_NAME).withConverter(groupConverter);
-const groupAvatarsRef = ref(storage, GROUP_AVATARS_STORAGE_FOLDER_NAME);
+  }
+  const groupsRef = collection(db, GROUPS_COLLECTION_NAME).withConverter(groupConverter);
+  const groupAvatarURLsRef = ref(storage, GROUP_AVATARS_STORAGE_FOLDER_NAME);
 
 /**
  * Deletes a group with the provided baseName.
@@ -93,7 +94,7 @@ async function getAllGroups() {
  * @returns string
  */
 async function getGroupAvatarDownloadURL(baseName) {
-    const avatarRef = await getFileRef(groupAvatarsRef, baseName);
+    const avatarRef = await getFileRef(groupAvatarURLsRef, baseName);
     const match = await getDownloadURL(avatarRef);
     return match;
 }
@@ -127,11 +128,18 @@ async function addGroup(baseName, displayName, description, members) {
     }
 }
 
+function listenToGroups(user, setGroupsFn) {
+    const q = user ? query(groupsRef, where('members', 'array-contains', user.uid)): query(groupsRef);
+    const unsubscribe = listen(q, setGroupsFn);
+    return unsubscribe;
+}
+
 export {
     delGroup,
     getGroup,
     getGroups,
     getAllGroups,
+    listenToGroups,
     getGroupAvatarDownloadURL,
     addGroup
 }
