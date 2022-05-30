@@ -4,7 +4,11 @@ import { ref, getDownloadURL } from 'firebase/storage'
 import { getFileRef } from '../../utils/get/get';
 import { listen } from '../../utils/db/db';
 import { db, storage } from '../../firebase-setup';
-import { GROUPS_COLLECTION_NAME, GROUP_AVATARS_STORAGE_FOLDER_NAME } from '../../constants';
+import { 
+    GROUPS_COLLECTION_NAME, 
+    GROUP_AVATARS_STORAGE_FOLDER_NAME,
+    GROUP_BANNERS_STORAGE_FOLDER_NAME,
+} from '../../constants';
 
 // GROUPS
 const groupConverter = {
@@ -24,6 +28,7 @@ const groupConverter = {
   }
   const groupsRef = collection(db, GROUPS_COLLECTION_NAME).withConverter(groupConverter);
   const groupAvatarURLsRef = ref(storage, GROUP_AVATARS_STORAGE_FOLDER_NAME);
+  const groupBannerURLsRef = ref(storage, GROUP_BANNERS_STORAGE_FOLDER_NAME);
 
 /**
  * Deletes a group with the provided baseName.
@@ -94,11 +99,20 @@ async function getAllGroups() {
  * @returns string
  */
 async function getGroupAvatarDownloadURL(baseName) {
-    const avatarRef = await getFileRef(groupAvatarURLsRef, baseName);
-    const match = await getDownloadURL(avatarRef);
-    return match;
+    const url = await getStorageURL(groupAvatarURLsRef, baseName);
+    return url;
 }
 
+async function getGroupBannerDownloadURL(baseName) {
+    const url = await getStorageURL(groupBannerURLsRef, baseName);
+    return url;
+}
+
+async function getStorageURL(storageRef, fName) {
+    const ref = await getFileRef(storageRef, fName);
+    const match = await getDownloadURL(ref);
+    return match;
+}
 /**
  * Adds a group to Firestore and returns the Group object.
  * @param {string} baseName 
@@ -159,6 +173,7 @@ export {
     listenToGroups,
     listenToUserGroups,
     getGroupAvatarDownloadURL,
+    getGroupBannerDownloadURL,
     addGroup,
     addUserToGroup,
 }

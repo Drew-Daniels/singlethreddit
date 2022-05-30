@@ -21,17 +21,17 @@ export default function PostsFeed(props) {
     const groupAvatarURLs = useContext(GroupAvatarsContext);
 
     useEffect(() => {
-        loadPosts();
+      loadPosts();
 
-        function loadPosts(cb) {
-            try {
-              const ps = getPosts(comments);
-              setPosts(ps);
-            }
-            catch (err) {
-              console.error(err);
-            }
+      function loadPosts(cb) {
+          try {
+            const ps = getPosts(comments);
+            setPosts(ps);
           }
+          catch (err) {
+            console.error(err);
+          }
+        }
     }, [comments]);
 
     return (

@@ -18,10 +18,18 @@ export default function GroupPage(props) {
     } = useOutletContext();
 
     const [groupComments, setGroupComments] = useState([]);
+    const [bannerURL, setBannerURL] = useState('');
 
     useEffect(() => {
-        const group = groups.filter(g => g.baseName === groupName);
-        listenToGroupComments(group, setGroupComments);
+        setup();
+
+        async function setup() {
+            const group = groups.filter(g => g.baseName === groupName);
+            listenToGroupComments(group, setGroupComments);
+            console.log(group);
+            const url = await group.getBannerURL();
+            console.log(url);
+        }
     }, [groups, groupName])
 
 

@@ -1,4 +1,4 @@
-import { getGroupAvatarDownloadURL } from '../../db/groups/groups';
+import { getGroupAvatarDownloadURL, getGroupBannerDownloadURL } from '../../db/groups/groups';
 import { Timestamp } from 'firebase/firestore';
 /**
  * Factory function that returns a Group object
@@ -34,6 +34,9 @@ const Group = ({
             members,
             async getAvatarURL() {
                 return getGroupAvatarDownloadURL(baseName);
+            },
+            async getBannerURL() {
+                return getGroupBannerDownloadURL(baseName);
             }
         }
     )

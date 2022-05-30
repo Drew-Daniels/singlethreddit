@@ -10,8 +10,8 @@ export default function PostVotes(props) {
     const {upvoters, downvoters} = post;
     const [karma, setKarma] = useState(0);
 
-    const upvoteColor = upvoters.includes(user.uid) ? '#FF4301': 'gray';
-    const downvoteColor = downvoters.includes(user.uid) ? '#FF4301': 'gray';
+    const upvoteColor = user ? (upvoters.includes(user.uid) ? '#FF4301': 'gray') : 'gray'
+    const downvoteColor = user ? (downvoters.includes(user.uid) ? '#FF4301': 'gray') : 'gray';
 
     useEffect(() => {
         setKarma(prevKarma => post.upvoters.length - post.downvoters.length);
