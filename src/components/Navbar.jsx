@@ -164,7 +164,7 @@ export default function PrimarySearchAppBar(props) {
             sx={{ mr: 2 }}
             onClick={goToHome}
           >
-            <SvgIcon component={AppIcon} /> 
+            <SvgIcon component={AppIcon} sx={{ color: '#FF4301' }} /> 
           </IconButton>
           <Typography
             variant="h6"
