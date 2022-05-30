@@ -46,7 +46,7 @@ export default function Post(props) {
             <CardContent id={id} >
                 <Grid container>
                     <Grid item xs={2}>
-                        <PostVotes post={post} setComments={setComments} handleUpvote={() => upvote(user, post)} handleDownvote={() => downvote(user, post)} />
+                        <PostVotes user={user} post={post} setComments={setComments} handleUpvote={() => upvote(user, post)} handleDownvote={() => downvote(user, post)} />
                     </Grid>
                     <Grid item onClick={() => navigate(`g/${baseName}/${id}`)}>
                         <PostHeader baseName={baseName} userName={userName} groupAvatarURL={groupAvatarURL} timeCreated={timeCreated} />
