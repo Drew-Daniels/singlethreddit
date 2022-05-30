@@ -36,11 +36,16 @@ function App() {
     });
   }, []);
 
-  useEffect(function listen() {
-    listenToGroups(user, setGroups);
-    listenToComments(groups, setComments, commentsSortField, commentsSortDesc);
+  useEffect(() => {
+    listenToGroups(user, setGroups)
+    // NOTE: think I'm seeing bugs here because the first function calls an function that sets groups when a snapshot change is detected
+    // since listenToComments is depending on 'groups' I think this is causing some sort of infinite loop when 'groups' is included in deps.
+    // listenToComments(groups, setComments, commentsSortField, commentsSortDesc);
+  }, [user]);
 
-  }, []);
+  useEffect(() => {
+    listenToComments(groups, setComments, commentsSortField, commentsSortDesc);
+  }, [groups, commentsSortField, commentsSortDesc])
 
   useEffect(() => {
     loadGroupAvatarURLs();
@@ -115,7 +120,7 @@ function App() {
             user, 
             groups, 
             groupAvatarURLs,
-            setGroups, 
+            // setGroups, 
             selectedGroup, 
             handleSelectGroup: setSelectedGroup, 
             comments, 

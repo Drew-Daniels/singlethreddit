@@ -26,7 +26,6 @@ import { Timestamp } from 'firebase/firestore';
     downvoters=[], 
     title='',
     userAvatarURL='',
-    groupAvatarURL='',
     } = {}) => {
     // CHECKS
     // REQUIRED parameters
@@ -42,7 +41,6 @@ import { Timestamp } from 'firebase/firestore';
     if (!validDownvoters(downvoters)) {throw new Error('"downvoters" must be an array')};
     if (!validTitle(title)) {throw new Error('"title" must be a string')};
     if (!validAvatarURL(userAvatarURL)) { throw new Error('"userAvatarURL" must be a string')};
-    if (!validAvatarURL(groupAvatarURL)) { throw new Error('"groupAvatarURL" must be a string')};
     // CHECKS FINISHED
     return (
         {
@@ -57,7 +55,6 @@ import { Timestamp } from 'firebase/firestore';
             downvoters,
             title,
             userAvatarURL,
-            groupAvatarURL,
             getKarma: () => upvoters.length - downvoters.length
         }
     )

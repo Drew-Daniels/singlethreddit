@@ -1,6 +1,6 @@
 import { onSnapshot } from "firebase/firestore";
 
-export function listen(query, setterFn) {
+export async function listen(query, setterFn) {
     const unsubscribe = onSnapshot(query, (querySnapshot) => {
         const docs = [];
         querySnapshot.forEach((doc) => {
@@ -8,5 +8,5 @@ export function listen(query, setterFn) {
         });
         setterFn(prev => docs);
     });
-    return unsubscribe;
+    return Promise.resolve(unsubscribe);
 }

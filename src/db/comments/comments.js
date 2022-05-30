@@ -18,7 +18,6 @@ const commentConverter = {
             downvoters,
             title,
             userAvatarURL,
-            groupAvatarURL,
         } = comment;
         return {
             uid,
@@ -31,7 +30,6 @@ const commentConverter = {
             downvoters,
             title,
             userAvatarURL,
-            groupAvatarURL
         }
     },
     fromFirestore: (snapshot, options) => {

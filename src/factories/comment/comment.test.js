@@ -445,37 +445,4 @@ describe('OPTIONAL parameters', () => {
             expect(() => Comment(config)).toThrow();
         });
     });
-    describe('groupAvatarURL', () => {
-        var tProperty;
-        var getUpdatedConfig;
-        beforeAll(() => {
-            tProperty = 'groupAvatarURL';
-            getUpdatedConfig = getPropUpdater(tProperty);
-        });
-        test('non-blank string => SUCCESS', () => {
-            var tValue = 'spam';
-            var config = getUpdatedConfig(tValue);
-            expect(Comment(config)).toMatchObject({ groupAvatarURL: tValue });
-        })
-        test('blank string => SUCCESS', () => {
-            var tValue = '';
-            var config = getUpdatedConfig(tValue);
-            expect(Comment(config)).toMatchObject({ groupAvatarURL: tValue });
-        });
-        test('explicit (passed) undefined => SUCCESS', () => {
-            var tValue = undefined;
-            var config = getUpdatedConfig(tValue);
-            expect(Comment(config)).toMatchObject({ groupAvatarURL: '' });
-        });
-        test('implicit (not passed) undefined => SUCCESS', () => {
-            var config = getUpdatedConfig();
-            delete config[tProperty];
-            expect(Comment(config)).toMatchObject({ groupAvatarURL: '' });
-        });
-        test('null => ERROR', () => {
-            var tValue = null;
-            var config = getUpdatedConfig(tValue);
-            expect(() => Comment(config)).toThrow();
-        });
-    });
 });
