@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import GroupAvatarsContext from '../../contexts/GroupAvatarsContext';
 import { styled, alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -52,7 +53,8 @@ const StyledMenu = styled((props) => (
 }));
 
 export default function GroupsDropdown(props) {
-  const { groups, groupAvatarURLs, selectedGroup, setSelectedGroup, redirect } = props;
+  const { groups, selectedGroup, setSelectedGroup, redirect } = props;
+  const groupAvatarURLs = useContext(GroupAvatarsContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const [displayedGroups, setDisplayedGroups] = useState(groups);
   const [searchStr, setSearchStr] = useState('');

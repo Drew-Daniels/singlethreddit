@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Divider from '@mui/material/Divider';
 import Card from '@mui/material/Card';
 import List from '@mui/material/List';
 import TopGroup from './TopGroup';
+import GroupAvatarsContext from '../contexts/GroupAvatarsContext';
 
 export default function TopGroups(props) {
 
-    const { user, groups, groupAvatarURLs, setGroups } = props;
+    const { user, groups, setGroups } = props;
     const [top5Groups, setTop5Groups] = useState([]);
-
+    const groupAvatarURLs = useContext(GroupAvatarsContext);
+    
     useEffect(() => {
         if (!groups) { return }
         groups.sort(sortGroupsAsc);

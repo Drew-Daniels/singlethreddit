@@ -4,19 +4,20 @@ import Container from '@mui/material/Container';
 import PostButton from './Buttons/PostButton';
 import SortMenu from './SortMenu';
 import Posts from './Posts';
+import GroupAvatarsContext from '../contexts/GroupAvatarsContext';
 
 export default function PostsFeed(props) {
 
     const {
       comments, 
       addComment,
-      groupAvatarURLs, 
       getPosts,
       sortHot, 
       sortMostRecent 
     } = props;
     const [posts, setPosts] = useState([]);
     const user = useContext(UserContext);
+    const groupAvatarURLs = useContext(GroupAvatarsContext);
 
     useEffect(() => {
         loadPosts();

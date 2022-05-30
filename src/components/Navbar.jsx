@@ -66,7 +66,6 @@ export default function PrimarySearchAppBar(props) {
     appName, 
     signIn, 
     userGroups,
-    groupAvatarURLs, 
     selectedGroup, 
     setSelectedGroup 
   } = props;
@@ -177,7 +176,6 @@ export default function PrimarySearchAppBar(props) {
           </Typography>
           <GroupsDropdown 
             groups={userGroups} 
-            groupAvatarURLs={groupAvatarURLs}
             selectedGroup={selectedGroup} 
             setSelectedGroup={setSelectedGroup} 
             redirect={true}

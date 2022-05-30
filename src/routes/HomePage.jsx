@@ -7,7 +7,6 @@ export default function HomePage(props) {
 
     const { 
         groups,
-        groupAvatarURLs,
         comments, 
         addComment, 
         getPosts,
@@ -24,10 +23,9 @@ export default function HomePage(props) {
                     getPosts={getPosts}
                     sortHot={sortHot} 
                     sortMostRecent={sortMostRecent} 
-                    groupAvatarURLs={groupAvatarURLs}
                 />} 
             sidebarComponent={
-                <TopGroups groups={groups} groupAvatarURLs={groupAvatarURLs} />} 
+                <TopGroups groups={groups} />} 
         />
     )
 }

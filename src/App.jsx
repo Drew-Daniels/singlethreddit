@@ -17,6 +17,7 @@ import {ReactComponent as AppIcon} from './icons/app-icon.svg';
 import Navbar from './components/Navbar';
 import UserContext from './contexts/UserContext';
 import SortContext from './contexts/SortContext';
+import GroupAvatarsContext from './contexts/GroupAvatarsContext';
 
 // APP
 function App() {
@@ -112,31 +113,31 @@ function App() {
       <Container maxWidth={false} disableGutters className="App" sx={{ minHeight: '100vh' }}>
         <UserContext.Provider value={user}>
           <SortContext.Provider value={activeSort}>
-            <ThemeProvider theme={theme}>
-              <CssBaseline />
-              <Navbar 
-                AppIcon={AppIcon} 
-                appName={appName} 
-                signIn={signIn} 
-                userGroups={userGroups} 
-                groupAvatarURLs={groupAvatarURLs}
-                selectedGroup={selectedGroup} 
-                setSelectedGroup={setSelectedGroup}
-              />
-              <Outlet context={{
-                userGroups,
-                groups, 
-                groupAvatarURLs,
-                selectedGroup, 
-                setSelectedGroup,
-                comments, 
-                getPosts,
-                getPostComments,
-                addComment,
-                sortHot, 
-                sortMostRecent
-              }} />
-            </ThemeProvider>
+            <GroupAvatarsContext.Provider value={groupAvatarURLs}>            
+              <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <Navbar 
+                  AppIcon={AppIcon} 
+                  appName={appName} 
+                  signIn={signIn} 
+                  userGroups={userGroups} 
+                  selectedGroup={selectedGroup} 
+                  setSelectedGroup={setSelectedGroup}
+                />
+                <Outlet context={{
+                  userGroups,
+                  groups, 
+                  selectedGroup, 
+                  setSelectedGroup,
+                  comments, 
+                  getPosts,
+                  getPostComments,
+                  addComment,
+                  sortHot, 
+                  sortMostRecent
+                }} />
+              </ThemeProvider>
+            </GroupAvatarsContext.Provider>
           </SortContext.Provider>
         </UserContext.Provider>
       </Container>
