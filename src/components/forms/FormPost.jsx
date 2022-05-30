@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import UserContext from '../../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
 import GroupsDropdown from '../../components/Dropdowns/GroupsDropdown';
 import Box from '@mui/material/Box';
@@ -7,9 +8,10 @@ import Button from '@mui/material/Button';
 
 export default function FormPost(props) {
 
-    const { user, groups, groupAvatarURLs, selectedGroup, setSelectedGroup, addComment } = props;
+    const { groups, groupAvatarURLs, selectedGroup, setSelectedGroup, addComment } = props;
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
+    const user = useContext(UserContext);
 
     const navigate = useNavigate();
 
