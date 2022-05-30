@@ -16,6 +16,7 @@ import { Outlet } from 'react-router-dom';
 import {ReactComponent as AppIcon} from './icons/app-icon.svg';
 import Navbar from './components/Navbar';
 import UserContext from './contexts/UserContext';
+import SortContext from './contexts/SortContext';
 
 // APP
 function App() {
@@ -28,6 +29,7 @@ function App() {
   const [groupAvatarURLs, setGroupAvatarURLs] = useState([]);
   const [comments, setComments] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [activeSort, setActiveSort] = useState('most-recent');
   const [commentsSortField, setCommentsSortField] = useState('timeCreated');
   const [commentsSortDesc, setCommentsSortDesc] = useState(false);
 
@@ -74,6 +76,7 @@ function App() {
 
     var newOrder = [...comments].sort(compareHot);
     setComments(prevOrder => newOrder);
+    setActiveSort('hot');
 
     function compareHot(a, b) {
         return (b.getKarma()) - (a.getKarma());
@@ -87,6 +90,7 @@ function App() {
 
     setCommentsSortField('timeCreated');
     setCommentsSortDesc(true);
+    setActiveSort('most-recent');
 
     function compareMostRecent(a, b) {
         return b.timeCreated - a.timeCreated;
@@ -107,32 +111,33 @@ function App() {
   return (
       <Container maxWidth={false} disableGutters className="App" sx={{ minHeight: '100vh' }}>
         <UserContext.Provider value={user}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Navbar 
-              AppIcon={AppIcon} 
-              appName={appName} 
-              signIn={signIn} 
-              userGroups={userGroups} 
-              groupAvatarURLs={groupAvatarURLs}
-              selectedGroup={selectedGroup} 
-              setSelectedGroup={setSelectedGroup}
-            />
-            <Outlet context={{
-              userGroups,
-              groups, 
-              groupAvatarURLs,
-              // setGroups, 
-              selectedGroup, 
-              setSelectedGroup,
-              comments, 
-              getPosts,
-              getPostComments,
-              addComment,
-              sortHot, 
-              sortMostRecent
-            }} />
-          </ThemeProvider>
+          <SortContext.Provider value={activeSort}>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <Navbar 
+                AppIcon={AppIcon} 
+                appName={appName} 
+                signIn={signIn} 
+                userGroups={userGroups} 
+                groupAvatarURLs={groupAvatarURLs}
+                selectedGroup={selectedGroup} 
+                setSelectedGroup={setSelectedGroup}
+              />
+              <Outlet context={{
+                userGroups,
+                groups, 
+                groupAvatarURLs,
+                selectedGroup, 
+                setSelectedGroup,
+                comments, 
+                getPosts,
+                getPostComments,
+                addComment,
+                sortHot, 
+                sortMostRecent
+              }} />
+            </ThemeProvider>
+          </SortContext.Provider>
         </UserContext.Provider>
       </Container>
   );

@@ -11,10 +11,9 @@ export default function SortMenu(props) {
     return (
         <Card>
             <Grid container sx={{ marginBottom: '1rem' }}>
-                <SortType sortDescription='Hot' SortIcon={HotIcon} numSorts={2} handleSort={sortHot} />
-                <SortType sortDescription='Most Recent' SortIcon={MostRecentIcon} numSorts={2} handleSort={sortMostRecent} />
+                <SortType sortDescription='Hot' sortName='hot' SortIcon={HotIcon} numSorts={2} handleSort={sortHot} />
+                <SortType sortDescription='Most Recent' sortName='most-recent' SortIcon={MostRecentIcon} numSorts={2} handleSort={sortMostRecent} />
             </Grid>
         </Card>
-        
     )
 }
