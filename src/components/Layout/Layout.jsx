@@ -4,15 +4,15 @@ import Main from '../Layout/Main';
 import Sidebar from '../Layout/Sidebar';
 import { styled } from '@mui/material/styles';
 
+const StyledImage = styled('img')`
+    height: auto;
+    width: 100%;
+    object-fit: cover;
+`
+
 export default function Layout(props) {
 
     const { mainComponent, sidebarComponent, bannerURL } = props;
-
-    const StyledImage = styled('img')`
-        height: auto;
-        width: 100%;
-        object-fit: cover;
-    `
 
     return (
         <>

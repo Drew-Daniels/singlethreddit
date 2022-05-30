@@ -7,6 +7,7 @@ export default function HomePage(props) {
 
     const { 
         groups,
+        setSelectedGroup,
         comments, 
         addComment, 
         getPosts,
@@ -25,7 +26,7 @@ export default function HomePage(props) {
                     sortMostRecent={sortMostRecent} 
                 />} 
             sidebarComponent={
-                <TopGroups groups={groups} />} 
+                <TopGroups groups={groups} setSelectedGroup={setSelectedGroup} />} 
         />
     )
 }

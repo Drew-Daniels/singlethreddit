@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 
 export default function TopGroup(props) {
 
-    const { group, groups, groupAvatarURL, position } = props;
+    const { group, groupAvatarURL, position } = props;
     const { baseName, members } = group;
     const [loaded, setLoaded] = useState(false);
 
@@ -17,7 +17,11 @@ export default function TopGroup(props) {
 
     return (
         <ListItem>
-            <Link component={RouterLink} to={'g/' + baseName} sx={{ display: 'flex', flexGrow: 1, alignItems: 'center', justifyContent: 'space-around', marginBottom: '1rem', fontSize: 12 }}>
+            <Link 
+                component={RouterLink} 
+                to={'g/' + baseName} 
+                sx={{ display: 'flex', flexGrow: 1, alignItems: 'center', justifyContent: 'space-around', marginBottom: '1rem', fontSize: 12 }} 
+            >
                 <span>{position}</span>
                 <Avatar src={groupAvatarURL} alt={baseName + ' avatar'} />
                 <span>{baseName}</span>
