@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { upvote, downvote } from '../../db/comments/comments';
 import { findAndRemoveFromArray } from '../../utils/arrays/arrays';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
@@ -27,32 +28,6 @@ export default function Post(props) {
         setNumDownvoters(downvoters.length);
     }, [downvoters]);
 
-    function upvote() {
-        // if (upvoters.includes(uid)) {
-        //     const newUpvoters = findAndRemoveFromArray(uid, upvoters);
-        //     // update comments
-
-        // } else {
-        //     const newUpvoters = [...upvoters];
-        //     newUpvoters.push(uid);
-        // }
-        console.log('Complete later');
-    }
-
-    function downvote() {
-        // if (downvoters.includes(uid)) {
-        //     const newDownvoters = findAndRemoveFromArray(uid, downvoters);
-        //     // update comments
-        //     const newComments = findAndRemoveFromArray(post, comments);
-        //     const newComment = {...post};
-        //     newComment.downvoters
-        // } else {
-        //     const newDownvoters = [...downvoters];
-        //     newDownvoters.push(uid);
-        // }
-        console.log('Complete later')
-    }
-
     function goToPost() {
         navigate(`${baseName}/${id}`)
     }
@@ -71,7 +46,7 @@ export default function Post(props) {
             <CardContent id={id} >
                 <Grid container>
                     <Grid item xs={2}>
-                        <PostVotes post={post} setComments={setComments} handleUpvote={upvote} handleDownvote={downvote} />
+                        <PostVotes post={post} setComments={setComments} handleUpvote={() => upvote(user, post)} handleDownvote={() => downvote(user, post)} />
                     </Grid>
                     <Grid item onClick={() => navigate(`g/${baseName}/${id}`)}>
                         <PostHeader baseName={baseName} userName={userName} groupAvatarURL={groupAvatarURL} timeCreated={timeCreated} />

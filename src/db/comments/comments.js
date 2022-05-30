@@ -1,6 +1,6 @@
 import Comment from '../../factories/comment/comment';
 import { listen } from '../../utils/db/db';
-import { collection, query, orderBy, where, doc, getDoc, getDocs, deleteDoc, addDoc, updateDoc, onSnapshot } from 'firebase/firestore';
+import { collection, query, orderBy, where, doc, getDoc, getDocs, deleteDoc, addDoc, updateDoc, onSnapshot, arrayRemove, arrayUnion } from 'firebase/firestore';
 import { db } from '../../firebase-setup';
 import { COMMENTS_COLLECTION_NAME } from '../../constants';
 
@@ -160,6 +160,64 @@ function listenToComments(groups, setCommentsFn, sortField='timeCreated', sortDe
     return unsubscribe;
 }
 
+async function upvote(user, comment) {
+    if (!user) { return }
+    const uid = user.uid;
+
+    const q = query(commentsRef, where('uid', '==', comment.uid), where('timeCreated', '==', comment.timeCreated));
+    const docs = await getDocs(q);
+
+    docs.forEach(async (doc) => {
+        const ref = doc.ref;
+        if (comment.upvoters.includes(uid)) {
+            // user has already upvoted, remove them from upvoters
+            await updateDoc(ref, {
+                upvoters: arrayRemove(uid)
+            });
+        } else {
+            // user has not upvoted yet - add them to upvoters
+            await updateDoc(ref, {
+                upvoters: arrayUnion(uid)
+            });
+        }
+        if (comment.downvoters.includes(uid)) {
+            // ensure that the user is removed from downvoters if they had downvoted the comment previously
+            await updateDoc(ref, {
+                downvoters: arrayRemove(uid)
+            });
+        }
+    });
+}
+
+async function downvote(user, comment) {
+    if (!user) { return }
+    const uid = user.uid;
+
+    const q = query(commentsRef, where('uid', '==', comment.uid), where('timeCreated', '==', comment.timeCreated));
+    const docs = await getDocs(q);
+
+    docs.forEach(async (doc) => {
+        const ref = doc.ref;
+        if (comment.downvoters.includes(user.uid)) {
+            // user has already downvoted - remove them from downvoters
+            await updateDoc(ref, {
+                downvoters: arrayRemove(uid)
+            });
+        } else {
+            // user has not yet downvoted - add them to downvoters
+            await updateDoc(ref, {
+                downvoters: arrayUnion(uid)
+            });
+        }
+        if (comment.upvoters.includes(user.uid)) {
+            // ensure that the user is removed from upvoters if they had upvoted the comment previously
+            await updateDoc(ref, {
+                upvoters: arrayRemove(uid)
+            });
+        }
+    })
+}
+
 export {
     delComment,
     getComment,
@@ -170,4 +228,6 @@ export {
     addComment,
     listenToComments,
     updateComment,
+    upvote,
+    downvote,
 }
