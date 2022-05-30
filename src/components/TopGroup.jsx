@@ -19,7 +19,7 @@ export default function TopGroup(props) {
                 <Avatar src={groupAvatarURL} alt={baseName + ' avatar'} />
                 <span>{baseName}</span>
             </Link>
-            {!(members.includes(user.uid)) &&
+            {user != null && !(members.includes(user.uid)) &&
                 <Button variant='contained' onClick={() => addUserToGroup(user, group)}>Join</Button>
             }
         </ListItem>

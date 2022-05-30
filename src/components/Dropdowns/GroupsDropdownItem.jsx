@@ -17,7 +17,7 @@ export default function GroupDropdownItem(props) {
     return (
         <MenuItem onClick={handleClick} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', textTransform: 'none' }} disableRipple>
             <Avatar src={groupAvatarURL} />
-            {'g/' + group.baseName}
+            <span>{'g/' + group.baseName}</span>
         </MenuItem>
     )
 }

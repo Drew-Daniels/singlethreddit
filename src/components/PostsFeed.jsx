@@ -33,7 +33,7 @@ export default function Feed(props) {
     }, [getPosts, comments]);
 
     return (
-        <Container sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, border: '1px solid red' }}>
+        <Container sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1}}>
             <PostButton userAvatar={user ? user.photoURL: ''} />
             <SortMenu 
                 sortHot={sortHot}

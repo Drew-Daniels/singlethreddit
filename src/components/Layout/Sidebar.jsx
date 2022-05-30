@@ -6,6 +6,6 @@ export default function Sidebar(props) {
     const { children } = props;
 
     return (
-        <Container sx={{ display: 'flex', flexDirection: 'column', border: '1px solid blue', alignItems: 'center', padding: 0 }}>{children}</Container>
+        <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 0 }}>{children}</Container>
     )
 }

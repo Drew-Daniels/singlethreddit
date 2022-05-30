@@ -59,6 +59,6 @@ export default function Post(props) {
     )
 
     return (
-        <Card variant='outlined' sx={{ marginBottom: '1rem' }}>{card}</Card>
+        <Card sx={{ marginBottom: '1rem' }}>{card}</Card>
     )
 }

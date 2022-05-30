@@ -15,7 +15,7 @@ export default function PostVotes(props) {
     }, [post])
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: 'blue' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Button onClick={handleUpvote}>
                 <UpvoteIcon />
             </Button>
