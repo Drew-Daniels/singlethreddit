@@ -1,5 +1,6 @@
 import UserContext from '../contexts/UserContext';
 import { useEffect, useState, useContext } from 'react';
+import { getPosts } from '../db/comments/comments';
 import Container from '@mui/material/Container';
 import PostButton from './Buttons/PostButton';
 import SortMenu from './SortMenu';
@@ -11,11 +12,11 @@ export default function PostsFeed(props) {
     const {
       comments, 
       addComment,
-      getPosts,
       sortHot, 
       sortMostRecent 
     } = props;
     const [posts, setPosts] = useState([]);
+
     const user = useContext(UserContext);
     const groupAvatarURLs = useContext(GroupAvatarsContext);
 
@@ -31,7 +32,7 @@ export default function PostsFeed(props) {
               console.error(err);
             }
           }
-    }, [getPosts, comments]);
+    }, [comments]);
 
     return (
         <Container sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1}}>

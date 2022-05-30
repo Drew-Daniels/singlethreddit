@@ -160,6 +160,11 @@ function listenToComments(groups, setCommentsFn, sortField='timeCreated', sortDe
     return unsubscribe;
 }
 
+function listenToGroupComments(baseName, setGroupCommentsFn) {
+    const unsubscribe = listenToComments(baseName, setGroupCommentsFn);
+    return unsubscribe;
+}
+
 async function upvote(user, comment) {
     if (!user) { return }
     const uid = user.uid;
@@ -219,6 +224,7 @@ export {
     getPostComments,
     addComment,
     listenToComments,
+    listenToGroupComments,
     updateComment,
     upvote,
     downvote,
