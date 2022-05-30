@@ -1,6 +1,6 @@
 import { useParams, useOutletContext } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { listenToGroupComments } from '../db/comments/comments';
+import { listenToComments } from '../db/comments/comments';
 import Layout from '../components/Layout/Layout';
 import PostsFeed from '../components/PostsFeed';
 import About from '../components/About';
@@ -24,19 +24,27 @@ export default function GroupPage(props) {
         setup();
 
         async function setup() {
-            const group = groups.filter(g => g.baseName === groupName);
-            listenToGroupComments(group, setGroupComments);
-            console.log(group);
-            const url = await group.getBannerURL();
-            console.log(url);
+            const groupArray = groups.filter(g => g.baseName === groupName);
+            listenToComments(groupArray, setGroupComments);
+            const url = await groupArray[0].getBannerURL();
+            setBannerURL(prev => url);
         }
     }, [groups, groupName])
 
 
     return (
         <Layout 
-            mainComponent={<PostsFeed addComment={addComment} getPosts={getPosts} comments={groupComments} sortHot={sortHot} sortMostRecent={sortMostRecent} />} 
-            sidebarComponent={<About />} 
+            mainComponent={
+                <PostsFeed 
+                    addComment={addComment} 
+                    getPosts={getPosts} 
+                    comments={groupComments} 
+                    sortHot={sortHot} 
+                    sortMostRecent={sortMostRecent}
+                />
+            } 
+            sidebarComponent={<About />}
+            bannerURL={bannerURL}
         />
     )
 }

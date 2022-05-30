@@ -13,7 +13,7 @@ export default function PostsFeed(props) {
       comments, 
       addComment,
       sortHot, 
-      sortMostRecent 
+      sortMostRecent
     } = props;
     const [posts, setPosts] = useState([]);
 
