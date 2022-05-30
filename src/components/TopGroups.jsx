@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Card from '@mui/material/Card';
 import List from '@mui/material/List';
@@ -42,7 +41,7 @@ export default function TopGroups(props) {
                     const groupAvatarURL = groupAvatarURLs[g.baseName]
                     return (
                         <div key={i}>
-                            <TopGroup user={user} group={g} groupAvatarURL={groupAvatarURL} setGroups={setGroups} position={i} />
+                            <TopGroup group={g} groupAvatarURL={groupAvatarURL} setGroups={setGroups} position={i} />
                             {(i !== top5Groups.length - 1) && <Divider />}
                         </div>
                     )

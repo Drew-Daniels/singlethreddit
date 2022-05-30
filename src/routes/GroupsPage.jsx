@@ -8,6 +8,6 @@ export default function GroupsPage(props) {
     const { group } = useParams();
 
     return (
-        <Layout mainComponent={<PostsFeed groups={[group]} />}  sidebarComponent={<About />} />
+        <Layout mainComponent={<PostsFeed groups={[group]} />} sidebarComponent={<About />} />
     )
 }

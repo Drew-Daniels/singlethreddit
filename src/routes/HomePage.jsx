@@ -6,7 +6,6 @@ import { useOutletContext } from 'react-router-dom';
 export default function HomePage(props) {
 
     const { 
-        user, 
         groups,
         groupAvatarURLs,
         comments, 
@@ -20,7 +19,6 @@ export default function HomePage(props) {
         <Layout 
             mainComponent={
                 <PostsFeed 
-                    user={user}
                     comments={comments} 
                     addComment={addComment}
                     getPosts={getPosts}
@@ -29,7 +27,7 @@ export default function HomePage(props) {
                     groupAvatarURLs={groupAvatarURLs}
                 />} 
             sidebarComponent={
-                <TopGroups user={user} groups={groups} groupAvatarURLs={groupAvatarURLs} />} 
+                <TopGroups groups={groups} groupAvatarURLs={groupAvatarURLs} />} 
         />
     )
 }

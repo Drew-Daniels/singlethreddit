@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
+import UserContext from '../contexts/UserContext';
+import { useEffect, useState, useContext } from 'react';
 import Container from '@mui/material/Container';
 import PostButton from './Buttons/PostButton';
 import SortMenu from './SortMenu';
 import Posts from './Posts';
 
-export default function Feed(props) {
+export default function PostsFeed(props) {
 
-    const { 
-      user, 
+    const {
       comments, 
       addComment,
       groupAvatarURLs, 
@@ -15,8 +15,8 @@ export default function Feed(props) {
       sortHot, 
       sortMostRecent 
     } = props;
-
     const [posts, setPosts] = useState([]);
+    const user = useContext(UserContext);
 
     useEffect(() => {
         loadPosts();

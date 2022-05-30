@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import UserContext from '../contexts/UserContext';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -64,12 +65,12 @@ export default function PrimarySearchAppBar(props) {
     AppIcon, 
     appName, 
     signIn, 
-    user, 
     userGroups,
     groupAvatarURLs, 
     selectedGroup, 
     setSelectedGroup 
   } = props;
+  const user = useContext(UserContext)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const navigate = useNavigate();
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);

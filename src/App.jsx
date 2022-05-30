@@ -7,7 +7,7 @@ import {
   getPostComments 
 } from './db/comments/comments';
 import 'firebaseui/dist/firebaseui.css'
-import { useState, useEffect, useMemo} from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Container from '@mui/material/Container';
@@ -15,6 +15,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { Outlet } from 'react-router-dom';
 import {ReactComponent as AppIcon} from './icons/app-icon.svg';
 import Navbar from './components/Navbar';
+import UserContext from './contexts/UserContext';
 
 // APP
 function App() {
@@ -105,34 +106,34 @@ function App() {
 
   return (
       <Container maxWidth={false} disableGutters className="App" sx={{ minHeight: '100vh' }}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Navbar 
-            AppIcon={AppIcon} 
-            appName={appName} 
-            signIn={signIn} 
-            user={user} 
-            userGroups={userGroups} 
-            groupAvatarURLs={groupAvatarURLs}
-            selectedGroup={selectedGroup} 
-            setSelectedGroup={setSelectedGroup}
-          />
-          <Outlet context={{
-            user, 
-            userGroups,
-            groups, 
-            groupAvatarURLs,
-            // setGroups, 
-            selectedGroup, 
-            setSelectedGroup,
-            comments, 
-            getPosts,
-            getPostComments,
-            addComment,
-            sortHot, 
-            sortMostRecent
-          }} />
-        </ThemeProvider>
+        <UserContext.Provider value={user}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Navbar 
+              AppIcon={AppIcon} 
+              appName={appName} 
+              signIn={signIn} 
+              userGroups={userGroups} 
+              groupAvatarURLs={groupAvatarURLs}
+              selectedGroup={selectedGroup} 
+              setSelectedGroup={setSelectedGroup}
+            />
+            <Outlet context={{
+              userGroups,
+              groups, 
+              groupAvatarURLs,
+              // setGroups, 
+              selectedGroup, 
+              setSelectedGroup,
+              comments, 
+              getPosts,
+              getPostComments,
+              addComment,
+              sortHot, 
+              sortMostRecent
+            }} />
+          </ThemeProvider>
+        </UserContext.Provider>
       </Container>
   );
 }
