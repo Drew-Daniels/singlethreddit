@@ -56,7 +56,6 @@ export default function GroupsDropdown(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [displayedGroups, setDisplayedGroups] = useState(groups);
   const [searchStr, setSearchStr] = useState('');
-  const [groupAvatarURL, setGroupAvatarURL] = useState('');  
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -64,10 +63,6 @@ export default function GroupsDropdown(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  // useEffect(() => {
-  //   groupAvatarURL = groupAvatarURLs.filter(i => i.baseName === selectedGroup.baseName);
-  // }, [selectedGroup])
 
   useEffect(() => {
     if (searchStr === '') { 

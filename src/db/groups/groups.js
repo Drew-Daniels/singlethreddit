@@ -128,9 +128,15 @@ async function addGroup(baseName, displayName, description, members) {
     }
 }
 
-function listenToGroups(user, setGroupsFn) {
-    const q = user ? query(groupsRef, where('members', 'array-contains', user.uid)): query(groupsRef);
+function listenToGroups(setGroupsFn) {
+    const q = query(groupsRef);
     const unsubscribe = listen(q, setGroupsFn);
+    return unsubscribe;
+}
+
+function listenToUserGroups(user, setUserGroupsFn) {
+    const q = user ? query(groupsRef, where('members', 'array-contains', user.uid)): query(groupsRef);
+    const unsubscribe = listen(q, setUserGroupsFn);
     return unsubscribe;
 }
 
@@ -140,6 +146,7 @@ export {
     getGroups,
     getAllGroups,
     listenToGroups,
+    listenToUserGroups,
     getGroupAvatarDownloadURL,
     addGroup
 }

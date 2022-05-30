@@ -1,5 +1,5 @@
 import { auth, signIn, db, storage } from './firebase-setup';
-import { listenToGroups } from './db/groups/groups';
+import { listenToGroups, listenToUserGroups } from './db/groups/groups';
 import { 
   listenToComments, 
   addComment, 
@@ -22,6 +22,7 @@ function App() {
   const [loaded, setLoaded] = useState(false);
   const [user, setUser] = useState(null);
   const [groups, setGroups] = useState([]);
+  const [userGroups, setUserGroups] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [groupAvatarURLs, setGroupAvatarURLs] = useState([]);
   const [comments, setComments] = useState([]);
@@ -36,12 +37,16 @@ function App() {
   }, []);
 
   useEffect(() => {
-    listenToGroups(user, setGroups);
+    listenToGroups(setGroups);
+  }, []);
+
+  useEffect(() => {
+    listenToUserGroups(user, setUserGroups);
   }, [user]);
 
   useEffect(() => {
-    listenToComments(groups, setComments, commentsSortField, commentsSortDesc);
-  }, [groups, commentsSortField, commentsSortDesc])
+    listenToComments(userGroups, setComments, commentsSortField, commentsSortDesc);
+  }, [userGroups, commentsSortField, commentsSortDesc])
 
   useEffect(() => {
     loadGroupAvatarURLs();
@@ -107,13 +112,14 @@ function App() {
             appName={appName} 
             signIn={signIn} 
             user={user} 
-            groups={groups} 
+            userGroups={userGroups} 
             groupAvatarURLs={groupAvatarURLs}
             selectedGroup={selectedGroup} 
             setSelectedGroup={setSelectedGroup}
           />
           <Outlet context={{
             user, 
+            userGroups,
             groups, 
             groupAvatarURLs,
             // setGroups, 

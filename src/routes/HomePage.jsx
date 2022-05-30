@@ -7,7 +7,7 @@ export default function HomePage(props) {
 
     const { 
         user, 
-        groups, 
+        groups,
         groupAvatarURLs,
         comments, 
         addComment, 
