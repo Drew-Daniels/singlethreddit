@@ -68,7 +68,7 @@ export default function PrimarySearchAppBar(props) {
     groups,
     groupAvatarURLs, 
     selectedGroup, 
-    handleSelectGroup 
+    setSelectedGroup 
   } = props;
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const navigate = useNavigate();
@@ -178,7 +178,7 @@ export default function PrimarySearchAppBar(props) {
             groups={groups} 
             groupAvatarURLs={groupAvatarURLs}
             selectedGroup={selectedGroup} 
-            handleSelectGroup={handleSelectGroup} 
+            setSelectedGroup={setSelectedGroup} 
           />
           <Search sx={{ flexGrow: 1}}>
             <SearchIconWrapper>

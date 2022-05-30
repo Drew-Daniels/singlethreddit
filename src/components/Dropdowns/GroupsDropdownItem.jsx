@@ -4,13 +4,13 @@ import Avatar from '@mui/material/Avatar';
 
 export default function GroupDropdownItem(props) {
 
-    const { group, groupAvatarURL, handleSelectGroup, handleClose } = props;
+    const { group, groupAvatarURL, setSelectedGroup, handleClose } = props;
 
     const navigate = useNavigate();
 
     function handleClick() {
         // navigate(`g/${group.baseName}`);
-        handleSelectGroup(group);
+        setSelectedGroup(prevGroup => group);
         handleClose();
     }
 

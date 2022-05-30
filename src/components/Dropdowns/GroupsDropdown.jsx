@@ -52,10 +52,11 @@ const StyledMenu = styled((props) => (
 }));
 
 export default function GroupsDropdown(props) {
-  const { groups, groupAvatarURLs, selectedGroup, handleSelectGroup } = props;
+  const { groups, groupAvatarURLs, selectedGroup, setSelectedGroup } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const [displayedGroups, setDisplayedGroups] = useState(groups);
   const [searchStr, setSearchStr] = useState('');
+  const [groupAvatarURL, setGroupAvatarURL] = useState('');  
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -63,6 +64,10 @@ export default function GroupsDropdown(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  // useEffect(() => {
+  //   groupAvatarURL = groupAvatarURLs.filter(i => i.baseName === selectedGroup.baseName);
+  // }, [selectedGroup])
 
   useEffect(() => {
     if (searchStr === '') { 
@@ -85,11 +90,9 @@ export default function GroupsDropdown(props) {
         onClick={handleClick}
         endIcon={<KeyboardArrowDownIcon />}
       >
-        {selectedGroup ? (
-          <GroupDropdownItem group={selectedGroup} handleSelectGroup={handleSelectGroup} />
-        ) : (
-          <span>Groups</span>
-        )
+        {selectedGroup 
+        ? (<GroupDropdownItem group={selectedGroup} groupAvatarURL={groupAvatarURLs[selectedGroup.baseName]} setSelectedGroup={setSelectedGroup} handleClose={handleClose} />)
+        : (<span>Groups</span>)
       }
       </Button>
       <StyledMenu
@@ -110,7 +113,7 @@ export default function GroupsDropdown(props) {
         <List>
           {displayedGroups.map((group, i) => {
             return (
-              <GroupsDropdownItem key={i} group={group} groupAvatarURL={groupAvatarURLs[group.baseName]} handleSelectGroup={handleSelectGroup} handleClose={handleClose} />
+              <GroupsDropdownItem key={i} group={group} groupAvatarURL={groupAvatarURLs[group.baseName]} setSelectedGroup={setSelectedGroup} handleClose={handleClose} />
             )
           })}
         </List>

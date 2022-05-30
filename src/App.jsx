@@ -22,13 +22,12 @@ function App() {
   const [loaded, setLoaded] = useState(false);
   const [user, setUser] = useState(null);
   const [groups, setGroups] = useState([]);
+  const [selectedGroup, setSelectedGroup] = useState(null);
   const [groupAvatarURLs, setGroupAvatarURLs] = useState([]);
   const [comments, setComments] = useState([]);
   const [posts, setPosts] = useState([]);
   const [commentsSortField, setCommentsSortField] = useState('timeCreated');
   const [commentsSortDesc, setCommentsSortDesc] = useState(false);
-  const [selectedGroup, setSelectedGroup] = useState(null);
-
 
   useEffect(function setAuth() {
     auth.onAuthStateChanged(user => {
@@ -37,10 +36,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    listenToGroups(user, setGroups)
-    // NOTE: think I'm seeing bugs here because the first function calls an function that sets groups when a snapshot change is detected
-    // since listenToComments is depending on 'groups' I think this is causing some sort of infinite loop when 'groups' is included in deps.
-    // listenToComments(groups, setComments, commentsSortField, commentsSortDesc);
+    listenToGroups(user, setGroups);
   }, [user]);
 
   useEffect(() => {
@@ -114,7 +110,7 @@ function App() {
             groups={groups} 
             groupAvatarURLs={groupAvatarURLs}
             selectedGroup={selectedGroup} 
-            handleSelectGroup={setSelectedGroup}
+            setSelectedGroup={setSelectedGroup}
           />
           <Outlet context={{
             user, 
@@ -122,7 +118,7 @@ function App() {
             groupAvatarURLs,
             // setGroups, 
             selectedGroup, 
-            handleSelectGroup: setSelectedGroup, 
+            setSelectedGroup,
             comments, 
             getPosts,
             getPostComments,
