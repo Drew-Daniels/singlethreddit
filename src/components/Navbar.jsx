@@ -179,6 +179,7 @@ export default function PrimarySearchAppBar(props) {
             groupAvatarURLs={groupAvatarURLs}
             selectedGroup={selectedGroup} 
             setSelectedGroup={setSelectedGroup} 
+            redirect={true}
           />
           <Search sx={{ flexGrow: 1}}>
             <SearchIconWrapper>

@@ -29,7 +29,7 @@ export default function FormPost(props) {
 
     return (
         <>
-            <GroupsDropdown groups={groups} groupAvatarURLs={groupAvatarURLs} selectedGroup={selectedGroup} setSelectedGroup={setSelectedGroup} />
+            <GroupsDropdown groups={groups} groupAvatarURLs={groupAvatarURLs} selectedGroup={selectedGroup} setSelectedGroup={setSelectedGroup} redirect={false}/>
             <form onSubmit={handleSubmit}>
                 <TextField fullWidth variant='outlined' label='title' placeholder='Title' required value={title} onChange={(e) => setTitle(e.target.value)} />
                 <TextField fullWidth variant='outlined' label='body' placeholder='Text (optional)' multiline rows={4} required value={body} onChange={(e) => setBody(e.target.value)} />

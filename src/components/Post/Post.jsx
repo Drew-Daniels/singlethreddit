@@ -51,7 +51,7 @@ export default function Post(props) {
                     <Grid item onClick={() => navigate(`g/${baseName}/${id}`)}>
                         <PostHeader baseName={baseName} userName={userName} groupAvatarURL={groupAvatarURL} timeCreated={timeCreated} />
                         <PostMain title={title} numUpvotes={numUpvoters} numDownvotes={numDownvoters} />
-                        {/* <PostFooter numComments={postComments.length} /> */}
+                        <PostFooter numComments={postComments.length} />
                     </Grid>
                 </Grid>
             </CardContent>

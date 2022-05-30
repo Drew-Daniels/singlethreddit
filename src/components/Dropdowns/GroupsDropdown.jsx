@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { styled, alpha } from '@mui/material/styles';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Menu from '@mui/material/Menu';
@@ -52,10 +54,11 @@ const StyledMenu = styled((props) => (
 }));
 
 export default function GroupsDropdown(props) {
-  const { groups, groupAvatarURLs, selectedGroup, setSelectedGroup } = props;
+  const { groups, groupAvatarURLs, selectedGroup, setSelectedGroup, redirect } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const [displayedGroups, setDisplayedGroups] = useState(groups);
   const [searchStr, setSearchStr] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -63,6 +66,9 @@ export default function GroupsDropdown(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleModalOpen = () => setModalOpen(true);
+  const handleModalClose = () => setModalOpen(false);
 
   useEffect(() => {
     if (searchStr === '') { 
@@ -108,7 +114,7 @@ export default function GroupsDropdown(props) {
         <List>
           {displayedGroups.map((group, i) => {
             return (
-              <GroupsDropdownItem key={i} group={group} groupAvatarURL={groupAvatarURLs[group.baseName]} setSelectedGroup={setSelectedGroup} handleClose={handleClose} />
+              <GroupsDropdownItem key={i} group={group} groupAvatarURL={groupAvatarURLs[group.baseName]} setSelectedGroup={setSelectedGroup} handleClose={handleClose} redirect={redirect} />
             )
           })}
         </List>

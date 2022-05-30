@@ -1,4 +1,3 @@
-import { runTransaction } from 'firebase/firestore';
 import Comment from '../../factories/comment/comment';
 import { listen } from '../../utils/db/db';
 import { collection, query, orderBy, where, doc, getDoc, getDocs, deleteDoc, addDoc, updateDoc, onSnapshot, arrayRemove, arrayUnion } from 'firebase/firestore';
