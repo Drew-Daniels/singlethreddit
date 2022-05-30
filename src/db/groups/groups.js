@@ -1,5 +1,5 @@
 import Group from '../../factories/group/group';
-import { collection, where, query, doc, getDoc, getDocs, addDoc, setDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, where, query, doc, getDoc, getDocs, addDoc, updateDoc, arrayUnion, arrayRemove, deleteDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage'
 import { getFileRef } from '../../utils/get/get';
 import { listen } from '../../utils/db/db';
@@ -140,6 +140,17 @@ function listenToUserGroups(user, setUserGroupsFn) {
     return unsubscribe;
 }
 
+async function addUserToGroup(user, group) {
+    if (!user) { return };
+    const q = query(groupsRef, where('baseName', '==', group.baseName));
+    const docs = await getDocs(q);
+    docs.forEach(async (doc) => {
+        await updateDoc(doc.ref, {
+            members: arrayUnion(user.uid)
+        });
+    })
+}
+
 export {
     delGroup,
     getGroup,
@@ -148,5 +159,6 @@ export {
     listenToGroups,
     listenToUserGroups,
     getGroupAvatarDownloadURL,
-    addGroup
+    addGroup,
+    addUserToGroup,
 }

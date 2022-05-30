@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { addUserToGroup } from '../db/groups/groups';
 import { Link as RouterLink } from 'react-router-dom';
 import ListItem from '@mui/material/ListItem';
 import Link from '@mui/material/Link';
@@ -7,19 +8,9 @@ import Button from '@mui/material/Button';
 
 export default function TopGroup(props) {
 
-    const { user, group, groups, groupAvatarURL, setGroups, position } = props;
+    const { user, group, groups, groupAvatarURL, position } = props;
     const { baseName, members } = group;
     const [loaded, setLoaded] = useState(false);
-
-    function handleClick() {
-        const newGroups = [...groups].filter(g => g.baseName !== group.baseName);
-        const newGroup = {...group};
-        // add user to group's members array
-        newGroup.members.push(user.uid);
-        // update groups
-        newGroups.push(newGroup);
-        setGroups(prevGroups => newGroups);
-    }
 
     return (
         <ListItem>
@@ -28,9 +19,9 @@ export default function TopGroup(props) {
                 <Avatar src={groupAvatarURL} alt={baseName + ' avatar'} />
                 <span>{baseName}</span>
             </Link>
-            {/* {!(members.includes(user.uid)) &&
-                <Button variant='contained' onClick={handleClick}>Join</Button>
-            } */}
+            {!(members.includes(user.uid)) &&
+                <Button variant='contained' onClick={() => addUserToGroup(user, group)}>Join</Button>
+            }
         </ListItem>
     )
 }
