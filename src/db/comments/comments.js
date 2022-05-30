@@ -1,3 +1,4 @@
+import { runTransaction } from 'firebase/firestore';
 import Comment from '../../factories/comment/comment';
 import { listen } from '../../utils/db/db';
 import { collection, query, orderBy, where, doc, getDoc, getDocs, deleteDoc, addDoc, updateDoc, onSnapshot, arrayRemove, arrayUnion } from 'firebase/firestore';
@@ -169,23 +170,19 @@ async function upvote(user, comment) {
 
     docs.forEach(async (doc) => {
         const ref = doc.ref;
+        const batchedUpdates = {};
         if (comment.upvoters.includes(uid)) {
             // user has already upvoted, remove them from upvoters
-            await updateDoc(ref, {
-                upvoters: arrayRemove(uid)
-            });
+            batchedUpdates.upvoters = arrayRemove(uid);
         } else {
             // user has not upvoted yet - add them to upvoters
-            await updateDoc(ref, {
-                upvoters: arrayUnion(uid)
-            });
+            batchedUpdates.upvoters = arrayUnion(uid);
         }
         if (comment.downvoters.includes(uid)) {
             // ensure that the user is removed from downvoters if they had downvoted the comment previously
-            await updateDoc(ref, {
-                downvoters: arrayRemove(uid)
-            });
+            batchedUpdates.downvoters = arrayRemove(uid);
         }
+        await updateDoc(ref, batchedUpdates);
     });
 }
 
@@ -198,23 +195,19 @@ async function downvote(user, comment) {
 
     docs.forEach(async (doc) => {
         const ref = doc.ref;
+        const batchedUpdates = {};
         if (comment.downvoters.includes(user.uid)) {
             // user has already downvoted - remove them from downvoters
-            await updateDoc(ref, {
-                downvoters: arrayRemove(uid)
-            });
+            batchedUpdates.downvoters = arrayRemove(uid);
         } else {
             // user has not yet downvoted - add them to downvoters
-            await updateDoc(ref, {
-                downvoters: arrayUnion(uid)
-            });
+            batchedUpdates.downvoters = arrayUnion(uid);
         }
         if (comment.upvoters.includes(user.uid)) {
             // ensure that the user is removed from upvoters if they had upvoted the comment previously
-            await updateDoc(ref, {
-                upvoters: arrayRemove(uid)
-            });
+            batchedUpdates.upvoters = arrayRemove(uid);
         }
+        await updateDoc(ref, batchedUpdates);
     })
 }
 
