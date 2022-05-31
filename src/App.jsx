@@ -2,7 +2,6 @@ import { auth, signIn } from './firebase-setup';
 import { listenToGroups, listenToUserGroups } from './db/groups/groups';
 import { 
   listenToComments, 
-  getPosts, 
   getPostComments 
 } from './db/comments/comments';
 import 'firebaseui/dist/firebaseui.css'
@@ -128,7 +127,6 @@ function App() {
                   selectedGroup, 
                   setSelectedGroup,
                   comments, 
-                  getPosts,
                   getPostComments,
                   sortHot, 
                   sortMostRecent

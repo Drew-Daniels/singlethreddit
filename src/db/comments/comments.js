@@ -106,10 +106,6 @@ async function getAllComments() {
     });
     return comments;
 }
-function getPosts(comments) {
-    comments.filter(comment => comment.parentId === "");
-    return comments;
-}
 function getPostComments(postID, comments) {
     return comments.filter(comment => comment.parentId === postID);
 }
@@ -194,11 +190,9 @@ function listenToPostComments(postId, setCommentsFn, sortField, sortDesc) {
             flatComments.push(comment);
         });
         if (flatComments.length > 0) {
-            console.log(flatComments);
             treeComments = getTree(flatComments);
             treeComments.filter(comment => comment.id === postId);
         }
-        console.log(treeComments);
         setCommentsFn(prev => treeComments);
     });
     return unsubscribe;
@@ -259,7 +253,6 @@ export {
     getComment,
     getComments,
     getAllComments,
-    getPosts,
     getPostComments,
     addPost,
     addComment,

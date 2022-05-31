@@ -17,24 +17,10 @@ export default function PostsFeed(props) {
       setSelectedGroup,
       groups,
     } = props;
-    const [posts, setPosts] = useState([]);
-
+    
+    const posts = comments.filter(comment => comment.parentId === '');
     const user = useContext(UserContext);
     const groupAvatarURLs = useContext(GroupAvatarsContext);
-
-    useEffect(() => {
-      loadPosts();
-
-      function loadPosts(cb) {
-          try {
-            const ps = getPosts(comments);
-            setPosts(ps);
-          }
-          catch (err) {
-            console.error(err);
-          }
-        }
-    }, [comments]);
 
     return (
         <Container sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1}}>

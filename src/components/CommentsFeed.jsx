@@ -8,7 +8,7 @@ export default function CommentsFeed(props) {
 
     const { postId, selectedGroup } = props;
     const [comments, setComments] = useState([]);
-
+    console.log(selectedGroup);
     useEffect(() => {
         listenToPostComments(postId, setComments, 'timeCreated', true);
     }, [postId])
