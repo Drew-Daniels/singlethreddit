@@ -6,7 +6,7 @@ export default function PostMain(props) {
 
     return (
         <Box>
-            <h2>{title}</h2>
+            <h4>{title}</h4>
         </Box>
     )
 }

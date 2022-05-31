@@ -28,10 +28,6 @@ export default function Post(props) {
         setNumDownvoters(downvoters.length);
     }, [downvoters]);
 
-    function goToPost() {
-        navigate(`${baseName}/${id}`)
-    }
-
     const card = (
         <>
             <CardContent id={id} >
@@ -39,7 +35,7 @@ export default function Post(props) {
                     <Grid item xs={2}>
                         <PostVotes user={user} post={post} setComments={setComments} handleUpvote={() => upvote(user, post)} handleDownvote={() => downvote(user, post)} />
                     </Grid>
-                    <Grid item onClick={() => navigate(`g/${baseName}/${id}`)}>
+                    <Grid item xs={10} onClick={() => navigate(`g/${baseName}/${id}`)}>
                         <PostHeader baseName={baseName} userName={userName} groupAvatarURL={groupAvatarURL} timeCreated={timeCreated} />
                         <PostMain title={title} />
                         <PostFooter numComments={postComments.length} />

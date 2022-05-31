@@ -34,7 +34,9 @@ const commentConverter = {
     },
     fromFirestore: (snapshot, options) => {
         const data = snapshot.data(options);
-        return Comment(data);
+        const comment = Comment(data);
+        comment.id = snapshot.ref.id;
+        return comment;
     }
   }
   const commentsRef = collection(db, COMMENTS_COLLECTION_NAME).withConverter(commentConverter);
