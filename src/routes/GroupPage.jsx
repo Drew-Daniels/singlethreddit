@@ -1,5 +1,5 @@
 import { useParams, useOutletContext } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect} from 'react';
 import { listenToComments } from '../db/comments/comments';
 import Layout from '../components/Layout/Layout';
 import PostsFeed from '../components/PostsFeed';
@@ -25,7 +25,7 @@ export default function GroupPage(props) {
 
         async function setup() {
             const groupArray = groups.filter(g => g.baseName === groupName);
-            listenToComments(groupArray, setGroupComments);
+            listenToComments(groupArray, setGroupComments, 'timeCreated', true);
             const url = await groupArray[0].getBannerURL();
             setBannerURL(prev => url);
         }

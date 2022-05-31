@@ -50,7 +50,6 @@ function App() {
 
   useEffect(() => {
     listenToComments(userGroups, setComments, commentsSortField, commentsSortDesc);
-    console.log('called');
   }, [userGroups, commentsSortField, commentsSortDesc])
 
   useEffect(() => {
@@ -90,9 +89,10 @@ function App() {
     var newOrder = [...comments].sort(compareMostRecent);
     setComments(prevOrder => newOrder);
 
+    // new version:
     // setCommentsSortField(prev => 'timeCreated');
     // setCommentsSortDesc(prev => true);
-    setActiveSort('most-recent');
+    setActiveSort(prev => 'most-recent');
 
     function compareMostRecent(a, b) {
         return b.timeCreated - a.timeCreated;
