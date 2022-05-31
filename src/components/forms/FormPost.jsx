@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 
 export default function FormPost(props) {
 
-    const { groups, groupAvatarURLs, selectedGroup, setSelectedGroup, addComment } = props;
+    const { groups, groupAvatarURLs, selectedGroup, setSelectedGroup } = props;
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const user = useContext(UserContext);

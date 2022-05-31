@@ -12,3 +12,9 @@ export function findAndRemoveFromArray(target, arr) {
     }
     return newArr;
 }
+
+export function getChildren(array) {
+    for (let i = 0; i < array.length; i++) {
+        
+    }
+}

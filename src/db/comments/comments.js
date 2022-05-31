@@ -70,7 +70,8 @@ async function getComment(id) {
     catch (err) {
         console.error(err);
     }
-  }
+}
+
 
 async function getComments(ids) {
     if (!(Array.isArray(ids))) { throw new Error('"ids" must be an array') };
@@ -176,6 +177,16 @@ function listenToComments(groups, setCommentsFn, sortField, sortDesc) {
         q = query(commentsRef, where('baseName', 'in', groupNames), orderBy(sortField, (sortDesc ? 'desc': 'asc')));
     }
     const unsubscribe = listen(q, setCommentsFn);
+    return unsubscribe;
+}
+
+
+async function listenToPost(postId, setPostFn, setCommentsFn, sortField, sortDesc) {
+    const unsubscribe = onSnapshot(doc(db, COMMENTS_COLLECTION_NAME, postId), (doc) => {
+        setPostFn(prev => doc.data());
+        // retrieve all comments that are immediate children
+    });
+
     return unsubscribe;
 }
 
