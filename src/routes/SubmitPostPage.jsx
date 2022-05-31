@@ -5,7 +5,7 @@ import SiteRules from '../components/SiteRules';
 
 export default function SubmitPostPage(props) {
 
-    const { groups, groupAvatarURLs, selectedGroup, setSelectedGroup, addComment } = useOutletContext();
+    const { groups, groupAvatarURLs, selectedGroup, setSelectedGroup } = useOutletContext();
 
     return (
         <Layout 
@@ -15,7 +15,6 @@ export default function SubmitPostPage(props) {
                     groupAvatarURLs={groupAvatarURLs}
                     selectedGroup={selectedGroup} 
                     setSelectedGroup={setSelectedGroup}
-                    addComment={addComment}
                 />
             } 
             sidebarComponent={<SiteRules />}

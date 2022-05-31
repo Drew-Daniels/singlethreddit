@@ -2,7 +2,6 @@ import { auth, signIn, db, storage } from './firebase-setup';
 import { listenToGroups, listenToUserGroups } from './db/groups/groups';
 import { 
   listenToComments, 
-  addComment, 
   getPosts, 
   getPostComments 
 } from './db/comments/comments';
@@ -133,7 +132,6 @@ function App() {
                   comments, 
                   getPosts,
                   getPostComments,
-                  addComment,
                   sortHot, 
                   sortMostRecent
                 }} />

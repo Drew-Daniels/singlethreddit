@@ -119,6 +119,29 @@ async function updateComment(docID, data) {
     }
 }
 
+async function addPost(user, groupAvatarURL, baseName, body, title) {
+    try {
+        const { uid, displayName, photoURL } = user;
+        const commentData = {
+            uid,
+            userName: displayName, 
+            userAvatarURL: photoURL,
+            groupAvatarURL,
+            baseName,
+            body,
+            title
+        }
+        const comment = Comment(commentData);
+        const docRef = await addDoc(commentsRef, comment);
+        console.log('Document written w/ ID: ', docRef.id);
+        return comment;
+    }
+    catch (err) {
+        console.error(err);
+        return false;
+    }
+}
+
 async function addComment(user, groupAvatarURL, baseName, body, parentId, timeCreated, timeEdited, upvoters, downvoters, title) {
     try {
         const { uid, displayName, photoURL } = user;
@@ -129,12 +152,7 @@ async function addComment(user, groupAvatarURL, baseName, body, parentId, timeCr
             groupAvatarURL,
             baseName,
             body, 
-            parentId, 
-            timeCreated, 
-            timeEdited, 
-            upvoters, 
-            downvoters, 
-            title
+            parentId
         }
         const comment = Comment(commentData);
         const docRef = await addDoc(commentsRef, comment);
@@ -216,6 +234,7 @@ export {
     getAllComments,
     getPosts,
     getPostComments,
+    addPost,
     addComment,
     listenToComments,
     updateComment,

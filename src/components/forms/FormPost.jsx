@@ -1,4 +1,5 @@
 import { useState, useContext } from 'react';
+import { addPost } from '../../db/comments/comments';
 import UserContext from '../../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
 import GroupsDropdown from '../../components/Dropdowns/GroupsDropdown';
@@ -18,14 +19,7 @@ export default function FormPost(props) {
     async function handleSubmit(e) {
         e.preventDefault();
         var groupAvatarURL = await selectedGroup.getAvatarURL();
-        var success = await addComment(
-            user,
-            groupAvatarURL,
-            selectedGroup.baseName,
-            body
-        );
-        // show some kind of message indicating success or failure
-        success ? console.log('Post submitted!') : console.log('There was an error');
+        await addPost(user, groupAvatarURL, selectedGroup.baseName, body, title);
         navigate('/');
     }
 

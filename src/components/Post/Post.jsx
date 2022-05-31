@@ -32,15 +32,6 @@ export default function Post(props) {
         navigate(`${baseName}/${id}`)
     }
 
-    // useEffect(() => {
-    //     loadPostComments();
-
-    //     function loadPostComments() {
-    //         const pc = getPostComments(id, comments);
-    //         setPostComments(pc);
-    //     }
-    // }, [id, comments])
-
     const card = (
         <>
             <CardContent id={id} >
@@ -50,7 +41,7 @@ export default function Post(props) {
                     </Grid>
                     <Grid item onClick={() => navigate(`g/${baseName}/${id}`)}>
                         <PostHeader baseName={baseName} userName={userName} groupAvatarURL={groupAvatarURL} timeCreated={timeCreated} />
-                        <PostMain title={title} numUpvotes={numUpvoters} numDownvotes={numDownvoters} />
+                        <PostMain title={title} />
                         <PostFooter numComments={postComments.length} />
                     </Grid>
                 </Grid>
