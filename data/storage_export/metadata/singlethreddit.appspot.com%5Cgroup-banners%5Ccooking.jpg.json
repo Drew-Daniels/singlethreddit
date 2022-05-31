@@ -1,0 +1,20 @@
+{
+  "name": "group-banners/cooking.jpg",
+  "bucket": "singlethreddit.appspot.com",
+  "contentType": "image/jpeg",
+  "metageneration": 1,
+  "generation": 1653942860530,
+  "storageClass": "STANDARD",
+  "contentDisposition": "inline",
+  "cacheControl": "public, max-age=3600",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "c4dd0d70-da81-4ef6-b36a-205ecf5121ba"
+  ],
+  "etag": "3FD+aA0MPjrCUNHouJ/Vzfrq9H4",
+  "timeCreated": "2022-05-30T20:34:20.529Z",
+  "updated": "2022-05-30T20:34:20.533Z",
+  "size": 95108,
+  "md5Hash": "c5oO1feoMyAbXJxwVrxO/g==",
+  "crc32c": "1275921121"
+}

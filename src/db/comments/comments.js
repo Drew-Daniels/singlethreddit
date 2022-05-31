@@ -146,9 +146,8 @@ async function addComment(user, groupAvatarURL, baseName, body, parentId, timeCr
         return false;
     }
   }
-  
 
-function listenToComments(groups, setCommentsFn, sortField='timeCreated', sortDesc=true) {
+function listenToComments(groups, setCommentsFn, sortField, sortDesc) {
     var q;
     if (groups.length < 1) {
         q = query(commentsRef, orderBy(sortField, (sortDesc ? 'desc': 'asc')));

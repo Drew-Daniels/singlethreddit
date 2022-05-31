@@ -32,7 +32,7 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [activeSort, setActiveSort] = useState('most-recent');
   const [commentsSortField, setCommentsSortField] = useState('timeCreated');
-  const [commentsSortDesc, setCommentsSortDesc] = useState(false);
+  const [commentsSortDesc, setCommentsSortDesc] = useState(true);
 
   useEffect(function setAuth() {
     auth.onAuthStateChanged(user => {
@@ -50,6 +50,7 @@ function App() {
 
   useEffect(() => {
     listenToComments(userGroups, setComments, commentsSortField, commentsSortDesc);
+    console.log('called');
   }, [userGroups, commentsSortField, commentsSortDesc])
 
   useEffect(() => {
@@ -86,11 +87,11 @@ function App() {
 
   function sortMostRecent() {
     // old version:
-    // var newOrder = [...comments].sort(compareMostRecent);
-    // setComments(prevOrder => newOrder);
+    var newOrder = [...comments].sort(compareMostRecent);
+    setComments(prevOrder => newOrder);
 
-    setCommentsSortField('timeCreated');
-    setCommentsSortDesc(true);
+    // setCommentsSortField(prev => 'timeCreated');
+    // setCommentsSortDesc(prev => true);
     setActiveSort('most-recent');
 
     function compareMostRecent(a, b) {
