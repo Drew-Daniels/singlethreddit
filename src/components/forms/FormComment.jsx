@@ -10,9 +10,8 @@ import SubmitCommentButton from '../Buttons/SubmitCommentButton';
 
 export default function FormComment(props) {
 
-    const { open, selectedGroup } = props;
+    const { open, selectedGroup, parentId } = props;
 
-    const parentId = useParams().postId;
     const user = useContext(UserContext);
     const groupAvatarURL = useContext(GroupAvatarsContext)[selectedGroup.baseName];
     const [body, setBody] = useState('');

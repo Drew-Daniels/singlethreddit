@@ -6,7 +6,7 @@ import FormComment from '../Forms/FormComment';
 
 export default function CommentFooter(props) {
 
-    const { selectedGroup } = props;
+    const { selectedGroup, parentId } = props;
 
     const [commentFormOpen, setCommentFormOpen] = useState(false);
 
@@ -23,7 +23,7 @@ export default function CommentFooter(props) {
             <span>0</span>
             <DownvoteButton />
             <CommentButton handleClick={onCommentButtonClick} />
-            <FormComment open={commentFormOpen} selectedGroup={selectedGroup} />
+            <FormComment open={commentFormOpen} selectedGroup={selectedGroup} parentId={parentId} />
         </div>
     )
 }

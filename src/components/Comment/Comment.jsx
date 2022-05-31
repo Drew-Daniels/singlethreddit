@@ -8,16 +8,16 @@ import CommentFooter from './CommentFooter';
 
 export default function Comment(props) {
 
-    const { body, timeCreated, userName, userAvatarURL, selectedGroup, children } = props;
+    const { body, timeCreated, userName, userAvatarURL, selectedGroup, parentId, children } = props;
     return (
         <Container maxWidth='false'>
             <Card>
                 <Avatar src={userAvatarURL} />
                 <CommentHeader userName={userName} />
                 <CommentMain body={body} />
-                <CommentFooter selectedGroup={selectedGroup} />
+                <CommentFooter selectedGroup={selectedGroup} parentId={parentId} />
                 {children &&
-                    <Comments comments={children} selectedGroup={selectedGroup}/>
+                    <Comments comments={children} selectedGroup={selectedGroup} />
                 }
             </Card>
         </Container>

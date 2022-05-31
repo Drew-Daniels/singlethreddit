@@ -193,7 +193,7 @@ function listenToPostComments(postId, setCommentsFn, sortField, sortDesc) {
             treeComments = getTree(flatComments);
             treeComments.filter(comment => comment.id === postId);
         }
-        setCommentsFn(prev => treeComments);
+        setCommentsFn(prev => treeComments[0].children);
     });
     return unsubscribe;
 }
