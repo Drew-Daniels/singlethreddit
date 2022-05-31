@@ -1,4 +1,4 @@
-import { auth, signIn, db, storage } from './firebase-setup';
+import { auth, signIn } from './firebase-setup';
 import { listenToGroups, listenToUserGroups } from './db/groups/groups';
 import { 
   listenToComments, 
@@ -21,14 +21,12 @@ import GroupAvatarsContext from './contexts/GroupAvatarsContext';
 // APP
 function App() {
   const appName = 'Singlethreddit'
-  const [loaded, setLoaded] = useState(false);
   const [user, setUser] = useState(null);
   const [groups, setGroups] = useState([]);
   const [userGroups, setUserGroups] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [groupAvatarURLs, setGroupAvatarURLs] = useState([]);
   const [comments, setComments] = useState([]);
-  const [posts, setPosts] = useState([]);
   const [activeSort, setActiveSort] = useState('most-recent');
   const [commentsSortField, setCommentsSortField] = useState('timeCreated');
   const [commentsSortDesc, setCommentsSortDesc] = useState(true);
@@ -113,7 +111,7 @@ function App() {
       <Container maxWidth={false} disableGutters className="App" sx={{ minHeight: '100vh' }}>
         <UserContext.Provider value={user}>
           <SortContext.Provider value={activeSort}>
-            <GroupAvatarsContext.Provider value={groupAvatarURLs}>            
+            <GroupAvatarsContext.Provider value={groupAvatarURLs}>         
               <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <Navbar 

@@ -1,5 +1,6 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import UserContext from '../../contexts/UserContext';
+import GroupAvatarsContext from '../../contexts/GroupAvatarsContext';
 import { addComment } from '../../db/comments/comments';
 import { Link as RouterLink, useParams } from 'react-router-dom';
 import Container from '@mui/material/Container';
@@ -9,13 +10,15 @@ import SubmitCommentButton from '../Buttons/SubmitCommentButton';
 
 export default function FormComment(props) {
 
-    const { open, groupAvatarURL, selectedGroup } = props;
+    const { open, selectedGroup } = props;
 
     const parentId = useParams().postId;
     const user = useContext(UserContext);
+    const groupAvatarURL = useContext(GroupAvatarsContext)[selectedGroup.baseName];
     const [body, setBody] = useState('');
     const toLink = user ? `/users/${user.uid}`: '/users/'
     const linkText = user ? user.displayName: 'users'
+
 
     async function handleSubmit(e) {
         e.preventDefault();

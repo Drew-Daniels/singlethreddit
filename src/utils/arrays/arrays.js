@@ -22,7 +22,7 @@ export function getTree(array) {
     // create a 'hash' lookup table where the id of a node is used as a key
     const hash = {};
     array.forEach(el => hash[el.id] = {...el, children: []});
-
+    console.log(hash);
     const tree = [];
     array.forEach(el => {
         if (el.parentId) {

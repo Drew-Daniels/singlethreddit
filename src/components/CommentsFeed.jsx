@@ -13,15 +13,11 @@ export default function CommentsFeed(props) {
         listenToPostComments(postId, setComments, 'timeCreated', true);
     }, [postId])
 
-    useEffect(() => {
-        console.log(comments);
-    }, [comments])
-
     return (
         <div>
             <FormComment open={true} selectedGroup={selectedGroup} />
             <SortMenuDropdown />
-            <Comments comments={comments} />
+            <Comments selectedGroup={selectedGroup} comments={comments} />
         </div>
     )
 }

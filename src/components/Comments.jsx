@@ -4,14 +4,14 @@ import Comment from './Comment/Comment';
 
 export default function Comments(props) {
     
-    const {comments} = props;
+    const {comments, selectedGroup} = props;
 
     return (
         <List>
             {comments.map((comment, i) => {
                 return (
                     <ListItem key={i}>
-                        <Comment {...comment}/>
+                        <Comment {...comment} selectedGroup={selectedGroup} />
                     </ListItem>
                 )
             })}

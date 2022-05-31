@@ -13,7 +13,9 @@ export default function PostsFeed(props) {
       comments, 
       addComment,
       sortHot, 
-      sortMostRecent
+      sortMostRecent,
+      setSelectedGroup,
+      groups,
     } = props;
     const [posts, setPosts] = useState([]);
 
@@ -41,7 +43,15 @@ export default function PostsFeed(props) {
                 sortHot={sortHot}
                 sortMostRecent={sortMostRecent}
             />
-            <Posts user={user} posts={posts} comments={comments} addComment={addComment} groupAvatarURLs={groupAvatarURLs} />
+            <Posts 
+              user={user} 
+              posts={posts} 
+              comments={comments} 
+              addComment={addComment} 
+              groupAvatarURLs={groupAvatarURLs} 
+              setSelectedGroup={setSelectedGroup}
+              groups={groups}
+            />
         </Container>
     )
 }

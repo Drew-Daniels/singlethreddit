@@ -107,7 +107,7 @@ async function getAllComments() {
     return comments;
 }
 function getPosts(comments) {
-    comments.filter(comment => comment.parentId === '');
+    comments.filter(comment => comment.parentId === "");
     return comments;
 }
 function getPostComments(postID, comments) {
@@ -184,6 +184,7 @@ function listenToComments(groups, setCommentsFn, sortField, sortDesc) {
 }
 
 function listenToPostComments(postId, setCommentsFn, sortField, sortDesc) {
+    var treeComments;
     const q = query(commentsRef, orderBy(sortField, (sortDesc ? 'desc': 'asc')));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
         const flatComments = [];
@@ -192,8 +193,12 @@ function listenToPostComments(postId, setCommentsFn, sortField, sortDesc) {
             comment.id = doc.ref.id;
             flatComments.push(comment);
         });
-        const treeComments = getTree(flatComments);
-        treeComments.filter(comment => comment.id === postId);
+        if (flatComments.length > 0) {
+            console.log(flatComments);
+            treeComments = getTree(flatComments);
+            treeComments.filter(comment => comment.id === postId);
+        }
+        console.log(treeComments);
         setCommentsFn(prev => treeComments);
     });
     return unsubscribe;

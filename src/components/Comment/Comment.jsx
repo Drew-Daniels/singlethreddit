@@ -8,7 +8,7 @@ import CommentFooter from './CommentFooter';
 
 export default function Comment(props) {
 
-    const { body, timeCreated, userName, userAvatarURL } = props;
+    const { body, timeCreated, userName, userAvatarURL, selectedGroup } = props;
 
     return (
         <Container maxWidth='false'>
@@ -16,7 +16,7 @@ export default function Comment(props) {
                 <Avatar src={userAvatarURL} />
                 <CommentHeader userName={userName} />
                 <CommentMain body={body} />
-                <CommentFooter />
+                <CommentFooter selectedGroup={selectedGroup} />
             </Card>
         </Container>
     )

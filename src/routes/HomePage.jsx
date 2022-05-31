@@ -14,7 +14,7 @@ export default function HomePage(props) {
         sortHot, 
         sortMostRecent 
     } = useOutletContext();
-
+    
     return (
         <Layout 
             mainComponent={
@@ -24,6 +24,8 @@ export default function HomePage(props) {
                     getPosts={getPosts}
                     sortHot={sortHot} 
                     sortMostRecent={sortMostRecent} 
+                    setSelectedGroup={setSelectedGroup}
+                    groups={groups}
                 />} 
             sidebarComponent={
                 <TopGroups groups={groups} setSelectedGroup={setSelectedGroup} />} 
