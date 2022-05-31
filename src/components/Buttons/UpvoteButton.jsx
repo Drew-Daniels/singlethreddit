@@ -5,7 +5,7 @@ export default function UpvoteButton(props) {
 
     return (
         <Button>
-            <UpvoteButton />
+            <UpvoteIcon />
         </Button>
     )
 }

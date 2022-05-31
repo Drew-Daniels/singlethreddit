@@ -1,27 +1,22 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 import Layout from '../components/Layout/Layout';
 import CommentsFeed from '../components/CommentsFeed';
 import About from '../components/About';
-import { getComment, getPostComments } from "../db/comments/comments";
 
 export default function ViewPostPage(props) {
 
+    const { comments, groups, selectedGroup, setSelectedGroup } = useOutletContext();
     const { postId } = useParams();
 
-    const [comment, setComment] = useState(null);
-    const [postComments, setPostComments] = useState([]);
-
     useEffect(() => {
-        setup();
+        const comment = comments.filter(comment => comment.id === postId)[0];
+        const newSelectedGroup = groups.filter(group => group.baseName === comment.baseName)[0]
+        setSelectedGroup(prev => newSelectedGroup);
 
-        async function setup() {
-            const c = await getComment(postId);
-            setComment(c);
-        }
-    }, [postId])
+    }, [comments, postId, groups, setSelectedGroup]);
 
     return (
-        <Layout mainComponent={<CommentsFeed />} sidebarComponent={<About />} />
+        <Layout mainComponent={<CommentsFeed postId={postId} selectedGroup={selectedGroup} />} sidebarComponent={<About />} />
     )
 }

@@ -1,8 +1,10 @@
 export default function CommentHeader(props) {
 
+    const { userName } = props;
+
     return (
         <div>
-            Comment header here
+            <span>{userName}</span>
         </div>
     )
 }

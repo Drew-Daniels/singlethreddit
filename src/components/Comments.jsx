@@ -10,8 +10,8 @@ export default function Comments(props) {
         <List>
             {comments.map((comment, i) => {
                 return (
-                    <ListItem>
-                        <Comment />
+                    <ListItem key={i}>
+                        <Comment {...comment}/>
                     </ListItem>
                 )
             })}

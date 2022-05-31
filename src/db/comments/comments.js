@@ -1,5 +1,6 @@
 import Comment from '../../factories/comment/comment';
 import { listen } from '../../utils/db/db';
+import { getTree } from '../../utils/arrays/arrays';
 import { collection, query, orderBy, where, doc, getDoc, getDocs, deleteDoc, addDoc, updateDoc, onSnapshot, arrayRemove, arrayUnion } from 'firebase/firestore';
 import { db } from '../../firebase-setup';
 import { COMMENTS_COLLECTION_NAME } from '../../constants';
@@ -11,7 +12,8 @@ const commentConverter = {
             uid, 
             userName, 
             baseName, 
-            body, 
+            body,
+            parentId,
             timeCreated,
             timeEdited,
             upvoters,
@@ -24,6 +26,7 @@ const commentConverter = {
             userName,
             baseName,
             body,
+            parentId,
             timeCreated,
             timeEdited,
             upvoters,
@@ -145,7 +148,7 @@ async function addPost(user, groupAvatarURL, baseName, body, title) {
     }
 }
 
-async function addComment(user, groupAvatarURL, baseName, body, parentId, timeCreated, timeEdited, upvoters, downvoters, title) {
+async function addComment(user, groupAvatarURL, baseName, body, parentId) {
     try {
         const { uid, displayName, photoURL } = user;
         const commentData = {
@@ -180,13 +183,19 @@ function listenToComments(groups, setCommentsFn, sortField, sortDesc) {
     return unsubscribe;
 }
 
-
-async function listenToPost(postId, setPostFn, setCommentsFn, sortField, sortDesc) {
-    const unsubscribe = onSnapshot(doc(db, COMMENTS_COLLECTION_NAME, postId), (doc) => {
-        setPostFn(prev => doc.data());
-        // retrieve all comments that are immediate children
+function listenToPostComments(postId, setCommentsFn, sortField, sortDesc) {
+    const q = query(commentsRef, orderBy(sortField, (sortDesc ? 'desc': 'asc')));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const flatComments = [];
+        querySnapshot.forEach((doc) => {
+            const comment = doc.data();
+            comment.id = doc.ref.id;
+            flatComments.push(comment);
+        });
+        const treeComments = getTree(flatComments);
+        treeComments.filter(comment => comment.id === postId);
+        setCommentsFn(prev => treeComments);
     });
-
     return unsubscribe;
 }
 
@@ -250,6 +259,7 @@ export {
     addPost,
     addComment,
     listenToComments,
+    listenToPostComments,
     updateComment,
     upvote,
     downvote,

@@ -2,12 +2,14 @@ import { useState, useContext } from 'react';
 import UserContext from '../../contexts/UserContext';
 import { addComment } from '../../db/comments/comments';
 import { Link as RouterLink, useParams } from 'react-router-dom';
+import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
+import SubmitCommentButton from '../Buttons/SubmitCommentButton';
 
 export default function FormComment(props) {
 
-    const { groupAvatarURL, selectedGroup } = props;
+    const { open, groupAvatarURL, selectedGroup } = props;
 
     const parentId = useParams().postId;
     const user = useContext(UserContext);
@@ -21,18 +23,24 @@ export default function FormComment(props) {
         await addComment(
             user,
             groupAvatarURL,
-            selectedGroup,
+            selectedGroup.baseName,
             body,
             parentId
         );
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h4>Comment as {" "}
-                <Link to={toLink} component={RouterLink}>{linkText}</Link>
-            </h4>
-            <TextField fullWidth variant='outlined' label='body' placeholder='Text (optional)' multiline rows={4} required value={body} onChange={(e) => setBody(e.target.value)} />
-        </form>
+        <Container>
+            {open &&
+                <form onSubmit={handleSubmit}>
+                    <h4>Comment as {" "}
+                        <Link to={toLink} component={RouterLink}>{linkText}</Link>
+                    </h4>
+                    <TextField fullWidth variant='outlined' label='body' placeholder='Text (optional)' multiline rows={4} required value={body} onChange={(e) => setBody(e.target.value)} />
+                    <SubmitCommentButton onClick={handleSubmit} />
+                </form>
+            }
+        </Container>
+        
     )
 }

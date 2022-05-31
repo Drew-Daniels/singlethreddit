@@ -1,15 +1,27 @@
+import { useState } from 'react';
 import UpvoteButton from '../Buttons/UpvoteButton';
 import DownvoteButton from '../Buttons/DownvoteButton';
 import CommentButton from '../Buttons/CommentButton';
+import FormComment from '../Forms/FormComment';
 
 export default function CommentFooter(props) {
+
+    const [commentFormOpen, setCommentFormOpen] = useState(false);
+
+    const openCommentForm = () => setCommentFormOpen(true);
+    const closeCommentForm = () => setCommentFormOpen(false);
+
+    const onCommentButtonClick = () => {
+        commentFormOpen ? closeCommentForm() : openCommentForm();
+    }
 
     return (
         <div>
             <UpvoteButton />
             <span>0</span>
             <DownvoteButton />
-            <CommentButton />
+            <CommentButton handleClick={onCommentButtonClick} />
+            <FormComment open={commentFormOpen}/>
         </div>
     )
 }
