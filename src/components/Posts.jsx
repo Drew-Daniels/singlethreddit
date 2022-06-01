@@ -1,6 +1,6 @@
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import Post from './Post/Post';
+import PostCard from './PostCard/PostCard';
 
 export default function Posts(props) {
 
@@ -10,7 +10,7 @@ export default function Posts(props) {
             {posts.map((post, i) => {
                 return (
                     <ListItem key={i}>
-                        <Post 
+                        <PostCard 
                             user={user} 
                             post={post} 
                             comments={comments} 

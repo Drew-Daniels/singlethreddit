@@ -2,7 +2,7 @@ import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import {default as CommentsIcon} from '@mui/icons-material/ChatBubbleOutline';
 
-export default function PostFooter(props) {
+export default function PostCardFooter(props) {
 
     const { numComments } = props;
 

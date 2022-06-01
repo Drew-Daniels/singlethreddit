@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import {default as UpvoteIcon} from '@mui/icons-material/ArrowCircleUp';
 import {default as DownvoteIcon} from '@mui/icons-material/ArrowCircleDown';
 
-export default function PostVotes(props) {
+export default function PostCardVotes(props) {
 
     const { user, post, handleUpvote, handleDownvote } = props;
     const {upvoters, downvoters} = post;

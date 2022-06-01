@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { getTimeSince } from '../../utils/time/time';
 
-export default function PostHeader(props) {
+export default function PostCardHeader(props) {
 
     const { baseName, userName, groupAvatarURL, timeCreated } = props;
 

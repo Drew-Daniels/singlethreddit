@@ -4,12 +4,12 @@ import { upvote, downvote } from '../../db/comments/comments';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import PostHeader from './PostHeader';
-import PostMain from './PostMain';
-import PostFooter from './PostFooter';
-import PostVotes from './PostVotes';
+import PostCardHeader from './PostCardHeader';
+import PostCardMain from './PostCardMain';
+import PostCardFooter from './PostCardFooter';
+import PostCardVotes from './PostCardVotes';
 
-export default function Post(props) {
+export default function PostCard(props) {
 
     const { user, post, groupAvatarURL, setComments, setSelectedGroup, groups } = props;
     const { id, baseName, userName, timeCreated, title, upvoters, downvoters } = post;
@@ -38,12 +38,12 @@ export default function Post(props) {
             <CardContent id={id} >
                 <Grid container>
                     <Grid item xs={2}>
-                        <PostVotes user={user} post={post} setComments={setComments} handleUpvote={() => upvote(user, post)} handleDownvote={() => downvote(user, post)} />
+                        <PostCardVotes user={user} post={post} setComments={setComments} handleUpvote={() => upvote(user, post)} handleDownvote={() => downvote(user, post)} />
                     </Grid>
                     <Grid item xs={10} onClick={handleClick}>
-                        <PostHeader baseName={baseName} userName={userName} groupAvatarURL={groupAvatarURL} timeCreated={timeCreated} />
-                        <PostMain title={title} />
-                        <PostFooter numComments={postComments.length} />
+                        <PostCardHeader baseName={baseName} userName={userName} groupAvatarURL={groupAvatarURL} timeCreated={timeCreated} />
+                        <PostCardMain title={title} />
+                        <PostCardFooter numComments={postComments.length} />
                     </Grid>
                 </Grid>
             </CardContent>

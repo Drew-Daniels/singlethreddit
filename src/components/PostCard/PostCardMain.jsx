@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 
-export default function PostMain(props) {
+export default function PostCardMain(props) {
 
     const { title } = props;
 
