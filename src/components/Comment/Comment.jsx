@@ -13,7 +13,7 @@ export default function Comment(props) {
         <Container maxWidth='false'>
             <Card>
                 <Avatar src={userAvatarURL} />
-                <CommentHeader userName={userName} />
+                <CommentHeader userName={userName} timeCreated={timeCreated} />
                 <CommentMain body={body} />
                 <CommentFooter selectedGroup={selectedGroup} parentId={id} />
                 {children &&

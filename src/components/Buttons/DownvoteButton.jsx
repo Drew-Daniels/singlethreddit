@@ -3,8 +3,10 @@ import {default as DownvoteIcon} from '@mui/icons-material/ArrowCircleDown';
 
 export default function DownvoteButton(props) {
 
+    const { handleClick } = props;
+
     return (
-        <Button>
+        <Button onClick={handleClick} >
             <DownvoteIcon />
         </Button>
     )
