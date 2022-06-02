@@ -7,6 +7,18 @@ import PostCardMain from './PostCardMain';
 import PostCardFooter from './PostCardFooter';
 import PostCardVotes from './PostCardVotes';
 
+/**
+ * Takes an array of comments and after counting the first level of comments, recursively counts the rest of the comments.
+ */
+function countComments(comments) {
+    var numComments = comments.length;
+
+    comments.forEach(subcomment => {
+        numComments += countComments(subcomment.children);
+    });
+    return numComments;
+}
+
 export default function PostCard(props) {
 
     const { user, post, groupAvatarURL, handleClick } = props;
@@ -29,7 +41,7 @@ export default function PostCard(props) {
                     <Grid item xs={10} onClick={handleClick ? handleClick: undefined}>
                         <PostCardHeader baseName={baseName} userName={userName} groupAvatarURL={groupAvatarURL} timeCreated={timeCreated} />
                         <PostCardMain title={title} />
-                        <PostCardFooter numComments={children.length} />
+                        <PostCardFooter numComments={countComments(post.children)} />
                     </Grid>
                 </Grid>
             </CardContent>
