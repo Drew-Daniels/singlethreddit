@@ -18,6 +18,7 @@ const commentConverter = {
             timeEdited,
             upvoters,
             downvoters,
+            karma,
             title,
             userAvatarURL,
         } = comment;
@@ -31,6 +32,7 @@ const commentConverter = {
             timeEdited,
             upvoters,
             downvoters,
+            karma,
             title,
             userAvatarURL,
         }

@@ -6,16 +6,10 @@ import {default as DownvoteIcon} from '@mui/icons-material/ArrowCircleDown';
 
 export default function PostCardVotes(props) {
 
-    const { user, post, handleUpvote, handleDownvote } = props;
-    const {upvoters, downvoters} = post;
-    const [karma, setKarma] = useState(0);
+    const { user, upvoters, downvoters, karma, handleUpvote, handleDownvote } = props;
 
     const upvoteColor = user ? (upvoters.includes(user.uid) ? '#FF4301': 'gray') : 'gray'
     const downvoteColor = user ? (downvoters.includes(user.uid) ? '#FF4301': 'gray') : 'gray';
-
-    useEffect(() => {
-        setKarma(prevKarma => post.upvoters.length - post.downvoters.length);
-    }, [post])
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

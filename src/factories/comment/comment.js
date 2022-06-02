@@ -1,18 +1,8 @@
 import { Timestamp } from 'firebase/firestore';
 /**
- * Factory function that runs checks on passed in values that are to be used to create a Comment document in the database.
- * @param {string} parentId 
- * @param {string} email 
- * @param {string} baseName 
- * @param {string} body 
- * @param {Timestamp} timeCreated 
- * @param {Timestamp} timeEdited 
- * @param {array} upvoters 
- * @param {array} downvoters 
- * @param {string} title 
- * @param {string} userAvatarURL
- * @param {string} groupAvatarURL
- * @returns validated [Comment object]
+ * 
+ * @param {object} commentData
+ * @returns validated Comment object
  */
  const Comment = ({
     uid,
@@ -24,6 +14,7 @@ import { Timestamp } from 'firebase/firestore';
     timeEdited=Timestamp.now(), 
     upvoters=[], 
     downvoters=[], 
+    karma=0,
     title='',
     userAvatarURL='',
     } = {}) => {
@@ -39,6 +30,7 @@ import { Timestamp } from 'firebase/firestore';
     if (!validTimestamp(timeEdited)) {throw new Error('"timeEdited" must be of Firebase Timestamp type')};
     if (!validUpvoters(upvoters)) {throw new Error('"upvoters" must be an array')};
     if (!validDownvoters(downvoters)) {throw new Error('"downvoters" must be an array')};
+    if (!validKarma(karma)) { throw new Error('"karma" must be an integer')};
     if (!validTitle(title)) {throw new Error('"title" must be a string')};
     if (!validAvatarURL(userAvatarURL)) { throw new Error('"userAvatarURL" must be a string')};
     // CHECKS FINISHED
@@ -53,9 +45,9 @@ import { Timestamp } from 'firebase/firestore';
             timeEdited,
             upvoters,
             downvoters,
+            karma,
             title,
-            userAvatarURL,
-            getKarma: () => upvoters.length - downvoters.length
+            userAvatarURL
         }
     )
     // validation function definitions
@@ -82,6 +74,9 @@ import { Timestamp } from 'firebase/firestore';
     }
     function validDownvoters(downvoters) {
         return Array.isArray(downvoters);
+    }
+    function validKarma(karma) {
+        return Number.isSafeInteger(karma);
     }
     function validTitle(title) {
         return (typeof title === 'string');
