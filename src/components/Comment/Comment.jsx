@@ -7,15 +7,16 @@ import CommentMain from './CommentMain';
 import CommentFooter from './CommentFooter';
 
 export default function Comment(props) {
+    const { comment, selectedGroup } = props;
+    const { body, timeCreated, userName, userAvatarURL, children } = comment;
 
-    const { body, timeCreated, userName, userAvatarURL, selectedGroup, id, parentId, children } = props;
     return (
         <Container maxWidth='false'>
             <Card>
                 <Avatar src={userAvatarURL} />
                 <CommentHeader userName={userName} timeCreated={timeCreated} />
                 <CommentMain body={body} />
-                <CommentFooter selectedGroup={selectedGroup} parentId={id} />
+                <CommentFooter selectedGroup={selectedGroup} comment={comment} />
                 {children &&
                     <Comments comments={children} selectedGroup={selectedGroup} />
                 }

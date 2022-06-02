@@ -11,7 +11,7 @@ export default function Comments(props) {
             {comments.map((comment, i) => {
                 return (
                     <ListItem key={i}>
-                        <Comment {...comment} selectedGroup={selectedGroup} />
+                        <Comment comment={comment} selectedGroup={selectedGroup} />
                     </ListItem>
                 )
             })}
