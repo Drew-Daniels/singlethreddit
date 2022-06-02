@@ -33,5 +33,5 @@ export default function ViewPostPage(props) {
             mainComponent={<MainLoading />}
             sidebarComponent={<SidebarLoading />}
         />
-    )
+    );
 }

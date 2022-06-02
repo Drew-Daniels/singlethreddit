@@ -21,9 +21,9 @@ export default function Layout(props) {
                     <StyledImage src={bannerURL} />
                 </Box>
             }
-            <Grid container spacing={2} sx={{ marginTop: '1rem'}}>
+            <Grid container spacing={2} sx={{ marginTop: '1rem', minHeight: '90vh'}}>
                 <Grid item md={2}/>
-                <Grid item xs={12} sm={9} md={5}>
+                <Grid item xs={12} sm={9} md={5} >
                     <Main children={mainComponent} />
                 </Grid>
                 <Grid item sm={0} md={3}>
