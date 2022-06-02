@@ -183,6 +183,7 @@ function listenToComments(groups, setCommentsFn, sortField, sortDesc) {
 
 function listenToPostComments(postId, setCommentsFn, sortField, sortDesc) {
     var treeComments;
+    var postComments;
     const q = query(commentsRef, orderBy(sortField, (sortDesc ? 'desc': 'asc')));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
         const flatComments = [];
@@ -193,9 +194,9 @@ function listenToPostComments(postId, setCommentsFn, sortField, sortDesc) {
         });
         if (flatComments.length > 0) {
             treeComments = getTree(flatComments);
-            treeComments.filter(comment => comment.id === postId);
+            postComments = treeComments.filter(comment => comment.id === postId);
         }
-        setCommentsFn(prev => treeComments[0].children);
+        setCommentsFn(prev => postComments[0].children);
     });
     return unsubscribe;
 }
