@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+import GroupAvatarsContext from '../contexts/GroupAvatarsContext';
 import PostCard from './PostCard/PostCard';
 import FormComment from './Forms/FormComment';
 import SortMenuDropdown from './SortMenuDropdown';
@@ -6,13 +8,16 @@ import Comments from './Comments';
 export default function CommentsFeed(props) {
 
     const { post, selectedGroup } = props;
-
+    const { id, children } = post;
+    const groupAvatarURLs = useContext(GroupAvatarsContext);
+    const groupAvatarURL = groupAvatarURLs[selectedGroup.baseName];
+    
     return (
         <div>
-            <PostCard post={post} />
-            <FormComment open={true} selectedGroup={selectedGroup} parentId={post.id} />
+            <PostCard post={post} groupAvatarURL={groupAvatarURL} />
+            <FormComment open={true} selectedGroup={selectedGroup} parentId={id} />
             <SortMenuDropdown />
-            <Comments selectedGroup={selectedGroup} comments={post.children} />
+            <Comments selectedGroup={selectedGroup} comments={children} />
         </div>
     )
 }

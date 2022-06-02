@@ -181,7 +181,7 @@ function listenToComments(groups, setCommentsFn, sortField, sortDesc) {
     return unsubscribe;
 }
 
-function listenToPosts(groups, setPostsFn, sortField='timeCreated', sortDesc=true) {
+function listenToPosts(groups, setPostsFn, sortField, sortDesc) {
     var q
     var posts;
     if (groups.length < 1) {
@@ -191,7 +191,6 @@ function listenToPosts(groups, setPostsFn, sortField='timeCreated', sortDesc=tru
         q = query(commentsRef, where('baseName', 'in', groupNames), orderBy(sortField, (sortDesc ? 'desc': 'asc')));
     }
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        console.log('change!')
         const flatComments = [];
         querySnapshot.forEach((doc) => {
             const comment = doc.data();
