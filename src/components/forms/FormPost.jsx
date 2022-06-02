@@ -6,6 +6,7 @@ import GroupsDropdown from '../../components/Dropdowns/GroupsDropdown';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import UploadButton from '../Buttons/UploadButton';
 
 export default function FormPost(props) {
 
@@ -30,6 +31,7 @@ export default function FormPost(props) {
                 <TextField fullWidth variant='outlined' label='title' placeholder='Title' required value={title} onChange={(e) => setTitle(e.target.value)} />
                 <TextField fullWidth variant='outlined' label='body' placeholder='Text (optional)' multiline rows={4} required value={body} onChange={(e) => setBody(e.target.value)} />
                 <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+                    <UploadButton />
                     <Button type='submit'>Post</Button>
                 </Box>
             </form>
