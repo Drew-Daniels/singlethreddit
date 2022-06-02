@@ -8,20 +8,18 @@ export default function HomePage(props) {
     const { 
         groups,
         setSelectedGroup,
-        comments, 
-        addComment, 
-        getPosts,
+        posts,
+        setSelectedPost,
         sortHot, 
         sortMostRecent 
     } = useOutletContext();
-    
+
     return (
         <Layout 
             mainComponent={
                 <PostsFeed 
-                    comments={comments} 
-                    addComment={addComment}
-                    getPosts={getPosts}
+                    posts={posts} 
+                    setSelectedPost={setSelectedPost}
                     sortHot={sortHot} 
                     sortMostRecent={sortMostRecent} 
                     setSelectedGroup={setSelectedGroup}

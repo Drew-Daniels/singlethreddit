@@ -1,6 +1,7 @@
 import { auth, signIn } from './firebase-setup';
 import { listenToGroups, listenToUserGroups } from './db/groups/groups';
 import { 
+  listenToPosts,
   listenToComments, 
   getPostComments 
 } from './db/comments/comments';
@@ -25,10 +26,11 @@ function App() {
   const [userGroups, setUserGroups] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [groupAvatarURLs, setGroupAvatarURLs] = useState([]);
-  const [comments, setComments] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [selectedPost, setSelectedPost] = useState(null);
   const [activeSort, setActiveSort] = useState('most-recent');
-  const [commentsSortField, setCommentsSortField] = useState('timeCreated');
-  const [commentsSortDesc, setCommentsSortDesc] = useState(true);
+  const [sortField, setSortField] = useState('timeCreated');
+  const [sortDesc, setSortDesc] = useState(true);
 
   useEffect(function setAuth() {
     auth.onAuthStateChanged(user => {
@@ -45,8 +47,8 @@ function App() {
   }, [user]);
 
   useEffect(() => {
-    listenToComments(userGroups, setComments, commentsSortField, commentsSortDesc);
-  }, [userGroups, commentsSortField, commentsSortDesc])
+    listenToPosts(userGroups, setPosts, sortField, sortDesc);
+  }, [userGroups, sortField, sortDesc])
 
   useEffect(() => {
     loadGroupAvatarURLs();
@@ -63,36 +65,15 @@ function App() {
   }, [groups]);
 
   function sortHot() {
-    // TODO modify this to set the sort field to 'karma' calculated field once
-    // Cloud function is deployed to calculate this on the fly.
-    // This would enable for pagination and also ensure that we retrieve the most popular comment from
-    // all comments in db rather than the most popular from the subset we retrieved in a snapshot.
-    // new version:
-    // setCommentsSortField('karma');
-    // setCommentsSortDesc(true);
-
-    var newOrder = [...comments].sort(compareHot);
-    setComments(prevOrder => newOrder);
+    setSortField('karma');
+    setSortDesc(true);
     setActiveSort('hot');
-
-    function compareHot(a, b) {
-        return (b.getKarma()) - (a.getKarma());
-    }
   }
 
   function sortMostRecent() {
-    // old version:
-    var newOrder = [...comments].sort(compareMostRecent);
-    setComments(prevOrder => newOrder);
-
-    // new version:
-    // setCommentsSortField(prev => 'timeCreated');
-    // setCommentsSortDesc(prev => true);
+    setSortField(prev => 'timeCreated');
+    setSortDesc(prev => true);
     setActiveSort(prev => 'most-recent');
-
-    function compareMostRecent(a, b) {
-        return b.timeCreated - a.timeCreated;
-    }
   }
 
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -126,8 +107,9 @@ function App() {
                   groups, 
                   selectedGroup, 
                   setSelectedGroup,
-                  comments, 
-                  getPostComments,
+                  posts,
+                  selectedPost,
+                  setSelectedPost,
                   sortHot, 
                   sortMostRecent
                 }} />

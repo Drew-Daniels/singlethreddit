@@ -10,7 +10,7 @@ export default function PostCardFooter(props) {
         <CardActions>
             <Button variant='outlined'>
                 <CommentsIcon />
-                <span>{numComments} Comments</span>
+                <span>{numComments === 1 ? numComments + ' comment': numComments + ' comments'}</span>
             </Button>
         </CardActions>
     )

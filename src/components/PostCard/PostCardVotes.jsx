@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useContext } from 'react';
+import UserContext from '../../contexts/UserContext';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import {default as UpvoteIcon} from '@mui/icons-material/ArrowCircleUp';

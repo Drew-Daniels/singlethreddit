@@ -181,11 +181,17 @@ function listenToComments(groups, setCommentsFn, sortField, sortDesc) {
     return unsubscribe;
 }
 
-function listenToPostComments(postId, setCommentsFn, sortField, sortDesc) {
-    var treeComments;
-    var postComments;
-    const q = query(commentsRef, orderBy(sortField, (sortDesc ? 'desc': 'asc')));
+function listenToPosts(groups, setPostsFn, sortField='timeCreated', sortDesc=true) {
+    var q
+    var posts;
+    if (groups.length < 1) {
+        q = query(commentsRef, orderBy(sortField, (sortDesc ? 'desc': 'asc')));
+    } else {
+        const groupNames = groups.map(group => group.baseName);
+        q = query(commentsRef, where('baseName', 'in', groupNames), orderBy(sortField, (sortDesc ? 'desc': 'asc')));
+    }
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        console.log('change!')
         const flatComments = [];
         querySnapshot.forEach((doc) => {
             const comment = doc.data();
@@ -193,12 +199,21 @@ function listenToPostComments(postId, setCommentsFn, sortField, sortDesc) {
             flatComments.push(comment);
         });
         if (flatComments.length > 0) {
-            treeComments = getTree(flatComments);
-            postComments = treeComments.filter(comment => comment.id === postId);
+            posts = getTree(flatComments);
         }
-        setCommentsFn(prev => postComments[0].children);
+        setPostsFn(prev => posts);
     });
     return unsubscribe;
+}
+/**
+ * Returns a listener for a specific post from a posts listener
+ * @param {string} postId 
+ * @param {array} posts 
+ * @returns post listener
+ */
+function listenToPost(postId, posts) {
+    const post = posts.filter(post => post.id === postId)[0];
+    return post;
 }
 
 async function upvote(user, comment) {
@@ -260,7 +275,8 @@ export {
     addPost,
     addComment,
     listenToComments,
-    listenToPostComments,
+    listenToPosts,
+    listenToPost,
     updateComment,
     upvote,
     downvote,

@@ -1,6 +1,5 @@
 import UserContext from '../contexts/UserContext';
-import { useEffect, useState, useContext } from 'react';
-import { getPosts } from '../db/comments/comments';
+import { useContext } from 'react';
 import Container from '@mui/material/Container';
 import PostButton from './Buttons/PostButton';
 import SortMenu from './SortMenu';
@@ -10,15 +9,14 @@ import GroupAvatarsContext from '../contexts/GroupAvatarsContext';
 export default function PostsFeed(props) {
 
     const {
-      comments, 
-      addComment,
+      groups,
+      setSelectedGroup,
+      posts, 
+      setSelectedPost,
       sortHot, 
       sortMostRecent,
-      setSelectedGroup,
-      groups,
     } = props;
-    
-    const posts = comments.filter(comment => comment.parentId === '');
+
     const user = useContext(UserContext);
     const groupAvatarURLs = useContext(GroupAvatarsContext);
 
@@ -32,8 +30,7 @@ export default function PostsFeed(props) {
             <Posts 
               user={user} 
               posts={posts} 
-              comments={comments} 
-              addComment={addComment} 
+              setSelectedPost={setSelectedPost}
               groupAvatarURLs={groupAvatarURLs} 
               setSelectedGroup={setSelectedGroup}
               groups={groups}

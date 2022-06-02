@@ -1,26 +1,18 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { listenToPostComments } from '../db/comments/comments';
+import PostCard from './PostCard/PostCard';
 import FormComment from './Forms/FormComment';
 import SortMenuDropdown from './SortMenuDropdown';
 import Comments from './Comments';
 
 export default function CommentsFeed(props) {
 
-    const { postId, selectedGroup } = props;
-    const params = useParams();
-    const [comments, setComments] = useState([]);
-
-    useEffect(() => {
-        listenToPostComments(postId, setComments, 'timeCreated', true);
-    }, [postId])
+    const { post, selectedGroup } = props;
 
     return (
         <div>
-            {/* Post here */}
-            <FormComment open={true} selectedGroup={selectedGroup} parentId={params.postId} />
+            <PostCard post={post} />
+            <FormComment open={true} selectedGroup={selectedGroup} parentId={post.id} />
             <SortMenuDropdown />
-            <Comments selectedGroup={selectedGroup} comments={comments} />
+            <Comments selectedGroup={selectedGroup} comments={post.children} />
         </div>
     )
 }
