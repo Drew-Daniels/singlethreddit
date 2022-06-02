@@ -3,11 +3,11 @@ import {default as UpvoteIcon} from '@mui/icons-material/ArrowCircleUp';
 
 export default function UpvoteButton(props) {
 
-    const { handleClick } = props;
+    const { handleClick, color } = props;
 
     return (
         <Button onClick={handleClick} >
-            <UpvoteIcon />
+            <UpvoteIcon sx={{ color }} />
         </Button>
     )
 }

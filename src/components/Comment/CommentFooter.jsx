@@ -9,6 +9,8 @@ import FormComment from '../Forms/FormComment';
 export default function CommentFooter(props) {
 
     const { selectedGroup, comment } = props;
+    const { upvoters, downvoters } = comment;
+    
     const user = useContext(UserContext);
 
     const [commentFormOpen, setCommentFormOpen] = useState(false);
@@ -19,11 +21,20 @@ export default function CommentFooter(props) {
         commentFormOpen ? closeCommentForm() : openCommentForm();
     }
 
+    const upvoteColor = user ? (upvoters.includes(user.uid) ? '#FF4301': 'gray') : 'gray'
+    const downvoteColor = user ? (downvoters.includes(user.uid) ? '#FF4301': 'gray') : 'gray';
+
     return (
         <div>
-            <UpvoteButton handleClick={() => upvote(user, comment)} />
+            <UpvoteButton 
+                handleClick={() => upvote(user, comment)} 
+                color={upvoteColor}
+            />
             <span>{comment.karma}</span>
-            <DownvoteButton handleClick={() => downvote(user, comment)} />
+            <DownvoteButton 
+                handleClick={() => downvote(user, comment)} 
+                color={downvoteColor}
+            />
             <CommentButton handleClick={onCommentButtonClick} />
             <FormComment open={commentFormOpen} selectedGroup={selectedGroup} parentId={comment.id} />
         </div>
