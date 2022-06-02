@@ -64,6 +64,10 @@ function App() {
     }
   }, [groups]);
 
+  useEffect(() => {
+    console.log(posts);
+  }, [posts])
+
   function sortHot() {
     setSortField('karma');
     setSortDesc(true);

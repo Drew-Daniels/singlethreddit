@@ -211,6 +211,9 @@ function listenToPosts(groups, setPostsFn, sortField, sortDesc) {
  * @returns post listener
  */
 function listenToPost(postId, posts) {
+    // TODO: instead of making a copy of posts with filter (which causes us to lose our reference to our listener on posts here),
+    // I can set a up a listener that will listen to this specific post for changes and use this new function to listen to comments that specific relate to the
+    // post
     const post = posts.filter(post => post.id === postId)[0];
     return post;
 }
