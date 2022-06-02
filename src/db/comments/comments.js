@@ -204,18 +204,24 @@ function listenToPosts(groups, setPostsFn, sortField, sortDesc) {
     });
     return unsubscribe;
 }
-/**
- * Returns a listener for a specific post from a posts listener
- * @param {string} postId 
- * @param {array} posts 
- * @returns post listener
- */
-function listenToPost(postId, posts) {
-    // TODO: instead of making a copy of posts with filter (which causes us to lose our reference to our listener on posts here),
-    // I can set a up a listener that will listen to this specific post for changes and use this new function to listen to comments that specific relate to the
-    // post
-    const post = posts.filter(post => post.id === postId)[0];
-    return post;
+
+function listenToPost(postId, setPostFn, sortField, sortDesc) {
+    var posts, post;
+    const q = query(commentsRef, orderBy(sortField, (sortDesc ? 'desc': 'asc')));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const flatComments = [];
+        querySnapshot.forEach((doc) => {
+            const comment = doc.data();
+            comment.id = doc.ref.id;
+            flatComments.push(comment);
+        });
+        if (flatComments.length > 0) {
+            posts = getTree(flatComments);
+            post = posts.filter(post => post.id === postId)[0];
+        }
+        setPostFn(prev => post);
+    })
+    return unsubscribe;
 }
 
 async function upvote(user, comment) {

@@ -5,14 +5,13 @@ import PostCard from './PostCard/PostCard';
 
 export default function Posts(props) {
 
-    const { user, posts, setSelectedPost, groupAvatarURLs, setSelectedGroup, groups } = props;
+    const { user, posts, groupAvatarURLs, setSelectedGroup, groups } = props;
     
     const navigate = useNavigate();
 
     function viewPost(post) {
         const {baseName, id} = post;
         selectGroup(baseName);
-        setSelectedPost(prev => post);
         goToPost(post);
     }
 
