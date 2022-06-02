@@ -31,14 +31,14 @@ export default function PostCard(props) {
                             upvoters={upvoters} 
                             downvoters={downvoters} 
                             karma={karma} 
-                            handleUpvote={() => upvote(user, post)} 
+                            handleUpvote={() => {upvote(user, post)}} 
                             handleDownvote={() => downvote(user, post)} 
                         />
                     </Grid>
                     <Grid item xs={10} onClick={handleClick ? handleClick: undefined}>
                         <PostCardHeader baseName={baseName} userName={userName} groupAvatarURL={groupAvatarURL} timeCreated={timeCreated} />
                         <PostCardMain title={title} />
-                        <PostCardFooter numComments={countComments(post.children)} />
+                        <PostCardFooter numComments={countComments(children)} />
                     </Grid>
                 </Grid>
             </CardContent>

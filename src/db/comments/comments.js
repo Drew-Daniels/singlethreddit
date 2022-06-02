@@ -225,7 +225,7 @@ function listenToPost(postId, setPostFn, sortField, sortDesc) {
 }
 
 async function upvote(user, comment) {
-    if (!user) { return }
+    if (arguments.length < 2) { throw new Error('"user" and "comment" must both be provided') }
     const uid = user.uid;
 
     const q = query(commentsRef, where('uid', '==', comment.uid), where('timeCreated', '==', comment.timeCreated));
@@ -250,7 +250,7 @@ async function upvote(user, comment) {
 }
 
 async function downvote(user, comment) {
-    if (!user) { return }
+    if (arguments.length < 2) { throw new Error('"user" and "comment" must both be provided') }
     const uid = user.uid;
 
     const q = query(commentsRef, where('uid', '==', comment.uid), where('timeCreated', '==', comment.timeCreated));
