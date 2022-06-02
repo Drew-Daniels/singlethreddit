@@ -7,9 +7,6 @@ import PostCardMain from './PostCardMain';
 import PostCardFooter from './PostCardFooter';
 import PostCardVotes from './PostCardVotes';
 
-/**
- * Takes an array of comments and after counting the first level of comments, recursively counts the rest of the comments.
- */
 function countComments(comments) {
     var numComments = comments.length;
 
