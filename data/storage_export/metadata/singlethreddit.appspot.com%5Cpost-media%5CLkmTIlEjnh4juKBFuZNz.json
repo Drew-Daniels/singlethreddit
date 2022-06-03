@@ -1,0 +1,20 @@
+{
+  "name": "post-media/LkmTIlEjnh4juKBFuZNz",
+  "bucket": "singlethreddit.appspot.com",
+  "contentType": "image/gif",
+  "metageneration": 1,
+  "generation": 1654220144547,
+  "storageClass": "STANDARD",
+  "contentDisposition": "inline",
+  "cacheControl": "public, max-age=3600",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "7cf1b76b-562a-48f8-bdfb-9a8d5824cbf7"
+  ],
+  "etag": "BtCYgnmJxXJeiUtpdijsbW6ZbdE",
+  "timeCreated": "2022-06-03T01:35:44.547Z",
+  "updated": "2022-06-03T01:35:44.554Z",
+  "size": 134059,
+  "md5Hash": "1A9xRP/X0RVVzquluyHqpg==",
+  "crc32c": "649812029"
+}
