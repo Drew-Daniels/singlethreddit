@@ -138,6 +138,7 @@ async function addPost(user, groupAvatarURL, baseName, body, title) {
         const comment = Comment(commentData);
         const docRef = await addDoc(commentsRef, comment);
         console.log('Document written w/ ID: ', docRef.id);
+        comment.id = docRef.id;
         return comment;
     }
     catch (err) {

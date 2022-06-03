@@ -1,12 +1,19 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useRef } from 'react';
 import { addPost } from '../../db/comments/comments';
+import { uploadPostMedia } from '../../utils/storage/storage';
 import UserContext from '../../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
 import GroupsDropdown from '../../components/Dropdowns/GroupsDropdown';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import UploadButton from '../Buttons/UploadButton';
+import { styled } from '@mui/material/styles';
+import IconButton from '@mui/material/IconButton';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
+
+const Input = styled('input')({
+    display: 'none',
+});
 
 export default function FormPost(props) {
 
@@ -14,13 +21,18 @@ export default function FormPost(props) {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const user = useContext(UserContext);
-
+    const fileRef = useRef();
     const navigate = useNavigate();
 
     async function handleSubmit(e) {
         e.preventDefault();
         var groupAvatarURL = await selectedGroup.getAvatarURL();
-        await addPost(user, groupAvatarURL, selectedGroup.baseName, body, title);
+        var post = await addPost(user, groupAvatarURL, selectedGroup.baseName, body, title);
+        console.log(fileRef)
+        const file = fileRef.current.files[0];
+        if (file) {
+            await uploadPostMedia(file, post.id);
+        }
         navigate('/');
     }
 
@@ -31,7 +43,12 @@ export default function FormPost(props) {
                 <TextField fullWidth variant='outlined' label='title' placeholder='Title' required value={title} onChange={(e) => setTitle(e.target.value)} />
                 <TextField fullWidth variant='outlined' label='body' placeholder='Text (optional)' multiline rows={4} required value={body} onChange={(e) => setBody(e.target.value)} />
                 <Box sx={{ display: 'flex', justifyContent: 'end' }}>
-                    <UploadButton />
+                    <label htmlFor="icon-button-file">
+                        <Input accept="image/*" id="icon-button-file" type="file" ref={fileRef} />
+                        <IconButton color="primary" aria-label="upload picture" component="span">
+                            <PhotoCamera />
+                        </IconButton>
+                    </label>
                     <Button type='submit'>Post</Button>
                 </Box>
             </form>
