@@ -41,7 +41,7 @@ export function getBoundPropertyUpdater(obj, prop) {
  */
 export async function getFileRef(storageRef, fName) {
     var fileRef;
-    const pattern = RegExp(`${fName}` + '.(jpg|svg|webp|jfif)');
+    const pattern = RegExp(`${fName}` + '.*');
     await listAll(storageRef)
         .then((res) => {
             const files = res.items;

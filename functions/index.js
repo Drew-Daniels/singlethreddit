@@ -2,9 +2,8 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const { ref, getDownloadURL } = require("firebase/storage");
-
 const app = admin.initializeApp();
-const storage = admin.storage(app);
+const storage = admin.storage();
 
 exports.setKarma = functions.firestore.document("/comments/{documentId}")
     .onWrite((change, context) => {
@@ -20,7 +19,8 @@ exports.setKarma = functions.firestore.document("/comments/{documentId}")
 
 exports.setMediaURL = functions.firestore.document("/comments/{documentId}")
     .onCreate(async (snapshot, context) => {
-        const storageRef = ref(storage, 'post-media/' + snapshot.id);
+        const url = 'post-media/' + snapshot.ref.id;
+        const storageRef = ref(storage, url);
         console.log(storageRef);
         const mediaURL = await getDownloadURL(storageRef);
         if (mediaURL) {
