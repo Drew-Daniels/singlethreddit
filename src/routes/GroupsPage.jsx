@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import Layout from '../components/Layout/Layout';
 import PostsFeed from '../components/PostsFeed';
-import About from '../components/About';
+import GroupMetadata from '../components/GroupMetadata';
 
 export default function GroupsPage(props) {
 
@@ -14,7 +14,7 @@ export default function GroupsPage(props) {
                     groups={[group]} 
                 />
             } 
-            sidebarComponent={<About />} 
+            sidebarComponent={<GroupMetadata />} 
         />
     )
 }

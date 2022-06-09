@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { getGroupBannerURL } from '../utils/storage/storage';
 import Layout from '../components/Layout/Layout';
 import PostsFeed from '../components/PostsFeed';
-import About from '../components/About';
+import GroupMetadata from '../components/GroupMetadata';
 
 export default function GroupPage(props) {
     
@@ -41,7 +41,7 @@ export default function GroupPage(props) {
                     groups={groups.filter(group  => group.baseName === groupName)}
                 />
             } 
-            sidebarComponent={<About />}
+            sidebarComponent={<GroupMetadata />}
             bannerURL={bannerURL}
         />
     )

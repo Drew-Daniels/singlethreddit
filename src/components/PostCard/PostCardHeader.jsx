@@ -11,8 +11,8 @@ export default function PostCardHeader(props) {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Avatar src={groupAvatarURL} />
             <Typography sx={{ fontSize: 12 }}>{'g/' + baseName}</Typography>
-            <Typography sx={{ fontSize: 12 }}>posted by u/{userName}</Typography>
-            <Typography sx={{ fontSize: 12 }}>at {getTimeSince(timeCreated.toDate())} </Typography>
+            <Typography sx={{ fontSize: 12, marginRight: '.25rem' }}>posted by u/{userName}{" "}</Typography>
+            <Typography sx={{ fontSize: 12 }}>{getTimeSince(timeCreated.toDate())}</Typography>
         </Box>
     )
 }
