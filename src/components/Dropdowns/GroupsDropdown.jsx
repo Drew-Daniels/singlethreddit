@@ -53,7 +53,7 @@ const StyledMenu = styled((props) => (
 }));
 
 export default function GroupsDropdown(props) {
-  const { groups, selectedGroup, setSelectedGroup, redirect } = props;
+  const { groups, selectedGroup, setSelectedGroup, redirect, showGroupForm } = props;
   const groupAvatarURLs = useContext(GroupAvatarsContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const [displayedGroups, setDisplayedGroups] = useState(groups);
@@ -103,8 +103,10 @@ export default function GroupsDropdown(props) {
       >
         <TextField label='group' variant='outlined' value={searchStr} onChange={(e) => setSearchStr(e.target.value)} />
         <MenuItem sx={{ display: 'flex', alignItems: 'center' }}>
-          <AddGroupIcon />
-          <span>Add a Group</span>
+          <Button onClick={showGroupForm}>
+            <AddGroupIcon />
+            <span>Add a Group</span>
+          </Button>
         </MenuItem>
         <h1>My Groups</h1>
         <List>

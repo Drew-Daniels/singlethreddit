@@ -1,10 +1,6 @@
 import { auth, signIn } from './firebase-setup';
 import { listenToGroups, listenToUserGroups } from './db/groups/groups';
-import { 
-  listenToPosts,
-  listenToComments, 
-  getPostComments 
-} from './db/comments/comments';
+import { listenToPosts } from './db/comments/comments';
 import 'firebaseui/dist/firebaseui.css'
 import { useState, useEffect, useMemo } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -14,6 +10,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { Outlet } from 'react-router-dom';
 import {ReactComponent as AppIcon} from './icons/app-icon.svg';
 import Navbar from './components/Navbar';
+import FormGroup from './components/Forms/FormGroup';
 import UserContext from './contexts/UserContext';
 import SortContext from './contexts/SortContext';
 import GroupAvatarsContext from './contexts/GroupAvatarsContext';
@@ -31,6 +28,7 @@ function App() {
   const [activeSort, setActiveSort] = useState('most-recent');
   const [sortField, setSortField] = useState('timeCreated');
   const [sortDesc, setSortDesc] = useState(true);
+  const [groupFormOpen, setGroupFormOpen] = useState(false);
 
   useEffect(function setAuth() {
     auth.onAuthStateChanged(user => {
@@ -87,6 +85,10 @@ function App() {
     [prefersDarkMode],
   );
 
+  const showGroupForm = () => {
+    setGroupFormOpen(true);
+  }
+
   return (
       <Container maxWidth={false} disableGutters className="App" sx={{ minHeight: '100vh' }}>
         <UserContext.Provider value={user}>
@@ -101,7 +103,9 @@ function App() {
                   userGroups={userGroups} 
                   selectedGroup={selectedGroup} 
                   setSelectedGroup={setSelectedGroup}
+                  showGroupForm={showGroupForm}
                 />
+                <FormGroup open={groupFormOpen}/>
                 <Outlet context={{
                   userGroups,
                   groups, 

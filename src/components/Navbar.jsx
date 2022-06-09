@@ -67,8 +67,10 @@ export default function PrimarySearchAppBar(props) {
     signIn, 
     userGroups,
     selectedGroup, 
-    setSelectedGroup 
+    setSelectedGroup,
+    showGroupForm
   } = props;
+
   const user = useContext(UserContext)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const navigate = useNavigate();
@@ -179,6 +181,7 @@ export default function PrimarySearchAppBar(props) {
             selectedGroup={selectedGroup} 
             setSelectedGroup={setSelectedGroup} 
             redirect={true}
+            showGroupForm={showGroupForm}
           />
           <Search sx={{ flexGrow: 1}}>
             <SearchIconWrapper>

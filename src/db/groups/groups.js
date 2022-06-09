@@ -119,14 +119,13 @@ async function getGroupBannerDownloadURL(baseName) {
  * @param {array} rules 
  * @returns [Group object]
  */
-async function addGroup(baseName, displayName, description, members, rules) {
+async function addGroup(baseName, displayName, description, rules) {
     try {
         const groupData = {
             baseName,
             displayName,
             description,
             timeCreated: serverTimestamp(),
-            members,
             rules
         }
         const group = Group(groupData);
