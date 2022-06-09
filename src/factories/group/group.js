@@ -7,6 +7,7 @@ import { Timestamp } from 'firebase/firestore';
  * @param {string} description
  * @param {integer} timeCreated
  * @param {array} members
+ * @param {array} rules
  * @returns validated [Group object]
  */
 const Group = ({
@@ -15,7 +16,7 @@ const Group = ({
     description,
     timeCreated=Timestamp.now(),
     members=[],
-    rules=[],
+    rules=[]
     } = {}) => {
     // run checks here
     // REQUIRED

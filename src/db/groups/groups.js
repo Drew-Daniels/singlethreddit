@@ -116,16 +116,18 @@ async function getGroupBannerDownloadURL(baseName) {
  * @param {string} description 
  * @param {integer} timeCreated 
  * @param {array} members 
+ * @param {array} rules 
  * @returns [Group object]
  */
-async function addGroup(baseName, displayName, description, members) {
+async function addGroup(baseName, displayName, description, members, rules) {
     try {
         const groupData = {
             baseName,
             displayName,
             description,
             timeCreated: serverTimestamp(),
-            members
+            members,
+            rules
         }
         const group = Group(groupData);
         const dRef = await addDoc(doc(db, GROUPS_COLLECTION_NAME), group)
