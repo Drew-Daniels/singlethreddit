@@ -2,9 +2,13 @@ import { storage } from '../../firebase-setup';
 import { POST_MEDIA_STORAGE_FOLDER_NAME } from '../../constants';
 import { ref, uploadBytesResumable, listAll, getDownloadURL } from "firebase/storage";
 
+function getPostMediaStorageRef(postId) {
+    return ref(storage, POST_MEDIA_STORAGE_FOLDER_NAME + '/' + postId);
+}
+
 async function uploadPostMedia(file, postId) {
     // where to upload to
-    const storageRef = ref(storage, POST_MEDIA_STORAGE_FOLDER_NAME + '/' + postId);
+    const storageRef = getPostMediaStorageRef(postId);
     const uploadTask = uploadBytesResumable(storageRef, file);
     uploadTask.on('state_changed', 
         (snapshot) => {
@@ -47,8 +51,21 @@ async function getStorageURL(storageRef, fName) {
     return match;
 }
 
+async function getPostMediaURL(postId) {
+    const ref = getPostMediaStorageRef(postId);
+    var result;
+    try {
+        result = await getDownloadURL(ref);
+    } catch (err) {
+
+        result = ''
+    }
+    return result;
+}
+
 export {
     uploadPostMedia,
     getFileRef,
     getStorageURL,
+    getPostMediaURL,
 }
