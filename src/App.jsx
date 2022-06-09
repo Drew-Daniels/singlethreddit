@@ -85,9 +85,8 @@ function App() {
     [prefersDarkMode],
   );
 
-  const showGroupForm = () => {
-    setGroupFormOpen(true);
-  }
+  const showGroupForm = () => setGroupFormOpen(true);
+  const hideGroupForm = () => setGroupFormOpen(false);
 
   return (
       <Container maxWidth={false} disableGutters className="App" sx={{ minHeight: '100vh' }}>
@@ -104,8 +103,9 @@ function App() {
                   selectedGroup={selectedGroup} 
                   setSelectedGroup={setSelectedGroup}
                   showGroupForm={showGroupForm}
+                  hideGroupForm={hideGroupForm}
                 />
-                <FormGroup open={groupFormOpen}/>
+                <FormGroup open={groupFormOpen} handleClose={hideGroupForm} />
                 <Outlet context={{
                   userGroups,
                   groups, 

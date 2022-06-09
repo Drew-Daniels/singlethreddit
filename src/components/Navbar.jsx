@@ -68,7 +68,8 @@ export default function PrimarySearchAppBar(props) {
     userGroups,
     selectedGroup, 
     setSelectedGroup,
-    showGroupForm
+    showGroupForm,
+    hideGroupForm
   } = props;
 
   const user = useContext(UserContext)
