@@ -1,7 +1,7 @@
 import Group from '../../factories/group/group';
-import { collection, where, query, doc, getDoc, getDocs, addDoc, updateDoc, arrayUnion, arrayRemove, deleteDoc, serverTimestamp } from 'firebase/firestore';
-import { ref, getDownloadURL } from 'firebase/storage'
-import { getFileRef } from '../../utils/get/get';
+import { collection, where, query, doc, getDoc, getDocs, addDoc, updateDoc, arrayUnion, deleteDoc, serverTimestamp } from 'firebase/firestore';
+import { ref } from 'firebase/storage'
+import { getStorageURL } from '../../utils/storage/storage';
 import { listen } from '../../utils/db/db';
 import { db, storage } from '../../firebase-setup';
 import { 
@@ -108,11 +108,7 @@ async function getGroupBannerDownloadURL(baseName) {
     return url;
 }
 
-async function getStorageURL(storageRef, fName) {
-    const ref = await getFileRef(storageRef, fName);
-    const match = await getDownloadURL(ref);
-    return match;
-}
+
 /**
  * Adds a group to Firestore and returns the Group object.
  * @param {string} baseName 

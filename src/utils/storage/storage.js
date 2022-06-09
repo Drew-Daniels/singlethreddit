@@ -1,6 +1,6 @@
 import { storage } from '../../firebase-setup';
 import { POST_MEDIA_STORAGE_FOLDER_NAME } from '../../constants';
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytesResumable, listAll, getDownloadURL } from "firebase/storage";
 
 async function uploadPostMedia(file, postId) {
     // where to upload to
@@ -22,6 +22,33 @@ async function uploadPostMedia(file, postId) {
     );
 }
 
+/**
+ * Seaches Firebase Storage for a file that strictly matches 'fName' - apart from any file extensions it might have.
+ * @param {StorageReference} storageRef 
+ * @param {string} fName 
+ * @returns StorageReference
+ */
+ async function getFileRef(storageRef, fName) {
+    var fileRef;
+    const pattern = RegExp(`${fName}` + '.*');
+    await listAll(storageRef)
+        .then((res) => {
+            const files = res.items;
+            fileRef = files.filter((itemRef, i) => pattern.test(itemRef.name))[0];
+        }).catch((err) => {
+            console.error(err);
+    });
+    return fileRef;
+}
+
+async function getStorageURL(storageRef, fName) {
+    const ref = await getFileRef(storageRef, fName);
+    const match = await getDownloadURL(ref);
+    return match;
+}
+
 export {
     uploadPostMedia,
+    getFileRef,
+    getStorageURL,
 }

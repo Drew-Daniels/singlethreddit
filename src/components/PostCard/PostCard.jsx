@@ -6,6 +6,7 @@ import PostCardHeader from './PostCardHeader';
 import PostCardMain from './PostCardMain';
 import PostCardFooter from './PostCardFooter';
 import PostCardVotes from './PostCardVotes';
+import { useEffect } from 'react';
 
 function countComments(comments) {
     var numComments = comments.length;
@@ -20,6 +21,10 @@ export default function PostCard(props) {
 
     const { user, post, groupAvatarURL, handleClick } = props;
     const { id, baseName, userName, timeCreated, title, upvoters, downvoters, karma, children } = post;
+
+    useEffect(() => {
+        
+    })
 
     const card = (
         <>
@@ -37,7 +42,7 @@ export default function PostCard(props) {
                     </Grid>
                     <Grid item xs={10} onClick={handleClick ? handleClick: undefined}>
                         <PostCardHeader baseName={baseName} userName={userName} groupAvatarURL={groupAvatarURL} timeCreated={timeCreated} />
-                        <PostCardMain title={title} />
+                        <PostCardMain title={title} mediaUrl={id} />
                         <PostCardFooter numComments={countComments(children)} />
                     </Grid>
                 </Grid>
