@@ -51,16 +51,23 @@ async function getStorageURL(storageRef, fName) {
     return match;
 }
 
-async function getPostMediaURL(postId) {
+function getPostMediaURL(postId) {
     const ref = getPostMediaStorageRef(postId);
-    var result;
-    try {
-        result = await getDownloadURL(ref);
-    } catch (err) {
-
-        result = ''
-    }
-    return result;
+    
+    return getDownloadURL(ref)
+        .then((url) => {
+            return url;
+        })
+        .catch((err) => {
+            const code = err.code;
+            switch (code) {
+                case 'storage/object-not-found':
+                    break;
+                default:
+                    console.error(err.code);
+            }
+            return '';
+        })
 }
 
 export {

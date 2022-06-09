@@ -28,20 +28,14 @@ export default function PostCard(props) {
     useEffect(() => {
         loadMedia();
 
-        async function loadMedia() {
-            try {
-                const url = await getPostMediaURL(id)
-                setMediaURL(url);
-            } catch (err) {
-                // console.log(err);
-            }
+        function loadMedia() {
+            getPostMediaURL(id)
+                .then((url) => {
+                    setMediaURL(url);
+                })
         }
 
     }, [id])
-
-    useEffect(() => {
-        console.log(mediaURL);
-    }, [mediaURL])
 
     const card = (
         <>

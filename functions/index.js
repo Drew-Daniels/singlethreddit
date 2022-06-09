@@ -21,7 +21,6 @@ exports.setMediaURL = functions.firestore.document("/comments/{documentId}")
     .onCreate(async (snapshot, context) => {
         const url = 'post-media/' + snapshot.ref.id;
         const storageRef = ref(storage, url);
-        console.log(storageRef);
         const mediaURL = await getDownloadURL(storageRef);
         if (mediaURL) {
             return snapshot.ref.set({mediaURL}, {merge: true});

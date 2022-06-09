@@ -14,7 +14,8 @@ const Group = ({
     displayName,
     description,
     timeCreated=Timestamp.now(),
-    members=[]
+    members=[],
+    rules=[],
     } = {}) => {
     // run checks here
     // REQUIRED
@@ -24,6 +25,7 @@ const Group = ({
     // OPTIONAL
     if (!validTimestamp(timeCreated)) { throw new Error(`"timeCreated" must be provided and of a Firebase Firestore "Timestamp" data type`)};
     if (!validMembers(members)) { throw new Error('"members" must be an array') };
+    if (!validRules(rules)) { throw new Error('"rules" must be an array') };
     // return object after validation
     return (
         {
@@ -32,6 +34,7 @@ const Group = ({
             description,
             timeCreated,
             members,
+            rules,
             async getAvatarURL() {
                 return getGroupAvatarDownloadURL(baseName);
             },
@@ -56,6 +59,9 @@ const Group = ({
     function validMembers(members) {
         return (Array.isArray(members));
     };
+    function validRules(rules) {
+        return (Array.isArray(rules));
+    }
 }
 
 export default Group;

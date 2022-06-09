@@ -215,4 +215,42 @@ describe('OPTIONAL parameters', () => {
             expect(() => Group(config)).toThrow();
         });
     });
+    describe('rules', () => {
+        var tProperty;
+        var getUpdatedConfig;
+        beforeAll(() => {
+            tProperty = 'rules';
+            getUpdatedConfig = getPropUpdater(tProperty);
+        });
+        test('array => SUCCESS', () => {
+            var tValue = [];
+            var config = getUpdatedConfig(tValue);
+            expect(Group(config)).toMatchObject({ rules: [] });
+        });
+        test('explicit (passed) undefined => SUCCESS', () => {
+            var tValue = undefined;
+            var config = getUpdatedConfig(tValue);
+            expect(Group(config)).toMatchObject({ rules: [] });
+        });
+        test('implicit (not passed) undefined => SUCCESS', () => {
+            var config = {...defaultConfig};
+            delete config[tProperty];
+            expect(Group(config)).toMatchObject({ rules: [] });
+        });
+        test('int => ERROR', () => {
+            var tValue = 1;
+            var config = getUpdatedConfig(tValue);
+            expect(() => Group(config)).toThrow();
+        });
+        test('string => ERROR', () => {
+            var tValue = 'spam';
+            var config = getUpdatedConfig(tValue);
+            expect(() => Group(config)).toThrow();
+        });
+        test('boolean => ERROR', () => {
+            var tValue = true;
+            var config = getUpdatedConfig(tValue);
+            expect(() => Group(config)).toThrow();
+        });
+    });
 });
