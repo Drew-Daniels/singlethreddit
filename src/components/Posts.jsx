@@ -6,7 +6,7 @@ import PostCard from './PostCard/PostCard';
 export default function Posts(props) {
 
     const { user, posts, groupAvatarURLs, setSelectedGroup, groups } = props;
-    
+
     const navigate = useNavigate();
 
     function viewPost(post) {

@@ -1,9 +1,12 @@
 import { storage } from '../../firebase-setup';
-import { POST_MEDIA_STORAGE_FOLDER_NAME } from '../../constants';
+import { POST_MEDIA_STORAGE_FOLDER_NAME, GROUP_BANNERS_STORAGE_FOLDER_NAME } from '../../constants';
 import { ref, uploadBytesResumable, listAll, getDownloadURL } from "firebase/storage";
 
-function getPostMediaStorageRef(postId) {
-    return ref(storage, POST_MEDIA_STORAGE_FOLDER_NAME + '/' + postId);
+const getPostMediaStorageRef = (postId) => ref(storage, POST_MEDIA_STORAGE_FOLDER_NAME + '/' + postId);
+
+const groupBannersStorageRef = ref(storage, GROUP_BANNERS_STORAGE_FOLDER_NAME);
+const getGroupBannerStorageRef = (baseName) => {
+    return getFileRef(groupBannersStorageRef, baseName) 
 }
 
 async function uploadPostMedia(file, postId) {
@@ -33,16 +36,15 @@ async function uploadPostMedia(file, postId) {
  * @returns StorageReference
  */
  async function getFileRef(storageRef, fName) {
-    var fileRef;
     const pattern = RegExp(`${fName}` + '.*');
-    await listAll(storageRef)
+    return listAll(storageRef)
         .then((res) => {
             const files = res.items;
-            fileRef = files.filter((itemRef, i) => pattern.test(itemRef.name))[0];
+            const ref = files.filter((itemRef, i) => pattern.test(itemRef.name))[0];
+            return ref;
         }).catch((err) => {
             console.error(err);
     });
-    return fileRef;
 }
 
 async function getStorageURL(storageRef, fName) {
@@ -53,7 +55,26 @@ async function getStorageURL(storageRef, fName) {
 
 function getPostMediaURL(postId) {
     const ref = getPostMediaStorageRef(postId);
-    
+
+    return getDownloadURL(ref)
+        .then((url) => {
+            return url;
+        })
+        .catch((err) => {
+            const code = err.code;
+            switch (code) {
+                case 'storage/object-not-found':
+                    break;
+                default:
+                    console.error(err.code);
+            }
+            return '';
+        })
+}
+
+async function getGroupBannerURL(baseName) {
+    const ref = await getGroupBannerStorageRef(baseName)
+
     return getDownloadURL(ref)
         .then((url) => {
             return url;
@@ -75,4 +96,5 @@ export {
     getFileRef,
     getStorageURL,
     getPostMediaURL,
+    getGroupBannerURL,
 }

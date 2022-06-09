@@ -1,6 +1,6 @@
 import { useParams, useOutletContext } from 'react-router-dom';
-import { useState, useEffect} from 'react';
-import { listenToComments } from '../db/comments/comments';
+import { useState, useEffect } from 'react';
+import { getGroupBannerURL } from '../utils/storage/storage';
 import Layout from '../components/Layout/Layout';
 import PostsFeed from '../components/PostsFeed';
 import About from '../components/About';
@@ -9,38 +9,36 @@ export default function GroupPage(props) {
     
     const params = useParams();
     const { groupName } = params;
+
     const { 
+        posts,
         groups,
-        addComment, 
-        getPosts,
         sortHot, 
-        sortMostRecent 
+        sortMostRecent, 
     } = useOutletContext();
 
-    const [groupComments, setGroupComments] = useState([]);
     const [bannerURL, setBannerURL] = useState('');
 
     useEffect(() => {
-        setup();
+        loadBanner();
 
-        async function setup() {
-            const groupArray = groups.filter(g => g.baseName === groupName);
-            listenToComments(groupArray, setGroupComments, 'timeCreated', true);
-            const url = await groupArray[0].getBannerURL();
-            setBannerURL(prev => url);
+        async function loadBanner() {
+            getGroupBannerURL(groupName)
+                .then((url) => {
+                    setBannerURL(url);
+                })
         }
-    }, [groups, groupName])
-
+        
+    }, [groupName])
 
     return (
         <Layout 
             mainComponent={
                 <PostsFeed 
-                    addComment={addComment} 
-                    getPosts={getPosts} 
-                    comments={groupComments} 
+                    posts={posts} 
                     sortHot={sortHot} 
-                    sortMostRecent={sortMostRecent}
+                    sortMostRecent={sortMostRecent} 
+                    groups={groups.filter(group  => group.baseName === groupName)}
                 />
             } 
             sidebarComponent={<About />}
