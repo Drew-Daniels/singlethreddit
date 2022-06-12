@@ -21,7 +21,7 @@ function countComments(comments) {
 export default function PostCard(props) {
 
     const { user, post, groupAvatarURL, handleClick } = props;
-    const { id, baseName, userName, timeCreated, title, upvoters, downvoters, karma, children } = post;
+    const { id, baseName, userName, uid, timeCreated, title, upvoters, downvoters, karma, children } = post;
 
     const [mediaURL, setMediaURL] = useState('');
 
@@ -52,7 +52,7 @@ export default function PostCard(props) {
                         />
                     </Grid>
                     <Grid item xs={10} onClick={handleClick ? handleClick: undefined}>
-                        <PostCardHeader baseName={baseName} userName={userName} groupAvatarURL={groupAvatarURL} timeCreated={timeCreated} />
+                        <PostCardHeader baseName={baseName} userName={userName} uid={uid} groupAvatarURL={groupAvatarURL} timeCreated={timeCreated} />
                         <PostCardMain title={title} mediaURL={mediaURL} />
                         <PostCardFooter numComments={countComments(children)} />
                     </Grid>

@@ -2,8 +2,8 @@ import UserContext from '../contexts/UserContext';
 import { useState, useContext } from 'react';
 import { addUserToGroup } from '../db/groups/groups';
 import { Link as RouterLink } from 'react-router-dom';
-import ListItem from '@mui/material/ListItem';
 import Link from '@mui/material/Link';
+import ListItem from '@mui/material/ListItem';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 
@@ -11,7 +11,6 @@ export default function TopGroup(props) {
 
     const { group, groupAvatarURL, position } = props;
     const { baseName, members } = group;
-    const [loaded, setLoaded] = useState(false);
 
     const user = useContext(UserContext);
 

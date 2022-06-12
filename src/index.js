@@ -20,7 +20,7 @@ root.render(
       <Routes>
         <Route path='/' element={<App />}>
           <Route index element={<HomePage />} />
-          <Route path='users'>
+          <Route path='u'>
             <Route index element={<UsersPage />} />
             <Route path=':userId' element={<UserPage />} />
           </Route>

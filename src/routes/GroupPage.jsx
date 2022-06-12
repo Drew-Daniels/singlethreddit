@@ -35,7 +35,7 @@ export default function GroupPage(props) {
         <Layout 
             mainComponent={
                 <PostsFeed 
-                    posts={posts} 
+                    posts={posts.filter(post => post.baseName === groupName)} 
                     sortHot={sortHot} 
                     sortMostRecent={sortMostRecent} 
                     groups={groups.filter(group  => group.baseName === groupName)}

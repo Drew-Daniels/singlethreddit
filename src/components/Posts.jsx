@@ -10,14 +10,10 @@ export default function Posts(props) {
     const navigate = useNavigate();
 
     function viewPost(post) {
-        const {baseName, id} = post;
-        selectGroup(baseName);
+        const {baseName} = post;
+        const newSelectedGroup = groups.filter(group => group.baseName === baseName)[0]
+        setSelectedGroup(prev => newSelectedGroup);
         goToPost(post);
-    }
-
-    function selectGroup(baseName) {
-        const group = groups.filter(group => group.baseName === baseName)[0];
-        setSelectedGroup(prev => group);
     }
 
     function goToPost(post) {
