@@ -11,15 +11,22 @@ export default function PostCardHeader(props) {
 
     return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Avatar src={groupAvatarURL} />
-            <Typography sx={{ fontSize: 12 }}>{'g/' + baseName}</Typography>
+            <Avatar src={groupAvatarURL} sx={{ marginRight: '.5em' }}/>
+            <Typography sx={{ fontSize: 12, marginRight: '.25em' }}>
+                <Link
+                    component={RouterLink}
+                    to={'/g/' + baseName}
+                >
+                    {'g/' + baseName}
+                </Link>
+            </Typography>
             <Typography sx={{ fontSize: 12, marginRight: '.25rem' }}>
-                posted by u/
+                posted by {" "}
                 <Link
                     component={RouterLink}
                     to={'/u/' + uid}
                 >
-                    {userName}
+                    {'u/' + userName}
                 </Link>
             </Typography>
             <Typography sx={{ fontSize: 12 }}>{getTimeSince(timeCreated.toDate())}</Typography>
