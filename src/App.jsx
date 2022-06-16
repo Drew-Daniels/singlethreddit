@@ -55,8 +55,12 @@ function App() {
       const urls = {};
       await Promise.all(groups.map(async (group) => {
         const {baseName} = group;
-        const url = await group.getAvatarURL();
-        urls[baseName] = url;
+        try {
+          const url = await group.getAvatarURL();
+          urls[baseName] = url;
+        } catch (err) {
+          console.error(err);
+        }
       }))
       setGroupAvatarURLs(prev => urls);
     }
