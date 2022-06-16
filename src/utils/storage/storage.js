@@ -85,40 +85,24 @@ async function getStorageURL(storageRef, fName) {
     return match;
 }
 
-function getPostMediaURL(postId) {
+async function getPostMediaURL(postId) {
     const ref = getPostMediaStorageRef(postId);
-
     return getDownloadURL(ref)
         .then((url) => {
             return url;
         })
         .catch((err) => {
-            const code = err.code;
-            switch (code) {
-                case 'storage/object-not-found':
-                    break;
-                default:
-                    console.error(err.code);
-            }
             return '';
         })
 }
 
 async function getGroupBannerURL(baseName) {
     const ref = await getGroupBannerStorageRef(baseName)
-
     return getDownloadURL(ref)
         .then((url) => {
             return url;
         })
         .catch((err) => {
-            const code = err.code;
-            switch (code) {
-                case 'storage/object-not-found':
-                    break;
-                default:
-                    console.error(err.code);
-            }
             return '';
         })
 }
