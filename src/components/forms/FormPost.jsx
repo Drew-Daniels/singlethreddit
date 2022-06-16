@@ -26,6 +26,23 @@ export default function FormPost(props) {
     const fileRef = useRef();
     const navigate = useNavigate();
 
+    function handleInputChange(e) {
+        var fn;
+        const target = e.target;
+        const {id, value} = target;
+        switch(id) {
+            case 'title':
+                fn = setTitle;
+                break;
+            case 'body':
+                fn = setBody;
+                break;
+            default:
+                break;
+        }
+        if (fn) { fn(prev => value) }
+    }
+
     function handleFileChange() {
         const file = fileRef.current.files[0];
         if (file.size <= MAX_POST_MEDIA_SIZE_BYTES) { 
@@ -58,8 +75,8 @@ export default function FormPost(props) {
                     : <p>No media uploaded</p>
                     }
                 </div>
-                <TextField fullWidth variant='outlined' label='title' placeholder='Title' required value={title} onChange={(e) => setTitle(e.target.value)} />
-                <TextField fullWidth variant='outlined' label='body' placeholder='Text (optional)' multiline rows={4} required value={body} onChange={(e) => setBody(e.target.value)} />
+                <TextField fullWidth variant='outlined' id='title' label='title' placeholder='Title' required value={title} onChange={(e) => handleInputChange(e)} />
+                <TextField fullWidth variant='outlined' id='body' label='body' placeholder='Text (optional)' multiline rows={4} required value={body} onChange={(e) => handleInputChange(e)} />
                 <Box sx={{ display: 'flex', justifyContent: 'end' }}>
                     <label htmlFor="icon-button-file">
                         <Input accept='image/*, video/*' id="icon-button-file" type="file"  ref={fileRef} onChange={handleFileChange}/>
