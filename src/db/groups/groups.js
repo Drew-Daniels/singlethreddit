@@ -1,5 +1,5 @@
 import Group from '../../factories/group/group';
-import { collection, where, query, doc, getDoc, getDocs, addDoc, updateDoc, arrayUnion, deleteDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, where, query, doc, getDoc, getDocs, setDoc, updateDoc, arrayUnion, deleteDoc, serverTimestamp } from 'firebase/firestore';
 import { ref } from 'firebase/storage'
 import { getStorageURL } from '../../utils/storage/storage';
 import { listen } from '../../utils/db/db';
@@ -114,23 +114,23 @@ async function getGroupBannerDownloadURL(baseName) {
  * @param {string} baseName 
  * @param {string} displayName 
  * @param {string} description 
- * @param {integer} timeCreated 
- * @param {array} members 
  * @param {array} rules 
  * @returns [Group object]
  */
-async function addGroup(baseName, displayName, description, rules) {
+async function addGroup(baseName, displayName, description, members, rules) {
     try {
         const groupData = {
             baseName,
             displayName,
             description,
-            timeCreated: serverTimestamp(),
+            members,
             rules
         }
         const group = Group(groupData);
-        const dRef = await addDoc(doc(db, GROUPS_COLLECTION_NAME), group)
-        console.log('Document written w/ ID: ', dRef.id);
+        console.log(group);
+        const dRef = doc(db, GROUPS_COLLECTION_NAME, baseName).withConverter(groupConverter);
+        await setDoc(dRef, group)
+        console.log('Document written w/ ID: ', baseName);
         return group;
     } 
     catch (err) {
