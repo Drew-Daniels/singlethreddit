@@ -19,7 +19,7 @@ export default function FormGroup({open, handleClose}) {
     const [rules, setRules] = useState([]);
     const [rule, setRule] = useState('');
     const [numCharactersLeft, setNumCharactersLeft] = useState(21);
-    const uid = useContext(UserContext).uid;
+    const user = useContext(UserContext);
 
     useEffect(() => {
         setNumCharactersLeft(prev => 21 - baseName.length);
@@ -58,7 +58,7 @@ export default function FormGroup({open, handleClose}) {
     async function handleSubmit(e) {
         e.preventDefault();
         handleClose();
-        await addGroup(baseName, displayName, description, [uid], rules);
+        await addGroup(baseName, displayName, description, [user.uid], rules);
         setRules(prevRules => []);
         setRule(prevRule => '');
     }
