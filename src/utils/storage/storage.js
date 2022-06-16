@@ -1,17 +1,41 @@
 import { storage } from '../../firebase-setup';
-import { POST_MEDIA_STORAGE_FOLDER_NAME, GROUP_BANNERS_STORAGE_FOLDER_NAME } from '../../constants';
+import { 
+    POST_MEDIA_STORAGE_FOLDER_NAME, 
+    GROUP_BANNERS_STORAGE_FOLDER_NAME,
+    GROUP_AVATARS_STORAGE_FOLDER_NAME,
+} from '../../constants';
 import { ref, uploadBytesResumable, listAll, getDownloadURL } from "firebase/storage";
 
 const getPostMediaStorageRef = (postId) => ref(storage, POST_MEDIA_STORAGE_FOLDER_NAME + '/' + postId);
 
 const groupBannersStorageRef = ref(storage, GROUP_BANNERS_STORAGE_FOLDER_NAME);
+const getGroupAvatarStorageRef = (baseName) => ref(storage, GROUP_AVATARS_STORAGE_FOLDER_NAME + '/' + baseName);
+
 const getGroupBannerStorageRef = (baseName) => {
     return getFileRef(groupBannersStorageRef, baseName) 
 }
-
-async function uploadPostMedia(file, postId) {
-    // where to upload to
-    const storageRef = getPostMediaStorageRef(postId);
+/**
+ * Helper function used by uploadGroupAvatar and uploadPostMedia to upload
+ * media to Firebase storage
+ * @param {groupAvatar || postMedia} type 
+ * @param {file} file 
+ * @param {baseName || postId} id 
+ */
+async function uploadMedia(type, file, id) {
+    var storageRef;
+    if (!(type in ['groupAvatar', 'postMedia'])) { 
+        throw new Error('"type" must be either "groupAvatar" or "postMedia"')
+    }
+    switch (type) {
+        case 'groupAvatar':
+            storageRef = getGroupAvatarStorageRef(id);
+            break;
+        case 'postMedia':
+            storageRef = getPostMediaStorageRef(id);
+            break;
+        default:
+            break;
+    }
     const uploadTask = uploadBytesResumable(storageRef, file);
     uploadTask.on('state_changed', 
         (snapshot) => {
@@ -27,6 +51,14 @@ async function uploadPostMedia(file, postId) {
             });
         }
     );
+}
+
+function uploadGroupAvatar(file, baseName) {
+    return uploadMedia('groupAvatar', file, baseName);
+}
+
+function uploadPostMedia(file, postId) {
+    return uploadMedia('postMedia', file, postId);
 }
 
 /**
@@ -92,6 +124,7 @@ async function getGroupBannerURL(baseName) {
 }
 
 export {
+    uploadGroupAvatar,
     uploadPostMedia,
     getFileRef,
     getStorageURL,
