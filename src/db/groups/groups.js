@@ -13,12 +13,14 @@ import {
 // GROUPS
 const groupConverter = {
     toFirestore: (group) => {
+        const {baseName, displayName, description, timeCreated, members, rules} = group;
         return {
-            baseName: group.baseName,
-            displayName: group.displayName,
-            description: group.description,
-            timeCreated: group.timeCreated,
-            members: group.members
+            baseName,
+            displayName,
+            description,
+            timeCreated,
+            members,
+            rules,
         }
     },
     fromFirestore: (snapshot, options) => {
@@ -114,6 +116,7 @@ async function getGroupBannerDownloadURL(baseName) {
  * @param {string} baseName 
  * @param {string} displayName 
  * @param {string} description 
+ * @param {array} members
  * @param {array} rules 
  * @returns [Group object]
  */
