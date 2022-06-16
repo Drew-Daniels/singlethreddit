@@ -123,14 +123,13 @@ async function updateComment(docID, data) {
     }
 }
 
-async function addPost(user, groupAvatarURL, baseName, body, title) {
+async function addPost(user, baseName, body, title) {
     try {
         const { uid, displayName, photoURL } = user;
         const commentData = {
             uid,
             userName: displayName, 
             userAvatarURL: photoURL,
-            groupAvatarURL,
             baseName,
             body,
             title

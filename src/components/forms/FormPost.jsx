@@ -56,8 +56,7 @@ export default function FormPost(props) {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        var groupAvatarURL = await selectedGroup.getAvatarURL();
-        var post = await addPost(user, groupAvatarURL, selectedGroup.baseName, body, title);
+        var post = await addPost(user, selectedGroup.baseName, body, title);
         const file = fileRef.current.files[0];
         if (file) {
             await uploadPostMedia(file, post.id);
