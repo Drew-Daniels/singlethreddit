@@ -10,7 +10,6 @@ import { listenToPost } from "../db/comments/comments";
 export default function ViewPostPage(props) {
 
     const { selectedGroup, sortField, sortDesc } = useOutletContext();
-    console.log(selectedGroup, sortField, sortDesc)
     const { baseName, description, rules, members } = selectedGroup;
     const numMembers = members.length;
     
