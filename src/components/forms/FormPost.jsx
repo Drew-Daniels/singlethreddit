@@ -78,7 +78,7 @@ export default function FormPost(props) {
                 <TextField fullWidth variant='outlined' id='body' label='body' placeholder='Text (optional)' multiline rows={4} required value={body} onChange={(e) => handleInputChange(e)} />
                 <Box sx={{ display: 'flex', justifyContent: 'end' }}>
                     <label htmlFor="icon-button-file">
-                        <Input accept='image/*, video/*' id="icon-button-file" type="file"  ref={fileRef} onChange={handleFileChange}/>
+                        <Input accept='image/*, video/*' id="icon-button-file" type="file" ref={fileRef} onChange={handleFileChange}/>
                         <IconButton color="primary" aria-label="upload picture" component="span">
                             <PhotoCamera />
                         </IconButton>

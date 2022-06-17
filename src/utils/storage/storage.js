@@ -17,13 +17,13 @@ const getGroupBannerStorageRef = (baseName) => {
 /**
  * Helper function used by uploadGroupAvatar and uploadPostMedia to upload
  * media to Firebase storage
- * @param {groupAvatar || postMedia} type 
+ * @param {string} type 
  * @param {file} file 
- * @param {baseName || postId} id 
+ * @param {string} id 
  */
 async function uploadMedia(type, file, id) {
     var storageRef;
-    if (!(type in ['groupAvatar', 'postMedia'])) { 
+    if (type !=='groupAvatar' && type !== 'postMedia') { 
         throw new Error('"type" must be either "groupAvatar" or "postMedia"')
     }
     switch (type) {
