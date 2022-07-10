@@ -1,8 +1,8 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import UserContext from '../../contexts/UserContext';
 import GroupAvatarsContext from '../../contexts/GroupAvatarsContext';
 import { addComment } from '../../db/comments/comments';
-import { Link as RouterLink, useParams } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
