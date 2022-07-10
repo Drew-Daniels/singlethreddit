@@ -7,7 +7,7 @@ import GroupAvatarsContext from '../contexts/GroupAvatarsContext';
 
 export default function TopGroups(props) {
 
-    const { user, groups, setGroups } = props;
+    const { groups, setGroups } = props;
     const [top5Groups, setTop5Groups] = useState([]);
     const groupAvatarURLs = useContext(GroupAvatarsContext);
     

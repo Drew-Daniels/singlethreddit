@@ -1,5 +1,5 @@
 import UserContext from '../contexts/UserContext';
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import { addUserToGroup } from '../db/groups/groups';
 import { Link as RouterLink } from 'react-router-dom';
 import Link from '@mui/material/Link';

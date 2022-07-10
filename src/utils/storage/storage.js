@@ -68,12 +68,11 @@ function uploadPostMedia(file, postId) {
  * @returns StorageReference
  */
  async function getFileRef(storageRef, fName) {
-    const pattern = RegExp(`${fName}` + '.*');
+    const pattern = RegExp(`${fName}.*`);
     return listAll(storageRef)
         .then((res) => {
             const files = res.items;
-            const ref = files.filter((itemRef, i) => pattern.test(itemRef.name))[0];
-            return ref;
+            return files.filter((itemRef, i) => pattern.test(itemRef.name))[0];
         }).catch((err) => {
             console.error(err);
     });

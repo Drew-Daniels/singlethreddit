@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import firebase from 'firebase/compat/app';
+/* eslint-disable no-unused-vars */
 import * as firebaseui from 'firebaseui';
 import { signInWithPopup } from 'firebase/auth';
 import { connectAuthEmulator, getAuth } from 'firebase/auth';
@@ -18,9 +19,9 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 
 if (window.location.hostname === 'localhost') {
-    connectAuthEmulator(auth, 'http://127.0.0.1:9099', true);
-    connectFirestoreEmulator(db, 'localhost', '8080');
-    connectStorageEmulator(storage, 'localhost', '9199');
+    connectAuthEmulator(auth, 'http://127.0.0.1:9099', {disableWarnings: true});
+    connectFirestoreEmulator(db, 'localhost', 8080);
+    connectStorageEmulator(storage, 'localhost', 9199);
 }
 
 export {

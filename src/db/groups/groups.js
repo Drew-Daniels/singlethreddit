@@ -1,5 +1,5 @@
 import Group from '../../factories/group/group';
-import { collection, where, query, doc, getDoc, getDocs, setDoc, updateDoc, arrayUnion, deleteDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, where, query, doc, getDoc, getDocs, setDoc, updateDoc, arrayUnion, deleteDoc } from 'firebase/firestore';
 import { ref } from 'firebase/storage'
 import { getStorageURL } from '../../utils/storage/storage';
 import { listen } from '../../utils/db/db';
@@ -50,8 +50,8 @@ async function delGroup(baseName) {
 }
 
 async function getGroup(baseName) {
-    var group;
     try {
+        let group;
         const dRef = doc(db, GROUPS_COLLECTION_NAME, baseName);
         const dSnap = await getDoc(dRef);
         if (dSnap.exists()) {
@@ -69,15 +69,15 @@ async function getGroup(baseName) {
  * @param {array} baseNames 
  */
 async function getGroups(baseNames) {
-    if (!(Array.isArray(baseNames))) { throw new Error('"baseNames" must be an array') };
+    if (!(Array.isArray(baseNames))) { throw new Error('"baseNames" must be an array') }
     try {
-        var groups = [];
-        baseNames.forEach(async baseName => {
-            const group = getGroup(baseName);
+        let groups = [];
+        await Promise.all(baseNames.map(async (baseName) => {
+            const group = await getGroup(baseName);
             if (group) {
                 groups.push(group);
             }
-        });
+        }));
         return groups;
     }
     catch (err) {
@@ -85,29 +85,12 @@ async function getGroups(baseNames) {
     }
 }
 
-async function getAllGroups() {
-    const groups = [];
-    const qSnap = await getDocs(groupsRef);
-    qSnap.forEach((g) => {
-        const group = g.data();
-        groups.push(group);
-    });
-    return groups;
+function getGroupAvatarDownloadURL(baseName) {
+    return getStorageURL(groupAvatarURLsRef, baseName);
 }
 
-/**
- * Returns the download URL of the group's avatar.
- * @param {string} baseName 
- * @returns string
- */
-async function getGroupAvatarDownloadURL(baseName) {
-    const url = await getStorageURL(groupAvatarURLsRef, baseName);
-    return url;
-}
-
-async function getGroupBannerDownloadURL(baseName) {
-    const url = await getStorageURL(groupBannerURLsRef, baseName);
-    return url;
+function getGroupBannerDownloadURL(baseName) {
+    return getStorageURL(groupBannerURLsRef, baseName);
 }
 
 
@@ -144,22 +127,20 @@ async function addGroup(baseName, displayName, description, members, rules) {
 
 function listenToGroups(setGroupsFn) {
     const q = query(groupsRef);
-    const unsubscribe = listen(q, setGroupsFn);
-    return unsubscribe;
+    return listen(q, setGroupsFn);
 }
 
 function listenToUserGroups(user, setUserGroupsFn) {
     const q = user ? query(groupsRef, where('members', 'array-contains', user.uid)): query(groupsRef);
-    const unsubscribe = listen(q, setUserGroupsFn);
-    return unsubscribe;
+    return listen(q, setUserGroupsFn);
 }
 
 async function addUserToGroup(user, group) {
-    if (!user) { return };
+    if (!user) { return }
     const q = query(groupsRef, where('baseName', '==', group.baseName));
     const docs = await getDocs(q);
-    docs.forEach(async (doc) => {
-        await updateDoc(doc.ref, {
+    docs.forEach((doc) => {
+        updateDoc(doc.ref, {
             members: arrayUnion(user.uid)
         });
     })
@@ -169,7 +150,6 @@ export {
     delGroup,
     getGroup,
     getGroups,
-    getAllGroups,
     listenToGroups,
     listenToUserGroups,
     getGroupAvatarDownloadURL,
