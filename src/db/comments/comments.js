@@ -197,9 +197,7 @@ function listenToPosts(groups, setPostsFn, sortField, sortDesc) {
             comment.id = doc.ref.id;
             flatComments.push(comment);
         });
-        if (flatComments.length > 0) {
-            posts = getTree(flatComments);
-        }
+        posts = getTree(flatComments);
         setPostsFn(prev => posts);
     });
     return unsubscribe;
