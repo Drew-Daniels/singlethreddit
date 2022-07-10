@@ -146,6 +146,12 @@ async function addUserToGroup(user, group) {
     })
 }
 
+async function populateGroups(numGroups) {
+    for (let i=0; i < numGroups; i++) {
+        const group = Group()
+    }
+}
+
 export {
     delGroup,
     getGroup,
