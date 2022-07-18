@@ -9,19 +9,23 @@ const MAX_POST_MEDIA_SIZE_BYTES = KILOBYTE * 15;
 const MAX_GROUP_AVATAR_IMAGE_SIZE_BYTES = KILOBYTE * 15;
 const MAX_GROUP_BANNER_IMAGE_SIZE_BYTES = KILOBYTE * 250;
 
-
-// TODO: Add group data for importing during development
-// development data for generating groups
-const GROUP_1 = {
-
+const TEST_GROUP_1 = {
+    baseName: 'bicycles',
+    displayName: 'Bicycles',
+    description: 'We like BIKES!',
 }
-const GROUP_2 = {
-
+const TEST_GROUP_2 = {
+    baseName: 'brewing',
+    displayName: 'Brewing',
+    description: 'A place to discuss the art and science of Brewing',
 }
-const GROUP_3 = {
-
+const TEST_GROUP_3 = {
+    baseName: 'cooking',
+    displayName: 'Cooking',
+    description: 'For all things cooking - techniques, recipes, and disparaging Gordan Ramsey.',
 }
 
+const TEST_GROUPS = [ TEST_GROUP_1, TEST_GROUP_2, TEST_GROUP_3 ];
 
 export {
     COMMENTS_COLLECTION_NAME,
@@ -32,5 +36,5 @@ export {
     MAX_POST_MEDIA_SIZE_BYTES,
     MAX_GROUP_AVATAR_IMAGE_SIZE_BYTES,
     MAX_GROUP_BANNER_IMAGE_SIZE_BYTES,
-    GROUP_1,
+    TEST_GROUPS,
 }

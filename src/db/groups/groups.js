@@ -8,6 +8,7 @@ import {
     GROUPS_COLLECTION_NAME, 
     GROUP_AVATARS_STORAGE_FOLDER_NAME,
     GROUP_BANNERS_STORAGE_FOLDER_NAME,
+    TEST_GROUPS
 } from '../../constants';
 
 // GROUPS
@@ -113,7 +114,6 @@ async function addGroup(baseName, displayName, description, members, rules) {
             rules
         }
         const group = Group(groupData);
-        console.log(group);
         const dRef = doc(db, GROUPS_COLLECTION_NAME, baseName).withConverter(groupConverter);
         await setDoc(dRef, group)
         console.log('Document written w/ ID: ', baseName);
@@ -146,16 +146,18 @@ async function addUserToGroup(user, group) {
     })
 }
 
-async function populateGroups(numGroups) {
-    for (let i=0; i < numGroups; i++) {
-        const group = Group()
-    }
+function populateGroups(groups=TEST_GROUPS) {
+    return Promise.all(groups.map((group) => {
+        const args = [...Object.values(group)];
+        return addGroup(...args);
+    }));
 }
 
 export {
     delGroup,
     getGroup,
     getGroups,
+    populateGroups,
     listenToGroups,
     listenToUserGroups,
     getGroupAvatarDownloadURL,
